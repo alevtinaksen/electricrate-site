@@ -16,8 +16,9 @@ export interface HeroReel {
   title_en: string;
   width: number;
   height: number;
-  thumbnail_url: string;
-  video_url: string;
+  thumbnail_url: string;      // Обложка / постер
+  preview_video_url: string;  // 1. Мини-видео (превью), которое автоматически всегда крутится в ленте
+  video_url: string;          // 2. Полноразмерный видеопоток (открывается в попапе по клику)
 }
 
 export const HERO_REELS: HeroReel[] = [
@@ -28,6 +29,7 @@ export const HERO_REELS: HeroReel[] = [
     width: 964,
     height: 542,
     thumbnail_url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=85',
+    preview_video_url: 'https://assets.mixkit.co/videos/43485/43485-720.mp4',
     video_url: 'https://assets.mixkit.co/videos/43485/43485-720.mp4',
   },
   {
@@ -37,6 +39,7 @@ export const HERO_REELS: HeroReel[] = [
     width: 556,
     height: 338,
     thumbnail_url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=85',
+    preview_video_url: 'https://assets.mixkit.co/videos/42289/42289-720.mp4',
     video_url: 'https://assets.mixkit.co/videos/42289/42289-720.mp4',
   },
   {
@@ -46,6 +49,7 @@ export const HERO_REELS: HeroReel[] = [
     width: 818,
     height: 460,
     thumbnail_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&q=85',
+    preview_video_url: 'https://assets.mixkit.co/videos/42998/42998-720.mp4',
     video_url: 'https://assets.mixkit.co/videos/42998/42998-720.mp4',
   },
   {
@@ -55,6 +59,7 @@ export const HERO_REELS: HeroReel[] = [
     width: 557,
     height: 313,
     thumbnail_url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=85',
+    preview_video_url: 'https://assets.mixkit.co/videos/42867/42867-720.mp4',
     video_url: 'https://assets.mixkit.co/videos/42867/42867-720.mp4',
   },
   {
@@ -64,11 +69,12 @@ export const HERO_REELS: HeroReel[] = [
     width: 964,
     height: 542,
     thumbnail_url: 'https://images.unsplash.com/photo-1544919982-b61976f0ba43?w=1200&q=85',
+    preview_video_url: 'https://assets.mixkit.co/videos/42813/42813-720.mp4',
     video_url: 'https://assets.mixkit.co/videos/42813/42813-720.mp4',
   },
 ];
 
-// ─── Works Section Grouped By Categories Strictly from Screenshots ───────────
+// ─── Works Section Grouped By Categories ─────────────────────────────────────
 
 export interface WorkItem {
   id: string;

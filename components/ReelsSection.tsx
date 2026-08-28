@@ -53,6 +53,8 @@ function ReelCard({
   }, []);
 
   const title = lang === 'ru' ? reel.title_ru : reel.title_en;
+  // Use preview_video_url for looping in the feed, fallback to video_url
+  const feedVideoSrc = reel.preview_video_url || reel.video_url;
 
   return (
     <div ref={containerRef} className="flex flex-col items-center w-full">
@@ -76,16 +78,18 @@ function ReelCard({
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
 
-        {/* Video Element (autoplay loop muted) */}
-        <video
-          ref={videoRef}
-          src={reel.video_url}
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-        />
+        {/* Loop Preview Video Element (autoplay loop muted) */}
+        {feedVideoSrc && (
+          <video
+            ref={videoRef}
+            src={feedVideoSrc}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+        )}
       </div>
 
       {/* Explicit 20px gap above title */}
@@ -131,7 +135,7 @@ export default function ReelsSection({ reels, lang, onVideoSelect }: ReelsSectio
           onSelect={() =>
             onVideoSelect(
               lang === 'ru' ? reel.title_ru : reel.title_en,
-              reel.video_url,
+              reel.video_url || reel.preview_video_url,
               reel.thumbnail_url
             )
           }

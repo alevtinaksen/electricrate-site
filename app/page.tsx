@@ -1,17 +1,43 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
 import WorksSection from '@/components/WorksSection';
 import VideoModal from '@/components/VideoModal';
-import { HERO_REELS, WORK_SECTIONS } from '@/lib/supabase';
+import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup } from '@/lib/supabase';
 import { Language } from '@/types';
 
 export default function Home() {
   const [lang, setLang] = useState<Language>('ru');
+  const [reels, setReels] = useState<HeroReel[]>(HERO_REELS);
+  const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
   const rightPanelRef = useRef<HTMLDivElement>(null);
+
+  // Load custom data from localStorage if available
+  useEffect(() => {
+    const loadSavedData = () => {
+      const savedHero = localStorage.getItem('custom_hero_reels');
+      if (savedHero) {
+        try {
+          const parsed = JSON.parse(savedHero);
+          if (Array.isArray(parsed) && parsed.length > 0) setReels(parsed);
+        } catch {}
+      }
+      const savedWorks = localStorage.getItem('custom_work_sections');
+      if (savedWorks) {
+        try {
+          const parsed = JSON.parse(savedWorks);
+          if (Array.isArray(parsed) && parsed.length > 0) setWorks(parsed);
+        } catch {}
+      }
+    };
+
+    loadSavedData();
+    window.addEventListener('storage', loadSavedData);
+    return () => window.removeEventListener('storage', loadSavedData);
+  }, []);
 
   // Video Lightbox Modal state
   const [modalState, setModalState] = useState<{
@@ -74,7 +100,7 @@ export default function Home() {
         <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 mr-0 pb-36">
           {/* Section 1: 5 Hero Reels */}
           <ReelsSection
-            reels={HERO_REELS}
+            reels={reels}
             lang={lang}
             onVideoSelect={openVideoModal}
           />
@@ -90,16 +116,16 @@ export default function Home() {
           {/* 150px exact spacing between Clients and Works */}
           <div className="h-[150px] w-full shrink-0" />
 
-          {/* Section 3: All Works strictly structured from Screenshots 1 & 2 */}
+          {/* Section 3: All Works */}
           <WorksSection
-            sections={WORK_SECTIONS}
+            sections={works}
             lang={lang}
             onVideoSelect={openVideoModal}
           />
         </div>
 
         {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» in White (187x65px, no glow) ── */}
-        <div className="fixed bottom-[24px] z-40 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
+        <div className="fixed bottom-[24px] z-50 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
           <button
             onClick={() => window.open('https://t.me/', '_blank')}
             aria-label="Связаться"
