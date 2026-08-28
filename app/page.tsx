@@ -15,45 +15,54 @@ export default function Home() {
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
   const rightPanelRef = useRef<HTMLDivElement>(null);
 
-  // Load custom data from /api/content + localStorage
+  // Load custom content: LocalStorage prioritized, updated from API if available
   useEffect(() => {
     const loadContent = async () => {
-      // 1. Instant local cache
+      let hasLocalHero = false;
+      let hasLocalWorks = false;
+
+      // 1. Instant local storage priority
       const savedHero = localStorage.getItem('custom_hero_reels');
       if (savedHero) {
         try {
           const parsed = JSON.parse(savedHero);
-          if (Array.isArray(parsed) && parsed.length > 0) setReels(parsed);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setReels(parsed);
+            hasLocalHero = true;
+          }
         } catch {}
       }
+
       const savedWorks = localStorage.getItem('custom_work_sections');
       if (savedWorks) {
         try {
           const parsed = JSON.parse(savedWorks);
-          if (Array.isArray(parsed) && parsed.length > 0) setWorks(parsed);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setWorks(parsed);
+            hasLocalWorks = true;
+          }
         } catch {}
       }
 
-      // 2. Fetch fresh published content from server API
+      // 2. Fetch from /api/content (only override if no local edits exist or API is live)
       try {
         const res = await fetch('/api/content', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data.heroReels) && data.heroReels.length > 0) {
+          if (!hasLocalHero && Array.isArray(data.heroReels) && data.heroReels.length > 0) {
             setReels(data.heroReels);
           }
-          if (Array.isArray(data.workSections) && data.workSections.length > 0) {
+          if (!hasLocalWorks && Array.isArray(data.workSections) && data.workSections.length > 0) {
             setWorks(data.workSections);
           }
         }
       } catch (e) {
-        // Fallback to local state
+        // Keep local content
       }
     };
 
     loadContent();
 
-    // Listen for storage events and window focus
     window.addEventListener('storage', loadContent);
     window.addEventListener('focus', loadContent);
     return () => {
