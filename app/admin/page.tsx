@@ -53,27 +53,45 @@ export default function AdminStudio() {
 
   const [mounted, setMounted] = useState(false);
 
-  // Load from LocalStorage
+  // Load from /api/content + LocalStorage
   useEffect(() => {
     setMounted(true);
     const authSession = sessionStorage.getItem('admin_auth');
     if (authSession === 'true') {
       setIsAuthenticated(true);
     }
-    const savedHero = localStorage.getItem('custom_hero_reels');
-    if (savedHero) {
+
+    const loadData = async () => {
+      const savedHero = localStorage.getItem('custom_hero_reels');
+      if (savedHero) {
+        try {
+          const parsed = JSON.parse(savedHero);
+          if (Array.isArray(parsed) && parsed.length > 0) setHeroReels(parsed);
+        } catch {}
+      }
+      const savedWorks = localStorage.getItem('custom_work_sections');
+      if (savedWorks) {
+        try {
+          const parsed = JSON.parse(savedWorks);
+          if (Array.isArray(parsed) && parsed.length > 0) setWorkSections(parsed);
+        } catch {}
+      }
+
       try {
-        const parsed = JSON.parse(savedHero);
-        if (Array.isArray(parsed) && parsed.length > 0) setHeroReels(parsed);
+        const res = await fetch('/api/content', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.heroReels) && data.heroReels.length > 0) {
+            setHeroReels(data.heroReels);
+          }
+          if (Array.isArray(data.workSections) && data.workSections.length > 0) {
+            setWorkSections(data.workSections);
+          }
+        }
       } catch {}
-    }
-    const savedWorks = localStorage.getItem('custom_work_sections');
-    if (savedWorks) {
-      try {
-        const parsed = JSON.parse(savedWorks);
-        if (Array.isArray(parsed) && parsed.length > 0) setWorkSections(parsed);
-      } catch {}
-    }
+    };
+
+    loadData();
   }, []);
 
   const showToast = (message: string) => {
@@ -92,16 +110,25 @@ export default function AdminStudio() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
     localStorage.setItem('custom_hero_reels', JSON.stringify(heroReels));
     localStorage.setItem('custom_work_sections', JSON.stringify(workSections));
     window.dispatchEvent(new Event('storage'));
 
-    setTimeout(() => {
-      setIsSaving(false);
-      showToast('✓ Изменения сохранены и опубликованы');
-    }, 300);
+    try {
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          heroReels,
+          workSections,
+        }),
+      });
+    } catch {}
+
+    setIsSaving(false);
+    showToast('✓ Изменения сохранены и опубликованы');
   };
 
   // Upload handler from computer file

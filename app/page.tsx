@@ -15,9 +15,10 @@ export default function Home() {
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
   const rightPanelRef = useRef<HTMLDivElement>(null);
 
-  // Load custom data from localStorage if available
+  // Load custom data from /api/content + localStorage
   useEffect(() => {
-    const loadSavedData = () => {
+    const loadContent = async () => {
+      // 1. Instant local cache
       const savedHero = localStorage.getItem('custom_hero_reels');
       if (savedHero) {
         try {
@@ -32,11 +33,33 @@ export default function Home() {
           if (Array.isArray(parsed) && parsed.length > 0) setWorks(parsed);
         } catch {}
       }
+
+      // 2. Fetch fresh published content from server API
+      try {
+        const res = await fetch('/api/content', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.heroReels) && data.heroReels.length > 0) {
+            setReels(data.heroReels);
+          }
+          if (Array.isArray(data.workSections) && data.workSections.length > 0) {
+            setWorks(data.workSections);
+          }
+        }
+      } catch (e) {
+        // Fallback to local state
+      }
     };
 
-    loadSavedData();
-    window.addEventListener('storage', loadSavedData);
-    return () => window.removeEventListener('storage', loadSavedData);
+    loadContent();
+
+    // Listen for storage events and window focus
+    window.addEventListener('storage', loadContent);
+    window.addEventListener('focus', loadContent);
+    return () => {
+      window.removeEventListener('storage', loadContent);
+      window.removeEventListener('focus', loadContent);
+    };
   }, []);
 
   // Video Lightbox Modal state
