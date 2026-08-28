@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import {
@@ -20,6 +20,9 @@ import {
   Plus,
   RefreshCw,
   Sparkles,
+  Upload,
+  Image as ImageIcon,
+  Film,
 } from 'lucide-react';
 import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup, WorkItem } from '@/lib/supabase';
 
@@ -40,6 +43,7 @@ export default function AdminStudio() {
   // Toast / Status state
   const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
   const [isSaving, setIsSaving] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
 
   // Active testing video player modal
   const [testPlayer, setTestPlayer] = useState<{
@@ -96,7 +100,6 @@ export default function AdminStudio() {
 
   const handleSave = () => {
     setIsSaving(true);
-    // Filter out hidden reels if any, or save with visibility flags
     localStorage.setItem('custom_hero_reels', JSON.stringify(heroReels));
     localStorage.setItem('custom_work_sections', JSON.stringify(workSections));
     window.dispatchEvent(new Event('storage'));
@@ -107,6 +110,51 @@ export default function AdminStudio() {
     }, 300);
   };
 
+  // Upload handler for files from computer
+  const handleFileUpload = async (
+    file: File,
+    onSuccess: (url: string) => void,
+    fieldKey: string
+  ) => {
+    setUploadingField(fieldKey);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        onSuccess(data.url);
+        showToast('✓ Файл успешно загружен');
+      } else {
+        // Fallback: create base64 / local data reader if server upload encounters restriction
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            onSuccess(e.target.result as string);
+            showToast('✓ Файл загружен в проект');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    } catch (err) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          onSuccess(e.target.result as string);
+          showToast('✓ Файл загружен локально');
+        }
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
   // Drag and Drop handler for Hero Reels
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -114,7 +162,7 @@ export default function AdminStudio() {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setHeroReels(items);
-    showToast(`Порядок изменен: ${reorderedItem.title_ru} перемещен на позицию #${result.destination.index + 1}`);
+    showToast(`Порядок изменен: ${reorderedItem.title_ru} → #${result.destination.index + 1}`);
   };
 
   // Hero Reel editing helpers
@@ -135,7 +183,7 @@ export default function AdminStudio() {
     const updated = [...heroReels];
     updated.splice(index + 1, 0, newItem);
     setHeroReels(updated);
-    showToast('Ролик успешно сдублирован');
+    showToast('Ролик сдублирован');
   };
 
   const toggleVisibility = (id: string) => {
@@ -173,7 +221,7 @@ export default function AdminStudio() {
     setWorkSections((prev) =>
       prev.map((g) => (g.id === groupId ? { ...g, items: [...g.items, newItem] } : g))
     );
-    showToast('Новый проект добавлен в сетку');
+    showToast('Новый проект добавлен');
   };
 
   const deleteWorkItem = (groupId: string, itemId: string) => {
@@ -183,7 +231,7 @@ export default function AdminStudio() {
         return { ...g, items: g.items.filter((i) => i.id !== itemId) };
       })
     );
-    showToast('Проект удален из сетки');
+    showToast('Проект удален');
   };
 
   // ─── LOGIN SCREEN ──────────────────────────────────────────────────────────
@@ -375,7 +423,7 @@ export default function AdminStudio() {
 
         {/* Studio Content Container */}
         <div className="p-8 max-w-6xl w-full mx-auto flex flex-col gap-8 pb-32">
-          {/* ════ SECTION 1: HERO REELS (WITH DRAG & DROP) ════ */}
+          {/* ════ SECTION 1: HERO REELS ════ */}
           {activeTab === 'hero' && (
             <div className="flex flex-col gap-6">
               {/* Info Banner */}
@@ -383,10 +431,10 @@ export default function AdminStudio() {
                 <div className="flex items-center gap-3">
                   <Sparkles className="w-5 h-5 text-[#2957DE] shrink-0" />
                   <span>
-                    Перетаскивайте карточки мышкой за иконку <b>⋮⋮</b> слева для изменения порядка на сайте.
+                    Загружайте видео/обложки с компьютера кнопкой <b>«Файл»</b> или вставляйте прямые ссылки. Перетаскивайте карточки мышкой за <b>⋮⋮</b>.
                   </span>
                 </div>
-                <span className="text-white/40">Drag-and-Drop включен</span>
+                <span className="text-white/40">Studio v2.4</span>
               </div>
 
               {/* Draggable List */}
@@ -416,7 +464,7 @@ export default function AdminStudio() {
                                       : 'border-white/10 hover:border-[#2957DE]/50'
                                   }`}
                                 >
-                                  {/* ── Drag Handle Handle ── */}
+                                  {/* ── Drag Handle ── */}
                                   <div
                                     {...providedDraggable.dragHandleProps}
                                     className="pt-2 text-white/30 hover:text-white cursor-grab active:cursor-grabbing transition-colors shrink-0"
@@ -428,14 +476,12 @@ export default function AdminStudio() {
                                   {/* ── Left: Interactive Preview Card ── */}
                                   <div className="w-64 shrink-0 flex flex-col gap-2.5">
                                     <div className="relative aspect-video rounded-xl bg-black overflow-hidden border border-white/10 group">
-                                      {/* Poster Image */}
                                       <img
                                         src={reel.thumbnail_url}
                                         alt={reel.title_ru}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                       />
 
-                                      {/* Hover Play Button */}
                                       <button
                                         onClick={() =>
                                           setTestPlayer({
@@ -452,13 +498,11 @@ export default function AdminStudio() {
                                         <span>Тест плеера</span>
                                       </button>
 
-                                      {/* Top Badges */}
                                       <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-bold text-white border border-white/10">
                                         #{index + 1 < 10 ? `0${index + 1}` : index + 1}
                                       </div>
                                     </div>
 
-                                    {/* Resolution & Ratio Info */}
                                     <div className="flex items-center justify-between text-[11px] text-white/50 px-1">
                                       <span>Разрешение:</span>
                                       <span className="font-bold text-white/80">
@@ -467,7 +511,7 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* ── Center: Grouped Input Fields ── */}
+                                  {/* ── Center: Grouped Input Fields with Direct Uploads ── */}
                                   <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* Title RU */}
                                     <div>
@@ -501,52 +545,127 @@ export default function AdminStudio() {
                                       />
                                     </div>
 
-                                    {/* 1. Loop Mini-Video */}
+                                    {/* 1. Loop Mini-Video: Link or File */}
                                     <div>
                                       <label className="text-[10px] uppercase text-[#2957DE] font-bold block mb-1">
                                         1. Мини-видео (Loop превью в ленте)
                                       </label>
-                                      <input
-                                        type="text"
-                                        value={reel.preview_video_url}
-                                        placeholder="https://.../preview.mp4"
-                                        onChange={(e) =>
-                                          updateHeroReel(reel.id, 'preview_video_url', e.target.value)
-                                        }
-                                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
-                                      />
+                                      <div className="flex gap-2">
+                                        <input
+                                          type="text"
+                                          value={reel.preview_video_url}
+                                          placeholder="URL или загрузите файл →"
+                                          onChange={(e) =>
+                                            updateHeroReel(reel.id, 'preview_video_url', e.target.value)
+                                          }
+                                          className="flex-1 px-3.5 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
+                                        />
+                                        <label className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-[#2957DE] hover:text-white text-xs font-bold text-white/70 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 border border-white/10">
+                                          {uploadingField === `hero_preview_${reel.id}` ? (
+                                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                          ) : (
+                                            <Film className="w-3.5 h-3.5" />
+                                          )}
+                                          <span>Файл</span>
+                                          <input
+                                            type="file"
+                                            accept="video/*"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                              const file = e.target.files?.[0];
+                                              if (file) {
+                                                handleFileUpload(
+                                                  file,
+                                                  (url) => updateHeroReel(reel.id, 'preview_video_url', url),
+                                                  `hero_preview_${reel.id}`
+                                                );
+                                              }
+                                            }}
+                                          />
+                                        </label>
+                                      </div>
                                     </div>
 
-                                    {/* 2. Full Video Stream */}
+                                    {/* 2. Full Video Stream: Link or File */}
                                     <div>
                                       <label className="text-[10px] uppercase text-[#2957DE] font-bold block mb-1">
                                         2. Полный видеопоток (HD для попапа)
                                       </label>
-                                      <input
-                                        type="text"
-                                        value={reel.video_url}
-                                        placeholder="https://.../full_hd.mp4"
-                                        onChange={(e) =>
-                                          updateHeroReel(reel.id, 'video_url', e.target.value)
-                                        }
-                                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
-                                      />
+                                      <div className="flex gap-2">
+                                        <input
+                                          type="text"
+                                          value={reel.video_url}
+                                          placeholder="URL или загрузите файл →"
+                                          onChange={(e) =>
+                                            updateHeroReel(reel.id, 'video_url', e.target.value)
+                                          }
+                                          className="flex-1 px-3.5 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
+                                        />
+                                        <label className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-[#2957DE] hover:text-white text-xs font-bold text-white/70 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 border border-white/10">
+                                          {uploadingField === `hero_full_${reel.id}` ? (
+                                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                          ) : (
+                                            <Video className="w-3.5 h-3.5" />
+                                          )}
+                                          <span>Файл</span>
+                                          <input
+                                            type="file"
+                                            accept="video/*"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                              const file = e.target.files?.[0];
+                                              if (file) {
+                                                handleFileUpload(
+                                                  file,
+                                                  (url) => updateHeroReel(reel.id, 'video_url', url),
+                                                  `hero_full_${reel.id}`
+                                                );
+                                              }
+                                            }}
+                                          />
+                                        </label>
+                                      </div>
                                     </div>
 
-                                    {/* 3. Poster Image */}
+                                    {/* 3. Poster Image: Link or File */}
                                     <div className="md:col-span-2">
                                       <label className="text-[10px] uppercase text-white/40 block mb-1 font-bold">
-                                        3. Обложка / постер (Image URL)
+                                        3. Обложка / постер (Image URL или с компьютера)
                                       </label>
-                                      <input
-                                        type="text"
-                                        value={reel.thumbnail_url}
-                                        placeholder="https://.../poster.jpg"
-                                        onChange={(e) =>
-                                          updateHeroReel(reel.id, 'thumbnail_url', e.target.value)
-                                        }
-                                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
-                                      />
+                                      <div className="flex gap-2">
+                                        <input
+                                          type="text"
+                                          value={reel.thumbnail_url}
+                                          placeholder="URL или загрузите картинку →"
+                                          onChange={(e) =>
+                                            updateHeroReel(reel.id, 'thumbnail_url', e.target.value)
+                                          }
+                                          className="flex-1 px-3.5 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 focus:outline-none focus:border-[#2957DE] font-sans"
+                                        />
+                                        <label className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-[#2957DE] hover:text-white text-xs font-bold text-white/70 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 border border-white/10">
+                                          {uploadingField === `hero_thumb_${reel.id}` ? (
+                                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                          ) : (
+                                            <ImageIcon className="w-3.5 h-3.5" />
+                                          )}
+                                          <span>Выбрать фото</span>
+                                          <input
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                              const file = e.target.files?.[0];
+                                              if (file) {
+                                                handleFileUpload(
+                                                  file,
+                                                  (url) => updateHeroReel(reel.id, 'thumbnail_url', url),
+                                                  `hero_thumb_${reel.id}`
+                                                );
+                                              }
+                                            }}
+                                          />
+                                        </label>
+                                      </div>
                                     </div>
                                   </div>
 
@@ -586,7 +705,7 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
+          {/* ════ SECTION 2: WORKS CATEGORIES (WITH DIRECT UPLOADS) ════ */}
           {activeTab === 'works' && (
             <div className="flex flex-col gap-6">
               {/* Category Pills */}
@@ -656,32 +775,86 @@ export default function AdminStudio() {
                             </button>
                           </div>
 
+                          {/* Video stream field + File upload */}
                           <div>
                             <label className="text-[10px] uppercase text-white/40 block mb-1">
-                              URL видеопотока (MP4)
+                              URL видеопотока (MP4 / WebM)
                             </label>
-                            <input
-                              type="text"
-                              value={item.video_url}
-                              onChange={(e) =>
-                                updateWorkItem(group.id, item.id, 'video_url', e.target.value)
-                              }
-                              className="w-full px-3 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 font-sans focus:outline-none focus:border-[#2957DE]"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={item.video_url}
+                                onChange={(e) =>
+                                  updateWorkItem(group.id, item.id, 'video_url', e.target.value)
+                                }
+                                placeholder="https://..."
+                                className="flex-1 px-3 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 font-sans focus:outline-none focus:border-[#2957DE]"
+                              />
+                              <label className="px-3 py-2 bg-white/5 hover:bg-[#2957DE] hover:text-white rounded-xl text-xs font-bold text-white/70 transition-colors cursor-pointer flex items-center gap-1 border border-white/10">
+                                {uploadingField === `work_video_${item.id}` ? (
+                                  <RefreshCw className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <Upload className="w-3 h-3" />
+                                )}
+                                <span>Файл</span>
+                                <input
+                                  type="file"
+                                  accept="video/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleFileUpload(
+                                        file,
+                                        (url) => updateWorkItem(group.id, item.id, 'video_url', url),
+                                        `work_video_${item.id}`
+                                      );
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
 
+                          {/* Thumbnail poster field + File upload */}
                           <div>
                             <label className="text-[10px] uppercase text-white/40 block mb-1">
                               URL обложки / постера
                             </label>
-                            <input
-                              type="text"
-                              value={item.thumbnail_url}
-                              onChange={(e) =>
-                                updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
-                              }
-                              className="w-full px-3 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 font-sans focus:outline-none focus:border-[#2957DE]"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={item.thumbnail_url}
+                                onChange={(e) =>
+                                  updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
+                                }
+                                placeholder="https://..."
+                                className="flex-1 px-3 py-2 rounded-xl bg-[#09090b] border border-white/10 text-xs text-white/80 font-sans focus:outline-none focus:border-[#2957DE]"
+                              />
+                              <label className="px-3 py-2 bg-white/5 hover:bg-[#2957DE] hover:text-white rounded-xl text-xs font-bold text-white/70 transition-colors cursor-pointer flex items-center gap-1 border border-white/10">
+                                {uploadingField === `work_thumb_${item.id}` ? (
+                                  <RefreshCw className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <ImageIcon className="w-3 h-3" />
+                                )}
+                                <span>Фото</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleFileUpload(
+                                        file,
+                                        (url) => updateWorkItem(group.id, item.id, 'thumbnail_url', url),
+                                        `work_thumb_${item.id}`
+                                      );
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                         </div>
                       ))}
