@@ -150,9 +150,10 @@ export default function Home() {
           {/* 150px exact spacing between Works and Process Section */}
           <div className="h-[150px] w-full shrink-0" />
 
-          {/* Section 4: Process / Cinema Quality from idea to release */}
+          {/* Section 4: Process / Cinema Quality from idea to release (Scroll Pinning & Stacking Deck) */}
           <ProcessSection
             lang={lang}
+            containerRef={rightPanelRef}
           />
         </div>
 
