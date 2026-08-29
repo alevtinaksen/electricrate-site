@@ -760,8 +760,8 @@ export default function AdminStudio() {
           </h1>
         </header>
 
-        {/* Content Section */}
-        <div className="px-[24px] pb-[24px] flex flex-col gap-6 w-full flex-1">
+        {/* Content Section with 140px bottom padding for sticky bottom bar */}
+        <div className="px-[24px] pb-[140px] flex flex-col gap-6 w-full flex-1">
           {/* ════ SECTION 1: HERO AREA ════ */}
           {activeMenu === 'hero' && (
             <div className="flex flex-col gap-[12px] w-full">
@@ -1664,29 +1664,50 @@ export default function AdminStudio() {
                 <div
                   key={client.id}
                   style={{ padding: '24px' }}
-                  className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start lg:items-center gap-6 border-none w-full"
+                  className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full"
                 >
-                  <div className="flex flex-col items-center gap-2 shrink-0">
-                    <div
-                      className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full overflow-hidden flex items-center justify-center p-1 bg-white shadow-md"
-                      style={{ backgroundColor: client.color || '#FFFFFF' }}
-                    >
-                      {client.logo_url ? (
-                        <img
-                          src={client.logo_url}
-                          alt={client.name_ru}
-                          className="w-full h-full object-contain"
-                        />
-                      ) : (
-                        <span className="text-black font-mono font-bold text-xs">
-                          {client.name_ru.slice(0, 3).toUpperCase()}
+                  {/* Top Row: Logo Avatar + Name + Delete Button */}
+                  <div className="flex items-center justify-between w-full pb-3 border-b border-white/5">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full overflow-hidden flex items-center justify-center p-1 bg-white shadow-md shrink-0"
+                        style={{ backgroundColor: client.color || '#FFFFFF' }}
+                      >
+                        {client.logo_url ? (
+                          <img
+                            src={client.logo_url}
+                            alt={client.name_ru}
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <span className="text-black font-mono font-bold text-xs">
+                            {client.name_ru ? client.name_ru.slice(0, 3).toUpperCase() : 'ЛГО'}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-mono text-[16px] font-bold text-white uppercase">
+                          {client.name_ru || 'КЛИЕНТ'}
                         </span>
-                      )}
+                        <span className="text-[12px] text-[#5E5E5E] font-mono">54×54 логотип</span>
+                      </div>
                     </div>
-                    <span className="text-[11px] text-[#5E5E5E] font-mono">54×54</span>
+
+                    <button
+                      onClick={() => {
+                        if (window.confirm('Вы уверены, что хотите удалить этого клиента?')) {
+                          deleteClient(client.id);
+                        }
+                      }}
+                      style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                      className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                    >
+                      УДАЛИТЬ
+                    </button>
                   </div>
 
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  {/* Inputs Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     <div className="flex flex-col gap-2">
                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                         название клиента (ru)
@@ -1810,21 +1831,6 @@ export default function AdminStudio() {
                         </label>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Delete Action in Bottom Right of Client Card */}
-                  <div className="flex items-center justify-end w-full mt-3 pt-2">
-                    <button
-                      onClick={() => {
-                        if (window.confirm('Вы уверены, что хотите удалить этого клиента?')) {
-                          deleteClient(client.id);
-                        }
-                      }}
-                      style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
-                      className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
-                    >
-                      УДАЛИТЬ
-                    </button>
                   </div>
                 </div>
               ))}
@@ -2105,8 +2111,11 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ── Universal Floating Bottom Center Actions across ALL tabs ── */}
-          <div className="sticky bottom-4 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-4 shrink-0">
+        </div>
+
+        {/* ── Fixed Floating Bottom Center Actions: ALWAYS pinned to the bottom of the right panel, never scrolls away ── */}
+        <div className="fixed bottom-[24px] left-[calc(298px+24px)] right-[12px] z-50 flex items-center justify-center pointer-events-none">
+          <div className="flex items-center justify-center gap-4 pointer-events-auto">
             {/* White Plus Button for tabs that support adding items */}
             {activeMenu === 'hero' && (
               <button
@@ -2117,7 +2126,7 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
               >
                 <Plus className="w-8 h-8 text-black stroke-[1.25]" />
               </button>
@@ -2132,7 +2141,7 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
               >
                 <Plus className="w-8 h-8 text-black stroke-[1.25]" />
               </button>
@@ -2147,7 +2156,7 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
               >
                 <Plus className="w-8 h-8 text-black stroke-[1.25]" />
               </button>
@@ -2162,7 +2171,7 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
               >
                 <Plus className="w-8 h-8 text-black stroke-[1.25]" />
               </button>
@@ -2185,7 +2194,7 @@ export default function AdminStudio() {
                 letterSpacing: '-0.2px',
                 textTransform: 'uppercase',
               }}
-              className="hover:bg-[#1147bd] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0 border-none outline-none shadow-none"
+              className="hover:bg-[#1147bd] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0 border-none outline-none shadow-2xl"
             >
               {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : null}
               <span>СОХРАНИТЬ</span>
