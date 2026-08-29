@@ -69,7 +69,7 @@ export default function ProcessSection({
 
         {/* ── Cards Interactive Stacking Deck Layer (Fullscreen bounds) ── */}
         <div className="relative w-full max-w-[964px] h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
-          {/* ── Card 1: Pinned to Top-0, z-10 ── */}
+          {/* ── Card 1: Pinned strictly to Left-0 Top-0, z-10 ── */}
           <motion.div
             style={{
               y: card1Y,
@@ -78,7 +78,7 @@ export default function ProcessSection({
               backgroundColor: card1.bg_color || '#1458E6',
               color: card1.text_color || '#FFFFFF',
             }}
-            className="absolute left-[40px] sm:left-[90px] lg:left-[140px] top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
+            className="absolute left-0 top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">

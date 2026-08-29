@@ -277,17 +277,15 @@ export default function Home() {
             />
           </div>
 
-          {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» in White (187x65px, no glow) ── */}
+          {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» (Turns blue #1458E6 on hover, links to Telegram) ── */}
           <div className="fixed bottom-[24px] z-50 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
             <button
-              onClick={() => window.open('https://t.me/', '_blank')}
-              aria-label="Связаться"
+              onClick={() => window.open('https://t.me/sapunov_vlad', '_blank')}
+              aria-label="Связаться в Telegram"
               style={{
                 width: '187px',
                 height: '65px',
-                backgroundColor: '#FFFFFF',
                 borderRadius: '56px',
-                color: '#0B0B0B',
                 fontFamily: '"Geist Mono", monospace',
                 fontSize: '20px',
                 fontWeight: 700,
@@ -295,7 +293,7 @@ export default function Home() {
                 letterSpacing: '-0.2px',
                 textTransform: 'uppercase',
               }}
-              className="flex items-center justify-center hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none"
+              className="flex items-center justify-center bg-white hover:bg-[#1458E6] text-[#0B0B0B] hover:text-white active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none focus:outline-none"
             >
               {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
             </button>

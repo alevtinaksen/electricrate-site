@@ -48,10 +48,10 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
               key={faq.id}
               className="w-full flex flex-col transition-colors cursor-pointer"
             >
-              {/* Question Row: No underline, white-bar hover effect with generous 16px horizontal padding */}
+              {/* Question Row: No underline, white-bar hover effect with generous 24px horizontal padding */}
               <button
                 onClick={() => toggleAccordion(faq.id)}
-                className={`w-full py-2.5 px-4 flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none ${
+                className={`w-full py-2.5 px-6 flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none ${
                   isOpen
                     ? 'text-[#8C8E96] hover:bg-white hover:text-black'
                     : 'text-white hover:bg-white hover:text-black'
@@ -67,7 +67,7 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                 </span>
               </button>
 
-              {/* Opened Accordion Content with extra 12px space below question header */}
+              {/* Opened Accordion Content with extra space below question header */}
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <motion.div
@@ -91,7 +91,7 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                     }}
                     className="overflow-hidden w-full"
                   >
-                    <div className="pt-[24px] pb-6 px-4 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start w-full">
+                    <div className="pt-[32px] pb-6 px-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start w-full">
                       {/* Left Column (flex: 1 0 0) */}
                       <div className="flex-1 flex flex-col">
                         <p

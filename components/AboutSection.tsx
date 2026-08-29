@@ -87,10 +87,10 @@ export default function AboutSection({
       className="relative w-full max-w-[964px] min-h-[850px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col justify-between p-8 sm:p-12 select-none font-mono text-white"
       style={{ fontFamily: '"Geist Mono", monospace' }}
     >
-      {/* ── Background Vlad Portrait (Right 55%, object-contain, bottom gradient mask) ── */}
+      {/* ── Background Vlad Portrait (Stretches across entire right half up to edge) ── */}
       <motion.div
         style={{ y: photoY }}
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-full pointer-events-none z-0 select-none flex items-center justify-end"
+        className="absolute right-0 top-0 bottom-0 w-[55%] sm:w-[58%] h-full pointer-events-none z-0 select-none flex items-center justify-end overflow-hidden"
       >
         <img
           src={about.photo_url || '/vlad-portrait.jpg'}
@@ -99,7 +99,7 @@ export default function AboutSection({
             maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
           }}
-          className="w-full h-full object-contain object-right-center"
+          className="w-full h-full object-cover object-center"
         />
       </motion.div>
 
