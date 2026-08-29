@@ -86,7 +86,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               zIndex: 10,
               padding: '24px',
             }}
-            className="absolute left-0 top-0 w-[539px] max-w-[92vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
+            className="absolute left-0 top-0 w-[539px] max-w-[92vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
@@ -139,7 +139,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               zIndex: 20,
               padding: '24px',
             }}
-            className="absolute right-0 top-[50px] w-[446px] max-w-[90vw] h-[506px] bg-[#FFFFFF] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
+            className="absolute right-0 top-[50px] w-[446px] max-w-[90vw] h-[506px] bg-[#FFFFFF] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#2957DE] lowercase">
@@ -198,7 +198,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               zIndex: 30,
               padding: '24px',
             }}
-            className="absolute left-[80px] top-[120px] w-[539px] max-w-[92vw] h-[506px] bg-[#232323] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
+            className="absolute left-[80px] top-[120px] w-[539px] max-w-[92vw] h-[506px] bg-[#232323] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
@@ -261,7 +261,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               zIndex: 40,
               padding: '24px',
             }}
-            className="absolute right-0 top-[214px] w-[640px] max-w-[95vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
+            className="absolute right-0 top-[214px] w-[640px] max-w-[95vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">

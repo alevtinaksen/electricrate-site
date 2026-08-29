@@ -25,10 +25,10 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
     <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
       {/* Top: Name + Subtitle — z-50 strictly ON TOP of PNG masks */}
       <div className="flex flex-col relative z-50">
-        {/* Main Title — fixed 522px with 'ВЛАД' right-aligned to match 'САПУНОВ' in Frame 154 */}
-        <div className="relative z-50 w-[522px] min-w-[522px] pointer-events-none pl-[8px] flex flex-col">
+        {/* Main Title — w-fit with 'ВЛАД' aligned to the right edge of 'САПУНОВ' dynamically at ANY resolution */}
+        <div className="relative z-50 w-fit pointer-events-none pl-[8px] flex flex-col items-end">
           <h1
-            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col"
+            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-fit"
             style={{
               fontSize: 'clamp(64px, 8.5vw, 128.49px)',
               lineHeight: '93%',
@@ -36,8 +36,8 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
               color: '#FFFFFF',
             }}
           >
-            <span className="w-full text-right block">ВЛАД</span>
-            <span className="w-full text-left block">САПУНОВ</span>
+            <span className="text-right block w-full">ВЛАД</span>
+            <span className="text-left block w-full">САПУНОВ</span>
           </h1>
         </div>
 
