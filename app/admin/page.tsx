@@ -556,8 +556,16 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT CARD (Sidebar: 298px, bg-[#0D0D0E], rounded-[24px], border-none, 12px margin top/left/bottom) ── */}
-      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-[calc(100vh-24px)] mt-[12px] mb-[12px] ml-[12px] bg-[#0D0D0E] rounded-[24px] border-none flex flex-col justify-between overflow-hidden shrink-0 select-none">
+      {/* ── LEFT CARD (Sidebar: 298px, bg-[#0D0D0E], rounded-[24px], border-none, exact 12px margins) ── */}
+      <aside
+        style={{
+          marginTop: '12px',
+          marginBottom: '12px',
+          marginLeft: '12px',
+          height: 'calc(100vh - 24px)',
+        }}
+        className="w-[298px] min-w-[298px] max-w-[298px] bg-[#0D0D0E] rounded-[24px] border-none flex flex-col justify-between overflow-hidden shrink-0 select-none"
+      >
         <div className="flex flex-col w-full">
           {/* Top Profile Block */}
           <div
@@ -743,7 +751,15 @@ export default function AdminStudio() {
       </aside>
 
       {/* ── RIGHT ZONE: Transparent, cards have individual background, no background on main container ── */}
-      <main className="flex-1 h-[calc(100vh-24px)] mt-[12px] mb-[12px] ml-[12px] mr-[12px] bg-transparent border-none overflow-y-auto flex flex-col relative select-none">
+      <main
+        style={{
+          marginTop: '12px',
+          marginBottom: '12px',
+          marginRight: '12px',
+          height: 'calc(100vh - 24px)',
+        }}
+        className="flex-1 bg-transparent border-none overflow-y-auto flex flex-col relative select-none"
+      >
         {/* Header Bar — exact match for all tabs */}
         <header
           style={{ padding: '24px' }}
