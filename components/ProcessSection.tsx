@@ -12,14 +12,16 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
       id="services"
       className="w-full max-w-[964px] font-mono flex flex-col items-center select-none"
     >
-      {/* ── Section Title ── */}
+      {/* ── Section Title (Figma Screenshot 1: 64px, 600, 90% (57.6px), -2.56px, uppercase, w-[846px]) ── */}
       <h2
-        className="font-mono font-semibold uppercase tracking-[-1.5px] text-white text-center"
+        className="font-mono uppercase text-center w-full max-w-[846px]"
         style={{
           fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(40px, 6vw, 84px)',
-          lineHeight: '95%',
-          letterSpacing: '-1.5px',
+          fontSize: 'clamp(36px, 5.5vw, 64px)',
+          fontStyle: 'normal',
+          fontWeight: 600,
+          lineHeight: '90%', // 57.6px
+          letterSpacing: '-2.56px',
           color: '#FFFFFF',
           margin: 0,
           padding: 0,
@@ -40,8 +42,8 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
         )}
       </h2>
 
-      {/* 60px spacer between header and cards stack */}
-      <div className="h-[60px] w-full shrink-0" />
+      {/* 32px exact spacing between title and Card 1 (Screenshot 1) */}
+      <div className="h-[32px] w-full shrink-0" />
 
       {/* ── 4 Parallax Layering Cards Stack ── */}
       <div className="w-full flex flex-col relative pb-12">
@@ -52,8 +54,18 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           }}
           className="w-full max-w-[539px] h-[506px] bg-[#2957DE] rounded-none p-[24px] flex flex-col justify-between items-start self-start shadow-2xl transition-all duration-300 hover:scale-[1.01]"
         >
-          {/* Top text */}
-          <div className="font-mono text-[13px] sm:text-[14px] leading-[1.3] text-white lowercase">
+          {/* Top text (text/XS: 14px, 700, 125%, -0.14px, lowercase) */}
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%', // 17.5px
+              letterSpacing: '-0.14px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>снимаю на sony g-master</p>
@@ -67,19 +79,34 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
             )}
           </div>
 
-          {/* Center Main Title */}
+          {/* Center Main Title (h1: 128px, 600, 90%, -2.56px, uppercase, text-center, w-full) */}
           <h3
-            className="font-mono font-bold uppercase text-white tracking-[-1.5px]"
+            className="font-mono uppercase text-white text-center w-full self-stretch select-none"
             style={{
-              fontSize: 'clamp(48px, 7vw, 80px)',
-              lineHeight: '90%',
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: 'clamp(56px, 10vw, 128px)',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '90%', // 115.2px
+              letterSpacing: '-2.56px',
             }}
           >
             {lang === 'ru' ? 'СЪЕМКА' : 'SHOOTING'}
           </h3>
 
-          {/* Bottom text */}
-          <div className="font-mono text-[12px] sm:text-[13px] leading-[1.35] text-white lowercase">
+          {/* Bottom text (text/XS: 14px, 700, 125%, -0.14px, lowercase, w-[326px]) */}
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%', // 17.5px
+              letterSpacing: '-0.14px',
+              maxWidth: '326px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>картинка выглядит дорого —</p>
@@ -96,15 +123,25 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           </div>
         </div>
 
-        {/* ── Card 2: МОНТАЖ И ЦВЕТ (Frame 16: 446x506, #FFFFFF, Right Aligned, Overlapping) ── */}
+        {/* ── Card 2: МОНТАЖ И ЦВЕТ (Frame 16: 446x506, #FFFFFF, Right Aligned) ── */}
         <div
           style={{
             zIndex: 20,
           }}
           className="w-full max-w-[446px] h-[506px] bg-[#FFFFFF] rounded-none p-[24px] flex flex-col justify-between items-start self-end -mt-[140px] md:-mt-[180px] shadow-2xl transition-all duration-300 hover:scale-[1.01]"
         >
-          {/* Top text */}
-          <div className="font-mono text-[13px] sm:text-[14px] leading-[1.3] text-[#2957DE] lowercase">
+          {/* Top text (text/XS: 14px, 700, 125%, -0.14px, lowercase) */}
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+            }}
+            className="text-[#2957DE] lowercase"
+          >
             {lang === 'ru' ? (
               <p>монтирую и крашу в davinci.</p>
             ) : (
@@ -112,12 +149,16 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
             )}
           </div>
 
-          {/* Center Main Title */}
+          {/* Center Main Title (h2: 64px, 600, 90%, -2.56px, uppercase, text-center, color: #2957DE) */}
           <h3
-            className="font-mono font-bold uppercase text-[#2957DE] tracking-[-1.5px]"
+            className="font-mono uppercase text-[#2957DE] text-center w-full self-stretch select-none"
             style={{
-              fontSize: 'clamp(44px, 6vw, 68px)',
-              lineHeight: '90%',
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: 'clamp(40px, 6.5vw, 64px)',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '90%', // 57.6px
+              letterSpacing: '-2.56px',
             }}
           >
             {lang === 'ru' ? (
@@ -135,8 +176,19 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
             )}
           </h3>
 
-          {/* Bottom text */}
-          <div className="font-mono text-[12px] sm:text-[13px] leading-[1.35] text-[#2957DE] lowercase">
+          {/* Bottom text (text/XS: 14px, 700, 125%, -0.14px, lowercase, w-[326px]) */}
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+              maxWidth: '326px',
+            }}
+            className="text-[#2957DE] lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>авторская цветокоррекция — то,</p>
@@ -153,7 +205,7 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           </div>
         </div>
 
-        {/* ── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Frame 161: 539x506, #232323, Left-Center, Overlapping) ── */}
+        {/* ── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Frame 161: 539x506, #232323, Left-Center) ── */}
         <div
           style={{
             zIndex: 30,
@@ -161,7 +213,17 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           className="w-full max-w-[539px] h-[506px] bg-[#232323] rounded-none p-[24px] flex flex-col justify-between items-start self-start ml-0 md:ml-[30px] -mt-[140px] md:-mt-[180px] shadow-2xl transition-all duration-300 hover:scale-[1.01]"
         >
           {/* Top text */}
-          <div className="font-mono text-[13px] sm:text-[14px] leading-[1.3] text-white lowercase">
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>от идеи до мастеринга</p>
@@ -175,12 +237,16 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
             )}
           </div>
 
-          {/* Center Main Title */}
+          {/* Center Main Title (h2: 64px, 600, 90%, -2.56px, uppercase, text-center) */}
           <h3
-            className="font-mono font-bold uppercase text-white tracking-[-1.5px]"
+            className="font-mono uppercase text-white text-center w-full self-stretch select-none"
             style={{
-              fontSize: 'clamp(44px, 6vw, 68px)',
-              lineHeight: '90%',
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: 'clamp(40px, 6.5vw, 64px)',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '90%', // 57.6px
+              letterSpacing: '-2.56px',
             }}
           >
             {lang === 'ru' ? (
@@ -199,7 +265,18 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           </h3>
 
           {/* Bottom text */}
-          <div className="font-mono text-[12px] sm:text-[13px] leading-[1.35] text-white lowercase">
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+              maxWidth: '326px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>без испорченного телефона между</p>
@@ -214,7 +291,7 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           </div>
         </div>
 
-        {/* ── Card 4: КОМАНДА (Frame 162: 640x506, #2957DE, Right Aligned, Overlapping) ── */}
+        {/* ── Card 4: КОМАНДА (Frame 162: 640x506, #2957DE, Right Aligned) ── */}
         <div
           style={{
             zIndex: 40,
@@ -222,7 +299,17 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
           className="w-full max-w-[640px] h-[506px] bg-[#2957DE] rounded-none p-[24px] flex flex-col justify-between items-start self-end -mt-[140px] md:-mt-[180px] shadow-2xl transition-all duration-300 hover:scale-[1.01]"
         >
           {/* Top text */}
-          <div className="font-mono text-[13px] sm:text-[14px] leading-[1.3] text-white lowercase">
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>для больших проектов</p>
@@ -238,19 +325,34 @@ export default function ProcessSection({ lang }: ProcessSectionProps) {
             )}
           </div>
 
-          {/* Center Main Title */}
+          {/* Center Main Title (h1: 128px, 600, 90%, -2.56px, uppercase, text-center) */}
           <h3
-            className="font-mono font-bold uppercase text-white tracking-[-1.5px]"
+            className="font-mono uppercase text-white text-center w-full self-stretch select-none"
             style={{
-              fontSize: 'clamp(48px, 7vw, 84px)',
-              lineHeight: '90%',
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: 'clamp(56px, 10vw, 128px)',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '90%', // 115.2px
+              letterSpacing: '-2.56px',
             }}
           >
             {lang === 'ru' ? 'КОМАНДА' : 'TEAM'}
           </h3>
 
           {/* Bottom text */}
-          <div className="font-mono text-[12px] sm:text-[13px] leading-[1.35] text-white lowercase">
+          <div
+            style={{
+              fontFamily: '"Geist Mono", monospace',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.14px',
+              maxWidth: '326px',
+            }}
+            className="text-white lowercase"
+          >
             {lang === 'ru' ? (
               <>
                 <p>вы общаетесь только со мной,</p>
