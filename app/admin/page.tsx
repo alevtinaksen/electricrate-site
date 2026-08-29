@@ -353,7 +353,14 @@ export default function AdminStudio() {
           <nav className="mt-[26.5px] flex flex-col w-full gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
-              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '108px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'hero'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -364,7 +371,14 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('works')}
-              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '108px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'works'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -375,7 +389,14 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('clients')}
-              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '108px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'clients'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -386,7 +407,14 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('settings')}
-              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '108px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'settings'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -402,7 +430,14 @@ export default function AdminStudio() {
           <Link
             href="/"
             target="_blank"
-            className="h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
+            style={{
+              paddingLeft: '24px',
+              paddingRight: '108px',
+              paddingTop: '4px',
+              paddingBottom: '4px',
+              height: '33px',
+            }}
+            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -411,7 +446,14 @@ export default function AdminStudio() {
               sessionStorage.removeItem('admin_auth');
               setIsAuthenticated(false);
             }}
-            className="h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left w-full"
+            style={{
+              paddingLeft: '24px',
+              paddingRight: '108px',
+              paddingTop: '4px',
+              paddingBottom: '4px',
+              height: '33px',
+            }}
+            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left w-full"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
