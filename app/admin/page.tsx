@@ -1015,7 +1015,7 @@ export default function AdminStudio() {
           {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
           {activeMenu === 'works' && (
             <div className="flex flex-col gap-[12px] w-full">
-              {/* Category Pills Header strictly matching Figma screenshot (8px 16px, 56px radius, #2957DE) */}
+              {/* Category Pills Header strictly matching Figma screenshot (8px 16px, 56px radius, #2957DE, 16px 125% -0.16px) */}
               <div className="flex items-center gap-[10px] overflow-x-auto w-full py-1">
                 {workSections.map((group) => {
                   const isSelected = selectedCategory === group.id;
@@ -1023,8 +1023,17 @@ export default function AdminStudio() {
                     <button
                       key={group.id}
                       onClick={() => setSelectedCategory(group.id)}
-                      style={{ padding: '8px 16px', borderRadius: '56px' }}
-                      className={`text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
+                      style={{
+                        padding: '8px 16px',
+                        borderRadius: '56px',
+                        fontFamily: '"Geist Mono", monospace',
+                        fontSize: '16px',
+                        fontWeight: 700,
+                        lineHeight: '125%',
+                        letterSpacing: '-0.16px',
+                        textTransform: 'uppercase',
+                      }}
+                      className={`transition-all cursor-pointer whitespace-nowrap ${
                         isSelected
                           ? 'bg-[#2957DE] text-white shadow-md'
                           : 'bg-[#232326] text-white/90 hover:text-white hover:bg-[#2e2e33]'
@@ -1039,8 +1048,17 @@ export default function AdminStudio() {
                 <button
                   onClick={() => setIsNewCategoryModalOpen(true)}
                   title="Добавить новый раздел"
-                  style={{ padding: '8px 16px', borderRadius: '56px' }}
-                  className="bg-white text-[#2957DE] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '56px',
+                    fontFamily: '"Geist Mono", monospace',
+                    fontSize: '16px',
+                    fontWeight: 700,
+                    lineHeight: '125%',
+                    letterSpacing: '-0.16px',
+                    textTransform: 'uppercase',
+                  }}
+                  className="bg-white text-[#2957DE] hover:bg-neutral-200 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                 >
                   <Plus className="w-4 h-4 stroke-[2.5]" />
                   <span>НОВЫЙ РАЗДЕЛ</span>
@@ -1052,7 +1070,7 @@ export default function AdminStudio() {
                 .filter((g) => g.id === selectedCategory)
                 .map((group) => (
                   <div key={group.id} className="flex flex-col gap-[12px] w-full">
-                    {/* Category Title & Delete Row strictly matching screenshot */}
+                    {/* Category Title & Delete Row strictly matching screenshot (40px height) */}
                     <div
                       style={{ padding: '24px' }}
                       className="bg-[#141416] rounded-[24px] flex flex-col gap-2 w-full border-none"
@@ -1062,8 +1080,8 @@ export default function AdminStudio() {
                       </label>
 
                       <div className="flex items-center justify-between gap-4 w-full">
-                        {/* Input with embedded blue check button */}
-                        <div className="flex items-center flex-1 h-[44px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                        {/* Input with embedded blue check button — exact 40px height */}
+                        <div className="flex items-center flex-1 h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                           <input
                             type="text"
                             value={group.title_ru}
@@ -1080,17 +1098,17 @@ export default function AdminStudio() {
                           <button
                             onClick={handleSave}
                             title="Сохранить название"
-                            className="w-[44px] h-[44px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors"
+                            className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors"
                           >
                             <Check className="w-5 h-5 stroke-[2.5]" />
                           </button>
                         </div>
 
-                        {/* Delete Section Button in Gray pill with white text, red on hover */}
+                        {/* Delete Section Button in Gray pill with white text, red on hover — exact 40px height */}
                         <button
                           onClick={() => deleteCategory(group.id)}
                           style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
-                          className="h-[44px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                          className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                         >
                           УДАЛИТЬ
                         </button>
