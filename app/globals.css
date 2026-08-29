@@ -1,9 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
-
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Lebowski by Pragmatica';
+  src: url('/fonts/LebowskiByPragmatica-Regular.woff2') format('woff2'),
+       url('/fonts/LebowskiByPragmatica-Regular.woff') format('woff'),
+       url('/fonts/LebowskiByPragmatica-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-mono: var(--font-lebowski), 'Lebowski by Pragmatica', monospace;
+  --font-lebowski: var(--font-lebowski), 'Lebowski by Pragmatica', monospace;
 }
 
 :root {
@@ -21,7 +30,7 @@
 html, body {
   background-color: var(--bg);
   color: #ffffff;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--font-lebowski), 'Lebowski by Pragmatica', monospace;
   height: 100%;
   overflow-x: hidden;
 }

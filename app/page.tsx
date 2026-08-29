@@ -168,7 +168,7 @@ export default function Home() {
               backgroundColor: '#FFFFFF',
               borderRadius: '56px',
               color: '#0B0B0B',
-              fontFamily: '"Geist Mono", monospace',
+              fontFamily: '"Lebowski by Pragmatica", monospace',
               fontSize: '20px',
               fontWeight: 700,
               lineHeight: '125%', // 25px

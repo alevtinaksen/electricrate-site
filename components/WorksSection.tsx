@@ -21,7 +21,7 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
         className="font-mono font-semibold uppercase tracking-[-2.56px] text-white select-none text-center"
         style={{
           color: '#FFFFFF',
-          fontFamily: '"Geist Mono", monospace',
+          fontFamily: '"Lebowski by Pragmatica", monospace',
           fontSize: 'clamp(64px, 9vw, 128px)',
           fontStyle: 'normal',
           fontWeight: 600,
@@ -53,7 +53,7 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                 className="uppercase text-center shrink-0"
                 style={{
                   color: '#FFFFFF',
-                  fontFamily: '"Geist Mono", monospace',
+                  fontFamily: '"Lebowski by Pragmatica", monospace',
                   fontSize: '20px',
                   fontStyle: 'normal',
                   fontWeight: 700,

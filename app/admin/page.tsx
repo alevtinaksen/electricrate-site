@@ -552,7 +552,7 @@ export default function AdminStudio() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                       {/* название ролика (ru) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                           название ролика (ru)
                                         </label>
                                         <input
@@ -569,7 +569,7 @@ export default function AdminStudio() {
 
                                       {/* название ролика (en) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                           название ролика (en)
                                         </label>
                                         <input
@@ -587,7 +587,7 @@ export default function AdminStudio() {
 
                                     {/* Line 2: превью (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         превью
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -633,7 +633,7 @@ export default function AdminStudio() {
 
                                     {/* Line 3: видео (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         видео
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -674,7 +674,7 @@ export default function AdminStudio() {
 
                                     {/* Line 4: размер (L, M, S Dropdown with right-padded arrow) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         размер
                                       </label>
                                       <div className="relative inline-block w-full max-w-[240px]">
@@ -752,7 +752,7 @@ export default function AdminStudio() {
                 backgroundColor: '#1458E6',
                 borderRadius: '56px',
                 color: '#FFFFFF',
-                fontFamily: '"Geist Mono", monospace',
+                fontFamily: '"Lebowski by Pragmatica", monospace',
                 fontSize: '20px',
                 fontWeight: 700,
                 lineHeight: '125%', // 25px

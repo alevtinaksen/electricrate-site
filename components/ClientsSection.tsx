@@ -81,7 +81,7 @@ export default function ClientsSection({ lang }: ClientsSectionProps) {
         className="uppercase text-center shrink-0"
         style={{
           color: '#FFFFFF',
-          fontFamily: '"Geist Mono", monospace',
+          fontFamily: '"Lebowski by Pragmatica", monospace',
           fontSize: '20px',
           fontStyle: 'normal',
           fontWeight: 700,
@@ -103,7 +103,7 @@ export default function ClientsSection({ lang }: ClientsSectionProps) {
         className="w-full text-center"
         style={{
           color: '#FFFFFF',
-          fontFamily: '"Geist Mono", monospace',
+          fontFamily: '"Lebowski by Pragmatica", monospace',
           fontSize: 'clamp(30px, 4.8vw, 70px)',
           fontStyle: 'normal',
           fontWeight: 500,
