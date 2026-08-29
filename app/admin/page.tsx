@@ -254,12 +254,12 @@ export default function AdminStudio() {
     showToast('Проект удален');
   };
 
-  // ─── LOGIN SCREEN (Styled matching Screenshot 1 modal) ──────────────────────
+  // ─── LOGIN SCREEN ────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0E0E10] text-white font-mono flex items-center justify-center p-4">
-        <div className="w-full max-w-sm bg-[#161719] border border-[#28292E] rounded-3xl p-8 shadow-2xl flex flex-col items-center">
-          <div className="w-12 h-12 rounded-full bg-[#1E6BFF] text-white font-bold flex items-center justify-center text-base mb-4 shadow-lg shadow-[#1E6BFF]/30">
+      <div className="w-full h-full bg-black text-white font-mono flex items-center justify-center p-4">
+        <div className="w-full max-w-sm bg-[#0D0D0E] border border-white/10 rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+          <div className="w-12 h-12 rounded-full bg-[#1458E6] text-white font-bold flex items-center justify-center text-base mb-4 shadow-lg shadow-[#1458E6]/30">
             VS
           </div>
           <h1 className="text-base font-bold uppercase tracking-wider mb-1">
@@ -280,7 +280,7 @@ export default function AdminStudio() {
                 onChange={(e) => setPin(e.target.value)}
                 placeholder="••••"
                 autoFocus
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0F1012] border border-[#2A2B30] text-white text-center text-xl font-mono tracking-[0.5em] focus:outline-none focus:border-[#1E6BFF] transition-colors"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#0F1012] border border-[#2A2B30] text-white text-center text-xl font-mono tracking-[0.5em] focus:outline-none focus:border-[#1458E6] transition-colors"
               />
             </div>
 
@@ -290,7 +290,7 @@ export default function AdminStudio() {
 
             <button
               type="submit"
-              className="w-full py-2.5 rounded-xl bg-[#1E6BFF] hover:bg-[#185adb] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md shadow-[#1E6BFF]/20 active:scale-95"
+              className="w-full py-2.5 rounded-xl bg-[#1458E6] hover:bg-[#1147bd] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md shadow-[#1458E6]/20 active:scale-95"
             >
               Войти
             </button>
@@ -307,7 +307,7 @@ export default function AdminStudio() {
     );
   }
 
-  // ─── MAIN ADMIN STUDIO (2-Column Card Grid Layout) ─────────────────────────
+  // ─── MAIN ADMIN STUDIO (Root Layout: 100vh 100vw, p-[12px], gap-[12px]) ─────
   return (
     <div className="w-screen h-screen bg-black p-[12px] flex flex-row gap-[12px] overflow-hidden box-border select-none text-white font-mono">
       {/* Toast Notification */}
@@ -318,12 +318,12 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT COLUMN (Sidebar Card: 298px, bg-[#0D0D0E], rounded-[24px], border-white/5) ── */}
+      {/* ── LEFT CARD (Sidebar: Rectangle 76) ── */}
       <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] border border-white/5 flex flex-col justify-between overflow-hidden shrink-0">
         <div className="flex flex-col w-full">
-          {/* Top User Profile Block */}
-          <div className="pt-[24px] pl-[24px] pr-[24px] pb-0 flex items-center gap-[21px]">
-            <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] flex items-center justify-center font-bold text-white text-[16px] shadow-sm shrink-0">
+          {/* Top Profile Block */}
+          <div className="pt-[24px] pl-[24px] pr-[24px] flex items-center gap-[21px]">
+            <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] flex items-center justify-center font-bold text-white text-[16px] shrink-0">
               VS
             </div>
             <div className="flex flex-col justify-center">
@@ -340,10 +340,10 @@ export default function AdminStudio() {
           <nav className="mt-[26.5px] flex flex-col w-full">
             <button
               onClick={() => setActiveMenu('hero')}
-              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
+              className={`h-[33px] pl-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'hero'
-                  ? 'bg-[#1458E6] text-white w-full'
-                  : 'bg-transparent text-white hover:bg-white/5 w-full'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'text-white hover:bg-white/5'
               }`}
             >
               HERO AREA
@@ -351,10 +351,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('works')}
-              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
+              className={`h-[33px] pl-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'works'
-                  ? 'bg-[#1458E6] text-white w-full'
-                  : 'bg-transparent text-white hover:bg-white/5 w-full'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'text-white hover:bg-white/5'
               }`}
             >
               ВСЕ РАБОТЫ
@@ -362,10 +362,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('clients')}
-              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
+              className={`h-[33px] pl-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'clients'
-                  ? 'bg-[#1458E6] text-white w-full'
-                  : 'bg-transparent text-white hover:bg-white/5 w-full'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'text-white hover:bg-white/5'
               }`}
             >
               КЛИЕНТЫ & ЛОГО
@@ -373,10 +373,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('settings')}
-              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
+              className={`h-[33px] pl-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'settings'
-                  ? 'bg-[#1458E6] text-white w-full'
-                  : 'bg-transparent text-white hover:bg-white/5 w-full'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'text-white hover:bg-white/5'
               }`}
             >
               НАСТРОЙКИ
@@ -384,12 +384,12 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Menu */}
-        <div className="pb-[24px] flex flex-col w-full px-[24px]">
+        {/* Bottom Footer Block */}
+        <div className="pb-[24px] flex flex-col pl-[24px] gap-2">
           <Link
             href="/"
             target="_blank"
-            className="h-[33px] min-h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
+            className="h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -398,17 +398,17 @@ export default function AdminStudio() {
               sessionStorage.removeItem('admin_auth');
               setIsAuthenticated(false);
             }}
-            className="h-[33px] min-h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer w-full text-left"
+            className="h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
         </div>
       </aside>
 
-      {/* ── RIGHT COLUMN (Content Area Card: flex-1, bg-[#0D0D0E], rounded-[24px], border-[#1458E6], p-[24px]) ── */}
-      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] border border-[#1458E6] p-[24px] overflow-y-auto flex flex-col gap-[24px] shadow-2xl">
+      {/* ── RIGHT CARD (Content Zone: Rectangle 77) ── */}
+      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] border border-[#1458E6] p-[24px] overflow-y-auto">
         {/* Header Bar */}
-        <header className="flex items-center justify-between pb-[20px] border-b border-[#222328] shrink-0">
+        <header className="flex items-center justify-between pb-[20px] border-b border-[#222328] shrink-0 mb-6">
           <div className="flex items-center gap-3">
             <h1 className="text-sm font-bold uppercase tracking-wider text-white font-mono">
               {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
