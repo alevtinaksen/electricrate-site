@@ -307,9 +307,9 @@ export default function AdminStudio() {
     );
   }
 
-  // ─── MAIN ADMIN STUDIO (Strictly matching Frame 172 & Screenshot 1) ──────────
+  // ─── MAIN ADMIN STUDIO (2-Column Card Grid Layout) ─────────────────────────
   return (
-    <div className="min-h-screen bg-[#0E0E10] text-white font-mono flex select-none p-[12px] gap-[12px]">
+    <div className="w-screen h-screen bg-black p-[12px] flex flex-row gap-[12px] overflow-hidden box-border select-none text-white font-mono">
       {/* Toast Notification */}
       {toast.show && (
         <div className="fixed top-6 right-6 z-50 bg-[#161719] border border-[#1458E6] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in duration-200">
@@ -318,12 +318,12 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT SIDEBAR (Strictly Frame 172: 298px, 24px radius, exact margins) ── */}
-      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-[calc(100vh-24px)] bg-[#141416] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none">
-        <div className="flex flex-col">
-          {/* Top User Profile Block (Rectangle 76 / Frame 173) */}
-          <div className="pt-[24px] pl-[24px] pr-[63px] pb-0 flex items-center gap-[21px]">
-            <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] text-white font-mono font-bold flex items-center justify-center text-[18px] shrink-0 shadow-sm">
+      {/* ── LEFT COLUMN (Sidebar Card: 298px, bg-[#0D0D0E], rounded-[24px], border-white/5) ── */}
+      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] border border-white/5 flex flex-col justify-between overflow-hidden shrink-0">
+        <div className="flex flex-col w-full">
+          {/* Top User Profile Block */}
+          <div className="pt-[24px] pl-[24px] pr-[24px] pb-0 flex items-center gap-[21px]">
+            <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] flex items-center justify-center font-bold text-white text-[16px] shadow-sm shrink-0">
               VS
             </div>
             <div className="flex flex-col justify-center">
@@ -336,14 +336,14 @@ export default function AdminStudio() {
             </div>
           </div>
 
-          {/* Main Navigation Menu (mt-[26.5px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
-          <nav className="mt-[26.5px] flex flex-col gap-0">
+          {/* Main Navigation Menu */}
+          <nav className="mt-[26.5px] flex flex-col w-full">
             <button
               onClick={() => setActiveMenu('hero')}
-              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
+              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'hero'
-                  ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white w-full'
+                  : 'bg-transparent text-white hover:bg-white/5 w-full'
               }`}
             >
               HERO AREA
@@ -351,10 +351,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('works')}
-              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
+              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'works'
-                  ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white w-full'
+                  : 'bg-transparent text-white hover:bg-white/5 w-full'
               }`}
             >
               ВСЕ РАБОТЫ
@@ -362,10 +362,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('clients')}
-              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
+              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'clients'
-                  ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white w-full'
+                  : 'bg-transparent text-white hover:bg-white/5 w-full'
               }`}
             >
               КЛИЕНТЫ & ЛОГО
@@ -373,10 +373,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('settings')}
-              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
+              className={`h-[33px] min-h-[33px] px-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors w-full text-left ${
                 activeMenu === 'settings'
-                  ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white w-full'
+                  : 'bg-transparent text-white hover:bg-white/5 w-full'
               }`}
             >
               НАСТРОЙКИ
@@ -384,12 +384,12 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Menu (pb-[24px], h-[33px], py-[4px] pl-[24px] pr-[108px], opacity-40) */}
-        <div className="pb-[24px] flex flex-col gap-0">
+        {/* Bottom Footer Menu */}
+        <div className="pb-[24px] flex flex-col w-full px-[24px]">
           <Link
             href="/"
             target="_blank"
-            className="w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity"
+            className="h-[33px] min-h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -398,17 +398,17 @@ export default function AdminStudio() {
               sessionStorage.removeItem('admin_auth');
               setIsAuthenticated(false);
             }}
-            className="w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer"
+            className="h-[33px] min-h-[33px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer w-full text-left"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
         </div>
       </aside>
 
-      {/* ── RIGHT MAIN CANVAS WITH BLUE OUTLINE FRAME (Frame 172: 24px radius, #1458E6) ── */}
-      <main className="flex-1 bg-[#141416] border-2 border-[#1458E6] rounded-[24px] h-[calc(100vh-24px)] flex flex-col overflow-hidden shadow-2xl">
+      {/* ── RIGHT COLUMN (Content Area Card: flex-1, bg-[#0D0D0E], rounded-[24px], border-[#1458E6], p-[24px]) ── */}
+      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] border border-[#1458E6] p-[24px] overflow-y-auto flex flex-col gap-[24px] shadow-2xl">
         {/* Header Bar */}
-        <header className="px-8 py-5 border-b border-[#222328] flex items-center justify-between bg-[#141416]/95 backdrop-blur-md shrink-0">
+        <header className="flex items-center justify-between pb-[20px] border-b border-[#222328] shrink-0">
           <div className="flex items-center gap-3">
             <h1 className="text-sm font-bold uppercase tracking-wider text-white font-mono">
               {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
@@ -418,7 +418,7 @@ export default function AdminStudio() {
             </h1>
           </div>
 
-          {/* Save Button (Screenshot 1 Pill Button style) */}
+          {/* Save Button */}
           <button
             onClick={handleSave}
             disabled={isSaving}
@@ -429,8 +429,8 @@ export default function AdminStudio() {
           </button>
         </header>
 
-        {/* Scrollable Content Workspace */}
-        <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6">
+        {/* Content Section */}
+        <div className="flex flex-col gap-6">
           {/* ════ SECTION 1: HERO AREA (Strictly with Screenshot 1 Input Styling) ════ */}
           {activeMenu === 'hero' && (
             <div className="flex flex-col gap-6">
