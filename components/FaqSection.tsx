@@ -48,16 +48,16 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
               key={faq.id}
               className="w-full flex flex-col transition-colors cursor-pointer"
             >
-              {/* Question Row: No underline, white-bar hover effect with generous 24px horizontal padding */}
+              {/* Question Row: No underline, white-bar hover effect with generous 32px horizontal padding */}
               <button
                 onClick={() => toggleAccordion(faq.id)}
-                className={`w-full py-2.5 px-6 flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none ${
+                className={`w-full py-3.5 px-8 flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none ${
                   isOpen
                     ? 'text-[#8C8E96] hover:bg-white hover:text-black'
                     : 'text-white hover:bg-white hover:text-black'
                 }`}
               >
-                <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[125%]">
+                <span className="lowercase font-mono text-[15px] sm:text-[17px] font-bold tracking-[-0.2px] transition-colors leading-[125%]">
                   {questionText}
                 </span>
 
@@ -91,7 +91,7 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                     }}
                     className="overflow-hidden w-full"
                   >
-                    <div className="pt-[32px] pb-6 px-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start w-full">
+                    <div className="pt-[40px] pb-8 px-8 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-start w-full">
                       {/* Left Column (flex: 1 0 0) */}
                       <div className="flex-1 flex flex-col">
                         <p

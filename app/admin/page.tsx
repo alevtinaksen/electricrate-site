@@ -1234,6 +1234,16 @@ export default function AdminStudio() {
                                               onChange={(e) => updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)}
                                               className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                             />
+                                            {item.thumbnail_url && (
+                                              <button
+                                                type="button"
+                                                onClick={() => updateWorkItem(group.id, item.id, 'thumbnail_url', '')}
+                                                className="w-[36px] h-[40px] text-[#8C8E96] hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                                                title="Сбросить обложку"
+                                              >
+                                                <X className="w-4 h-4" />
+                                              </button>
+                                            )}
                                             <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить обложку">
                                               {uploadingField === `work_thumb_${item.id}` ? (
                                                 <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1273,6 +1283,16 @@ export default function AdminStudio() {
                                               onChange={(e) => updateWorkItem(group.id, item.id, 'video_url', e.target.value)}
                                               className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                             />
+                                            {item.video_url && (
+                                              <button
+                                                type="button"
+                                                onClick={() => updateWorkItem(group.id, item.id, 'video_url', '')}
+                                                className="w-[36px] h-[40px] text-[#8C8E96] hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                                                title="Сбросить видео"
+                                              >
+                                                <X className="w-4 h-4" />
+                                              </button>
+                                            )}
                                             <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить видео">
                                               {uploadingField === `work_vid_${item.id}` ? (
                                                 <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1385,22 +1405,12 @@ export default function AdminStudio() {
                     style={{ padding: '24px' }}
                     className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
                   >
-                    <div className="flex items-center justify-between pb-2 border-b border-white/5">
-                      <div className="flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-[#1458E6] text-white font-mono font-bold text-xs flex items-center justify-center">
-                          {idx + 1}
-                        </span>
-                        <span className="font-mono text-sm font-bold text-white uppercase">
-                          Карточка #{idx + 1}: {card.title_ru.replace('\n', ' ')}
-                        </span>
-                      </div>
-
-                      {/* Position Tag Note */}
-                      <span className="text-[11px] px-2.5 py-1 rounded bg-[#222] text-[#8C8E96] font-mono uppercase">
-                        {idx === 0 && 'Прижата к верху экрана'}
-                        {idx === 1 && 'Прижата к правому краю'}
-                        {idx === 2 && 'Центральный слой'}
-                        {idx === 3 && 'Прижата к низу и правому краю'}
+                    <div className="flex items-center gap-3">
+                      <span className="w-6 h-6 rounded-full bg-[#1458E6] text-white font-mono font-bold text-xs flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                      <span className="font-mono text-sm font-bold text-white uppercase">
+                        Карточка #{idx + 1}: {card.title_ru.replace('\n', ' ')}
                       </span>
                     </div>
 
@@ -1414,6 +1424,7 @@ export default function AdminStudio() {
                           type="text"
                           value={card.top_text_ru}
                           onChange={(e) => updateServiceCard(card.id, 'top_text_ru', e.target.value)}
+                          placeholder="СЪЕМКА"
                           style={{ paddingLeft: '12px', paddingRight: '12px' }}
                           className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
                         />
@@ -1426,6 +1437,7 @@ export default function AdminStudio() {
                           type="text"
                           value={card.top_text_en}
                           onChange={(e) => updateServiceCard(card.id, 'top_text_en', e.target.value)}
+                          placeholder="SHOOTING"
                           style={{ paddingLeft: '12px', paddingRight: '12px' }}
                           className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
                         />
@@ -1499,28 +1511,45 @@ export default function AdminStudio() {
                 style={{ padding: '24px' }}
                 className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
               >
-                <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                <div className="flex items-center">
                   <span className="font-mono text-xs font-bold text-white uppercase">
                     Студийная фотография Влада
                   </span>
-                  <span className="text-[11px] text-[#8C8E96] font-mono">
-                    Рекомендуется вертикальный портрет высокого качества
-                  </span>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                    изображение (url или файл)
-                  </label>
-                  <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
-                    <input
-                      type="text"
-                      value={about.photo_url}
-                      onChange={(e) => updateAbout('photo_url', e.target.value)}
-                      placeholder="ССЫЛКА НА ФОТО ИЛИ ВЫБЕРИТЕ ФАЙЛ"
-                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                      className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  {/* Photo Preview */}
+                  <div className="w-24 h-32 rounded-lg bg-black overflow-hidden border border-[#26282C] shrink-0 flex items-center justify-center">
+                    <img
+                      src={about.photo_url || '/vlad-portrait.jpg'}
+                      alt="Влад Сапунов"
+                      className="w-full h-full object-cover"
                     />
+                  </div>
+
+                  <div className="flex-1 flex flex-col gap-2 w-full">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      изображение (url или файл)
+                    </label>
+                    <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                      <input
+                        type="text"
+                        value={about.photo_url}
+                        onChange={(e) => updateAbout('photo_url', e.target.value)}
+                        placeholder="ССЫЛКА НА ФОТО ИЛИ ВЫБЕРИТЕ ФАЙЛ"
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                      />
+                      {about.photo_url && (
+                        <button
+                          type="button"
+                          onClick={() => updateAbout('photo_url', '')}
+                          className="w-[36px] h-[40px] text-[#8C8E96] hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                          title="Сбросить фото"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
                     <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить фото">
                       {uploadingField === 'about_photo' ? (
                         <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1545,6 +1574,7 @@ export default function AdminStudio() {
                     </label>
                   </div>
                 </div>
+              </div>
               </div>
 
               {/* Upper Text Block */}
@@ -1698,6 +1728,16 @@ export default function AdminStudio() {
                           style={{ paddingLeft: '12px', paddingRight: '12px' }}
                           className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                         />
+                        {client.logo_url && (
+                          <button
+                            type="button"
+                            onClick={() => updateClient(client.id, 'logo_url', '')}
+                            className="w-[36px] h-[40px] text-[#8C8E96] hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                            title="Сбросить логотип"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
                         <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить логотип">
                           {uploadingField === `client_logo_${client.id}` ? (
                             <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1736,6 +1776,16 @@ export default function AdminStudio() {
                           style={{ paddingLeft: '12px', paddingRight: '12px' }}
                           className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                         />
+                        {client.video_url && (
+                          <button
+                            type="button"
+                            onClick={() => updateClient(client.id, 'video_url', '')}
+                            className="w-[36px] h-[40px] text-[#8C8E96] hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                            title="Сбросить видео"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
                         <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить видео">
                           {uploadingField === `client_vid_${client.id}` ? (
                             <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1762,7 +1812,8 @@ export default function AdminStudio() {
                     </div>
                   </div>
 
-                  <div className="pt-2 shrink-0">
+                  {/* Delete Action in Bottom Right of Client Card */}
+                  <div className="flex items-center justify-end w-full mt-3 pt-2">
                     <button
                       onClick={() => {
                         if (window.confirm('Вы уверены, что хотите удалить этого клиента?')) {

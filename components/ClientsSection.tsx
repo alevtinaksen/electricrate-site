@@ -186,9 +186,15 @@ export default function ClientsSection({
 
           <div
             onClick={() => handleClientClick(clients[4] || DEFAULT_CLIENTS[4])}
-            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px]"
+            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center"
           >
-            <KtkLogo />
+            {clients[4]?.logo_url ? (
+              <img
+                src={clients[4].logo_url}
+                alt="КТК"
+                className="w-[54px] h-[54px] rounded-full object-contain mr-[12px]"
+              />
+            ) : null}
             <span className="transition-colors group-hover:text-black">
               {isRu ? 'КТК' : 'KTK'}
             </span>
