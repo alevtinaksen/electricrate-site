@@ -1299,8 +1299,7 @@ export default function AdminStudio() {
                                             </label>
                                           </div>
                                         </div>
-
-                                        {/* Delete Action in Bottom Right with 12px margin above */}
+                        {/* Delete Action in Bottom Right with 12px margin above */}
                                         <div className="flex items-center justify-end w-full mt-[12px] pt-[4px]">
                                           <button
                                             onClick={() => {
@@ -1335,6 +1334,12 @@ export default function AdminStudio() {
           {/* ════ SECTION: SERVICES / PROCESS (КАРТИНКА УРОВНЯ КИНО) ════ */}
           {activeMenu === 'services' && (
             <div className="flex flex-col gap-[12px] w-full">
+              <div className="flex items-center justify-between">
+                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
+                  УСЛУГИ (КАРТИНКА УРОВНЯ КИНО)
+                </h2>
+              </div>
+
               {/* Notice & Headline Card */}
               <div
                 style={{ padding: '24px' }}
@@ -1494,25 +1499,32 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ════ SECTION: ABOUT (ОБО МНЕ) ════ */}
+          {/* ════ SECTION: ABOUT ME (ОБО МНЕ) ════ */}
           {activeMenu === 'about' && (
             <div className="flex flex-col gap-[12px] w-full">
+              <div className="flex items-center justify-between">
+                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
+                  ОБО МНЕ (ПОРТРЕТ И ТЕКСТЫ)
+                </h2>
+              </div>
+
               {/* Photo Card */}
               <div
                 style={{ padding: '24px' }}
-                className="bg-[#141416] rounded-[24px] flex flex-col md:flex-row items-start md:items-center gap-6 w-full border-none"
+                className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
               >
-                <div className="w-[120px] h-[150px] min-w-[120px] rounded-xl overflow-hidden bg-black relative shrink-0 border border-white/10">
-                  <img
-                    src={about.photo_url || '/vlad-portrait.jpg'}
-                    alt="Влад Сапунов"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                  <span className="font-mono text-xs font-bold text-white uppercase">
+                    Студийная фотография Влада
+                  </span>
+                  <span className="text-[11px] text-[#8C8E96] font-mono">
+                    Рекомендуется вертикальный портрет высокого качества
+                  </span>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-2 w-full">
+                <div className="flex flex-col gap-2">
                   <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                    портретная фотография (ссылка или файл с компьютера)
+                    изображение (url или файл)
                   </label>
                   <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                     <input
@@ -1546,9 +1558,6 @@ export default function AdminStudio() {
                       />
                     </label>
                   </div>
-                  <span className="text-xs text-[#8C8E96] font-mono">
-                    Фотография растягивается на всю правую часть секции и имеет эффект параллакса при скролле.
-                  </span>
                 </div>
               </div>
 
@@ -1607,7 +1616,7 @@ export default function AdminStudio() {
                       rows={4}
                       value={about.bottom_text_ru}
                       onChange={(e) => updateAbout('bottom_text_ru', e.target.value)}
-                      placeholder="РАБОТАЮ В РАЗНЫХ СФЕРАХ : ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ."
+                      placeholder="РАБОТАЮ В РАЗНЫХ СФЕРАХ: ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ."
                       style={{ padding: '12px' }}
                       className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
                     />
@@ -1752,13 +1761,27 @@ export default function AdminStudio() {
           {/* ════ SECTION 4: FAQ (ВОПРОСЫ И ОТВЕТЫ) ════ */}
           {activeMenu === 'faq' && (
             <div className="flex flex-col gap-[12px] w-full">
+              <div className="flex items-center justify-between">
+                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
+                  F.A.Q. (ВОПРОСЫ И ДВУХКОЛОНОЧНЫЕ ОТВЕТЫ)
+                </h2>
+                <button
+                  onClick={addFaq}
+                  style={{ padding: '8px 16px', borderRadius: '56px' }}
+                  className="bg-white text-[#2957DE] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0 mb-2"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span>ДОБАВИТЬ ВОПРОС</span>
+                </button>
+              </div>
+
               {faqs.map((faq) => (
                 <div
                   key={faq.id}
                   style={{ padding: '24px' }}
                   className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
                 >
-                  <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <HelpCircle className="w-4 h-4 text-[#1458E6]" />
                       <span className="font-mono text-xs font-bold text-white uppercase">
