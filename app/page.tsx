@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
 import WorksSection from '@/components/WorksSection';
 import ProcessSection from '@/components/ProcessSection';
+import AboutSection from '@/components/AboutSection';
+import Preloader from '@/components/Preloader';
 import VideoModal from '@/components/VideoModal';
 import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup } from '@/lib/supabase';
 import { Language } from '@/types';
@@ -14,6 +17,7 @@ export default function Home() {
   const [lang, setLang] = useState<Language>('ru');
   const [reels, setReels] = useState<HeroReel[]>(HERO_REELS);
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
+  const [isLoaded, setIsLoaded] = useState(false);
   const rightPanelRef = useRef<HTMLDivElement>(null);
 
   // Load custom data from /api/content + localStorage
@@ -97,6 +101,8 @@ export default function Home() {
         ? 'works'
         : section === 'clients' || section === 'клиенты'
         ? 'clients'
+        : section === 'about' || section === 'обо мне'
+        ? 'about'
         : 'works';
     const el = document.getElementById(targetId);
     if (el && rightPanelRef.current) {
@@ -108,88 +114,106 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative">
-      {/* ── Left column: Frame 154 fixed Sidebar ── */}
-      <Sidebar
-        lang={lang}
-        onLangChange={setLang}
-        onSectionClick={scrollToSection}
-      />
+    <>
+      {/* ── Cinematic Preloader with % counter and smooth page reveal ── */}
+      <Preloader onComplete={() => setIsLoaded(true)} />
 
-      {/* ── Right column: pinned to the right side on resize, max-w-[964px] content ── */}
-      <main
-        ref={rightPanelRef}
-        className="right-panel flex-1 h-screen overflow-y-auto overflow-x-hidden relative flex flex-col items-end"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="flex h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative"
       >
-        <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 mr-0 pb-36">
-          {/* Section 1: 5 Hero Reels */}
-          <ReelsSection
-            reels={reels}
-            lang={lang}
-            onVideoSelect={openVideoModal}
-          />
+        {/* ── Left column: Frame 154 fixed Sidebar ── */}
+        <Sidebar
+          lang={lang}
+          onLangChange={setLang}
+          onSectionClick={scrollToSection}
+        />
 
-          {/* 150px exact spacing between Hero-reels and Clients */}
-          <div className="h-[150px] w-full shrink-0" />
+        {/* ── Right column: pinned to the right side on resize, max-w-[964px] content ── */}
+        <main
+          ref={rightPanelRef}
+          className="right-panel flex-1 h-screen overflow-y-auto overflow-x-hidden relative flex flex-col items-end"
+        >
+          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 mr-0 pb-36">
+            {/* Section 1: 5 Hero Reels */}
+            <ReelsSection
+              reels={reels}
+              lang={lang}
+              onVideoSelect={openVideoModal}
+            />
 
-          {/* Section 2: Clients with 54x54 logos, 12px gap, and white dots */}
-          <ClientsSection
-            lang={lang}
-          />
+            {/* 150px exact spacing between Hero-reels and Clients */}
+            <div className="h-[150px] w-full shrink-0" />
 
-          {/* 150px exact spacing between Clients and Works */}
-          <div className="h-[150px] w-full shrink-0" />
+            {/* Section 2: Clients with 54x54 logos, 12px gap, and white dots */}
+            <ClientsSection
+              lang={lang}
+            />
 
-          {/* Section 3: All Works */}
-          <WorksSection
-            sections={works}
-            lang={lang}
-            onVideoSelect={openVideoModal}
-          />
+            {/* 150px exact spacing between Clients and Works */}
+            <div className="h-[150px] w-full shrink-0" />
 
-          {/* 150px exact spacing between Works and Process Section */}
-          <div className="h-[150px] w-full shrink-0" />
+            {/* Section 3: All Works */}
+            <WorksSection
+              sections={works}
+              lang={lang}
+              onVideoSelect={openVideoModal}
+            />
 
-          {/* Section 4: Process / Cinema Quality from idea to release (Scroll Pinning & Stacking Deck) */}
-          <ProcessSection
-            lang={lang}
-            containerRef={rightPanelRef}
-          />
-        </div>
+            {/* 150px exact spacing between Works and Process Section */}
+            <div className="h-[150px] w-full shrink-0" />
 
-        {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» in White (187x65px, no glow) ── */}
-        <div className="fixed bottom-[24px] z-50 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
-          <button
-            onClick={() => window.open('https://t.me/', '_blank')}
-            aria-label="Связаться"
-            style={{
-              width: '187px',
-              height: '65px',
-              backgroundColor: '#FFFFFF',
-              borderRadius: '56px',
-              color: '#0B0B0B',
-              fontFamily: '"Geist Mono", monospace',
-              fontSize: '20px',
-              fontWeight: 700,
-              lineHeight: '125%', // 25px
-              letterSpacing: '-0.2px',
-              textTransform: 'uppercase',
-            }}
-            className="flex items-center justify-center hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none"
-          >
-            {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
-          </button>
-        </div>
-      </main>
+            {/* Section 4: Process / Cinema Quality from idea to release (Scroll Pinning & Stacking Deck) */}
+            <ProcessSection
+              lang={lang}
+              containerRef={rightPanelRef}
+            />
 
-      {/* ── Video Lightbox Popup Modal ── */}
-      <VideoModal
-        isOpen={modalState.isOpen}
-        onClose={closeVideoModal}
-        title={modalState.title}
-        videoUrl={modalState.videoUrl}
-        posterUrl={modalState.posterUrl}
-      />
-    </div>
+            {/* 150px exact spacing between Process Section and About Section */}
+            <div className="h-[150px] w-full shrink-0" />
+
+            {/* Section 5: About Section with Masked Typography Reveal & Portrait */}
+            <AboutSection
+              lang={lang}
+            />
+          </div>
+
+          {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» in White (187x65px, no glow) ── */}
+          <div className="fixed bottom-[24px] z-50 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
+            <button
+              onClick={() => window.open('https://t.me/', '_blank')}
+              aria-label="Связаться"
+              style={{
+                width: '187px',
+                height: '65px',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '56px',
+                color: '#0B0B0B',
+                fontFamily: '"Geist Mono", monospace',
+                fontSize: '20px',
+                fontWeight: 700,
+                lineHeight: '125%', // 25px
+                letterSpacing: '-0.2px',
+                textTransform: 'uppercase',
+              }}
+              className="flex items-center justify-center hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none"
+            >
+              {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
+            </button>
+          </div>
+        </main>
+
+        {/* ── Video Lightbox Popup Modal ── */}
+        <VideoModal
+          isOpen={modalState.isOpen}
+          onClose={closeVideoModal}
+          title={modalState.title}
+          videoUrl={modalState.videoUrl}
+          posterUrl={modalState.posterUrl}
+        />
+      </motion.div>
+    </>
   );
 }
