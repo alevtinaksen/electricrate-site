@@ -742,9 +742,9 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: bg-[#0D0D0E], rounded-[24px], border border-white/5, overflow-y-auto) ── */}
-      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] border border-white/5 overflow-y-auto flex flex-col relative select-none">
-        {/* Header Bar */}
+      {/* ── RIGHT ZONE: Transparent, cards have individual background, no background on main container ── */}
+      <main className="flex-1 h-full bg-transparent border-none overflow-y-auto flex flex-col relative select-none">
+        {/* Header Bar — exact match for all tabs */}
         <header
           style={{ padding: '24px' }}
           className="flex items-center justify-between shrink-0 w-full"
@@ -752,6 +752,8 @@ export default function AdminStudio() {
           <h1 className="text-[20px] font-bold uppercase tracking-[-0.2px] text-white font-mono">
             {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
             {activeMenu === 'works' && 'ВСЕ РАБОТЫ (СЕТКИ ПОРТФОЛИО)'}
+            {activeMenu === 'services' && 'УСЛУГИ (КАРТИНКА УРОВНЯ КИНО)'}
+            {activeMenu === 'about' && 'ОБО МНЕ (ПОРТРЕТ И ТЕКСТЫ)'}
             {activeMenu === 'clients' && 'КЛИЕНТЫ & ЛОГОТИПЫ (54×54)'}
             {activeMenu === 'faq' && 'F.A.Q. (ВОПРОСЫ И ОТВЕТЫ)'}
             {activeMenu === 'settings' && 'НАСТРОЙКИ & ДЕПЛОЙ'}
@@ -1330,12 +1332,6 @@ export default function AdminStudio() {
           {/* ════ SECTION: SERVICES / PROCESS (КАРТИНКА УРОВНЯ КИНО) ════ */}
           {activeMenu === 'services' && (
             <div className="flex flex-col gap-[12px] w-full">
-              <div className="flex items-center justify-between">
-                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
-                  УСЛУГИ (КАРТИНКА УРОВНЯ КИНО)
-                </h2>
-              </div>
-
               {/* Notice & Headline Card */}
               <div
                 style={{ padding: '24px' }}
@@ -1498,12 +1494,6 @@ export default function AdminStudio() {
           {/* ════ SECTION: ABOUT ME (ОБО МНЕ) ════ */}
           {activeMenu === 'about' && (
             <div className="flex flex-col gap-[12px] w-full">
-              <div className="flex items-center justify-between">
-                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
-                  ОБО МНЕ (ПОРТРЕТ И ТЕКСТЫ)
-                </h2>
-              </div>
-
               {/* Photo Card */}
               <div
                 style={{ padding: '24px' }}
@@ -1795,10 +1785,7 @@ export default function AdminStudio() {
           {/* ════ SECTION 4: FAQ (ВОПРОСЫ И ОТВЕТЫ) ════ */}
           {activeMenu === 'faq' && (
             <div className="flex flex-col gap-[12px] w-full">
-              <div className="flex items-center justify-between">
-                <h2 className="font-mono text-xs font-bold text-[#8C8E96] uppercase tracking-wider mb-2">
-                  F.A.Q. (ВОПРОСЫ И ДВУХКОЛОНОЧНЫЕ ОТВЕТЫ)
-                </h2>
+              <div className="flex items-center justify-end w-full">
                 <button
                   onClick={addFaq}
                   style={{ padding: '8px 16px', borderRadius: '56px' }}
