@@ -23,7 +23,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           }, 350);
           return 100;
         }
-        // Accelerate near the end
+        // Accelerate smoothly
         const jump = prev < 60 ? Math.floor(Math.random() * 4) + 2 : Math.floor(Math.random() * 8) + 4;
         return Math.min(prev + jump, 100);
       });
@@ -42,10 +42,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             y: '-100%',
             transition: { duration: 0.85, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white font-mono flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
+          style={{ fontFamily: '"Geist Mono", monospace' }}
         >
           {/* Top Bar */}
-          <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-white/60">
+          <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-white/60 w-full">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#1458E6] animate-ping" />
               <span className="text-white">ВЛАД САПУНОВ</span>
@@ -54,38 +55,30 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             <span>2026</span>
           </div>
 
-          {/* Center Brand Monogram */}
-          <div className="flex flex-col items-center justify-center gap-3">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-xs sm:text-sm tracking-[0.3em] uppercase text-white/40 font-semibold text-center"
-            >
-              PORTFOLIO SHOWCASE
-            </motion.div>
-          </div>
-
-          {/* Bottom Counter & Minimal Progress Line */}
-          <div className="flex flex-col gap-4 w-full max-w-5xl mx-auto">
-            <div className="flex items-baseline justify-between">
-              <span className="text-xs uppercase text-[#8C8E96] tracking-wider">
-                LOADING EXPERIENCE
-              </span>
+          {/* Bottom Counter spanning full width and aligned to the right edge */}
+          <div className="flex flex-col gap-4 w-full mt-auto">
+            <div className="flex justify-end items-baseline w-full">
               <span
-                className="font-bold tracking-tight text-white"
+                className="font-bold tracking-tight text-white select-none flex items-baseline"
                 style={{
-                  fontSize: 'clamp(48px, 10vw, 120px)',
-                  lineHeight: 0.9,
+                  fontFamily: '"Geist Mono", monospace',
+                  fontSize: 'clamp(72px, 16vw, 200px)',
+                  lineHeight: 0.85,
+                  letterSpacing: '-2px',
                 }}
               >
                 {progress}
-                <span className="text-xs sm:text-lg font-normal text-white/40 ml-1">%</span>
+                <span
+                  className="font-normal text-white/40 ml-2"
+                  style={{ fontSize: 'clamp(24px, 4vw, 48px)' }}
+                >
+                  %
+                </span>
               </span>
             </div>
 
-            {/* Progress Bar Line */}
-            <div className="w-full h-[2px] bg-white/10 rounded-full overflow-hidden">
+            {/* Edge-to-Edge Progress Bar Line across entire screen width */}
+            <div className="fixed bottom-0 left-0 right-0 w-screen h-[4px] bg-white/10 overflow-hidden">
               <motion.div
                 className="h-full bg-[#1458E6]"
                 style={{ width: `${progress}%` }}
