@@ -23,20 +23,20 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
 
   return (
     <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
-      {/* Top: Name + Subtitle — fluidly fits inside column so it never spills over right panel */}
-      <div className="flex flex-col relative z-50 w-full">
-        <div className="relative z-50 w-full pointer-events-none pl-[8px] flex flex-col items-end">
+      {/* Top: Name + Subtitle — strictly right-aligned to right edge of sidebar */}
+      <div className="flex flex-col relative z-50 w-full items-end">
+        <div className="relative z-50 w-full pointer-events-none flex flex-col items-end">
           <h1
-            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-full"
+            className="font-mono uppercase font-semibold text-white whitespace-nowrap text-right flex flex-col items-end w-full"
             style={{
-              fontSize: 'clamp(44px, 5.5vw, 84px)',
+              fontSize: 'clamp(56px, 7.5vw, 128.49px)',
               lineHeight: '93%',
-              letterSpacing: '-1.2px',
+              letterSpacing: '-1.285px',
               color: '#FFFFFF',
             }}
           >
             <span className="text-right block w-full">ВЛАД</span>
-            <span className="text-left block w-full">САПУНОВ</span>
+            <span className="text-right block w-full">САПУНОВ</span>
           </h1>
         </div>
       </div>
