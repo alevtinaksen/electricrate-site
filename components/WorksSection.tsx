@@ -37,11 +37,11 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
         {lang === 'ru' ? 'РАБОТЫ' : 'WORKS'}
       </h2>
 
-      {/* 40px gap between main header and first category block */}
-      <div className="h-[40px] w-full shrink-0" />
+      {/* Increased 80px gap between main header and first category block */}
+      <div className="h-[80px] w-full shrink-0" />
 
-      {/* Categories stack with 40px gap between blocks */}
-      <div className="w-full flex flex-col gap-[40px]">
+      {/* Categories stack with 80px gap between category blocks */}
+      <div className="w-full flex flex-col gap-[80px]">
         {sections.map((group) => {
           const categoryTitle = lang === 'ru' ? group.title_ru : group.title_en;
           const isVertical = group.isVertical;

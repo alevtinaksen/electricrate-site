@@ -123,7 +123,7 @@ function ReelCard({
           />
         )}
 
-        {/* Floating Bubble Button following cursor (like Contact button, white rounded pill) */}
+        {/* Floating Bubble Button following cursor (like Contact button, white rounded pill, no shadow, wider padding) */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -136,7 +136,7 @@ function ReelCard({
                 top: mouseY,
                 transform: 'translate(-50%, -50%)',
               }}
-              className="absolute pointer-events-none z-30 flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+              className="absolute pointer-events-none z-30 flex items-center justify-center shadow-none"
             >
               <div
                 style={{
@@ -148,8 +148,12 @@ function ReelCard({
                   fontWeight: 700,
                   letterSpacing: '-0.14px',
                   textTransform: 'uppercase',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
                 }}
-                className="px-4 py-2 flex items-center gap-1.5 whitespace-nowrap"
+                className="flex items-center gap-1.5 whitespace-nowrap shadow-none"
               >
                 <span>{lang === 'ru' ? 'СМОТРЕТЬ' : 'PLAY'}</span>
               </div>

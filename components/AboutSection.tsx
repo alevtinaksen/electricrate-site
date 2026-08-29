@@ -23,7 +23,7 @@ export default function AboutSection({
   });
 
   // Smooth subtle vertical parallax for portrait
-  const photoY = useTransform(scrollYProgress, [0, 1], ['-4%', '4%']);
+  const photoY = useTransform(scrollYProgress, [0, 1], ['-3%', '3%']);
 
   const topTextRaw = isRu
     ? about.top_text_ru || DEFAULT_ABOUT.top_text_ru
@@ -84,30 +84,14 @@ export default function AboutSection({
     <section
       ref={sectionRef}
       id="about"
-      className="relative w-full max-w-[964px] min-h-[850px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col justify-between p-6 sm:p-10 lg:p-12 select-none font-mono text-white"
+      className="relative w-full max-w-[964px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col p-6 sm:p-10 lg:p-12 select-none font-mono text-white"
       style={{ fontFamily: '"Geist Mono", monospace' }}
     >
-      {/* ── Background Vlad Portrait (Right 55%, object-contain, bottom gradient mask) ── */}
-      <motion.div
-        style={{ y: photoY }}
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-full pointer-events-none z-0 select-none flex items-center justify-end"
-      >
-        <img
-          src={about.photo_url || '/vlad-portrait.jpg'}
-          alt="Влад Сапунов"
-          style={{
-            maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
-          }}
-          className="w-full h-full object-contain object-right-center"
-        />
-      </motion.div>
-
-      {/* ── Top-Left Typography Block (z-10, text-[42px] leading-[1.05] tracking-[-1px]) ── */}
+      {/* ── Top-Left Typography Block ── */}
       <motion.div
         initial={{ opacity: 0, x: -30 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.3 }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 flex flex-col items-start text-left max-w-[420px]"
       >
@@ -120,16 +104,29 @@ export default function AboutSection({
         </h2>
       </motion.div>
 
-      {/* Spacer between blocks */}
-      <div className="h-16 w-full shrink-0" />
+      {/* ── Vlad Portrait (Stretches full width of right side, height adapts naturally) ── */}
+      <motion.div
+        style={{ y: photoY }}
+        className="w-full sm:w-[65%] lg:w-[60%] self-end -mt-16 sm:-mt-24 z-0 flex items-center justify-end overflow-hidden pointer-events-none select-none"
+      >
+        <img
+          src={about.photo_url || '/vlad-portrait.jpg'}
+          alt="Влад Сапунов"
+          style={{
+            maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+          }}
+          className="w-full h-auto object-cover object-center"
+        />
+      </motion.div>
 
-      {/* ── Bottom-Right Typography Block (z-10, self-end text-left max-w-[480px]) ── */}
+      {/* ── Bottom-Right Typography Block (Placed lower down below portrait) ── */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.3 }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-        className="relative z-10 self-end text-left max-w-[480px]"
+        className="relative z-10 self-end text-left max-w-[480px] mt-6 sm:mt-10"
       >
         <h2 className="text-[28px] sm:text-[36px] lg:text-[42px] leading-[1.05] tracking-[-1px] text-white font-bold text-left uppercase m-0 p-0 whitespace-pre-line">
           {bottomLines.map((line, idx) => (

@@ -23,15 +23,15 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
 
   return (
     <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
-      {/* Top: Name + Subtitle — z-50 strictly ON TOP of PNG masks */}
-      <div className="flex flex-col relative z-50">
-        {/* Main Title — multi-breakpoint responsive scaling (mobile -> laptop -> Full HD -> 2K -> 4K) */}
-        <div className="relative z-50 w-fit pointer-events-none pl-[8px] flex flex-col items-end">
+      {/* Top: Name + Subtitle — fluidly fits inside column so it never spills over right panel */}
+      <div className="flex flex-col relative z-50 w-full">
+        <div className="relative z-50 w-full pointer-events-none pl-[8px] flex flex-col items-end">
           <h1
-            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-fit text-[56px] sm:text-[72px] md:text-[88px] lg:text-[104px] xl:text-[128.49px] 2xl:text-[144px] min-[1920px]:text-[164px] min-[2560px]:text-[198px]"
+            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-full"
             style={{
+              fontSize: 'clamp(44px, 5.5vw, 84px)',
               lineHeight: '93%',
-              letterSpacing: '-1.285px',
+              letterSpacing: '-1.2px',
               color: '#FFFFFF',
             }}
           >
@@ -52,10 +52,10 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Меню навигации"
-            className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-xl z-50"
+            className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-xl z-50 group"
           >
-            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] rounded-full transition-transform duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
-            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] rounded-full transition-transform duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
+            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
+            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
           </button>
 
           {/* White Rectangular Menu Badges Stack with 2px gap and px-8 py-4 paddings */}
@@ -71,7 +71,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
                   onSectionClick(item.key);
                   setIsMenuOpen(false);
                 }}
-                className="w-auto inline-block text-left bg-white hover:bg-[#e6e6e6] text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-xl"
+                className="w-auto inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-xl"
               >
                 {item.label[lang]}
               </button>
@@ -80,21 +80,21 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
         </div>
       </div>
 
-      {/* Bottom Left Corner: 65x65 White Social Buttons (TG, EM, VK) — z-50 ON TOP of PNG masks */}
-      <div className="absolute left-[24px] bottom-[20px] flex flex-col gap-2.5 z-50">
+      {/* Bottom Left Corner: 65x65 White Social Buttons with gap-0 and blue hover */}
+      <div className="absolute left-[24px] bottom-[20px] flex flex-col gap-0 z-50">
         <a
           href="https://t.me/"
           target="_blank"
           rel="noopener noreferrer"
           title="Telegram"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50 cursor-pointer"
         >
           TG
         </a>
         <a
           href="mailto:vlad@sapunov.ru"
           title="Email"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50 cursor-pointer"
         >
           EM
         </a>
@@ -103,7 +103,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
           target="_blank"
           rel="noopener noreferrer"
           title="ВКонтакте"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50 cursor-pointer"
         >
           VK
         </a>
