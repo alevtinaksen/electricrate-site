@@ -12,42 +12,35 @@ interface ProcessSectionProps {
 export default function ProcessSection({ lang, containerRef }: ProcessSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Bind scroll to the parent container if provided, otherwise window
+  // Bind scroll to the parent container
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     container: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // ─── Card 1: СЪЕМКА (Enters at 15% -> 35%) ───
-  const card1Y = useTransform(scrollYProgress, [0.12, 0.32], [500, 0]);
-  const card1Opacity = useTransform(scrollYProgress, [0.12, 0.22], [0, 1]);
-  const card1Scale = useTransform(scrollYProgress, [0.12, 0.32], [0.95, 1]);
+  // ─── 4 Solid Cards Pure Slide-in (100% Opaque, No Transparency) ───
+  // Card 1: slides into final position (0.05 -> 0.25)
+  const card1Y = useTransform(scrollYProgress, [0.02, 0.24], [900, 0]);
 
-  // ─── Card 2: МОНТАЖ И ЦВЕТ (Enters at 32% -> 52%) ───
-  const card2Y = useTransform(scrollYProgress, [0.32, 0.52], [500, 0]);
-  const card2Opacity = useTransform(scrollYProgress, [0.32, 0.42], [0, 1]);
-  const card2Scale = useTransform(scrollYProgress, [0.32, 0.52], [0.95, 1]);
+  // Card 2: slides over Card 1 (0.24 -> 0.48)
+  const card2Y = useTransform(scrollYProgress, [0.24, 0.48], [900, 0]);
 
-  // ─── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Enters at 52% -> 72%) ───
-  const card3Y = useTransform(scrollYProgress, [0.52, 0.72], [500, 0]);
-  const card3Opacity = useTransform(scrollYProgress, [0.52, 0.62], [0, 1]);
-  const card3Scale = useTransform(scrollYProgress, [0.52, 0.72], [0.95, 1]);
+  // Card 3: slides over Card 1 & 2 (0.48 -> 0.72)
+  const card3Y = useTransform(scrollYProgress, [0.48, 0.72], [900, 0]);
 
-  // ─── Card 4: КОМАНДА (Enters at 72% -> 92%) ───
-  const card4Y = useTransform(scrollYProgress, [0.72, 0.92], [500, 0]);
-  const card4Opacity = useTransform(scrollYProgress, [0.72, 0.82], [0, 1]);
-  const card4Scale = useTransform(scrollYProgress, [0.72, 0.92], [0.95, 1]);
+  // Card 4: slides over Card 2 & 3 to complete the deck (0.72 -> 0.96)
+  const card4Y = useTransform(scrollYProgress, [0.72, 0.96], [900, 0]);
 
   return (
     <div
       ref={sectionRef}
       id="services"
-      className="relative w-full h-[380vh] font-mono select-none"
+      className="relative w-full h-[400vh] font-mono select-none bg-transparent"
     >
-      {/* ── Fixed Fullscreen Stage (Pinning Deck) ── */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-black">
-        {/* ── Background Giant H1 (Pinned behind the cards) ── */}
+      {/* ── Fixed Fullscreen Stage (Transparent background matching site #0d0d0d) ── */}
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-transparent">
+        {/* ── Background Giant H1 (Pinned behind the cards, left aligned / center) ── */}
         <div className="absolute inset-0 flex items-center justify-center text-center z-0 pointer-events-none p-4">
           <h1
             className="font-mono uppercase font-semibold text-center select-none text-white tracking-[-2.56px]"
@@ -84,18 +77,16 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
           </h1>
         </div>
 
-        {/* ── Cards Interactive Stacking Deck Layer (max-w-[964px] bounds) ── */}
-        <div className="relative w-full max-w-[964px] h-[580px] flex items-center justify-center pointer-events-auto">
-          {/* ── Card 1: СЪЕМКА (Left / Center, z-10, #1458E6) ── */}
+        {/* ── Cards Interactive Stacking Deck Layer (Frame matching user screenshot) ── */}
+        <div className="relative w-full max-w-[964px] h-[720px] flex items-center justify-center pointer-events-auto">
+          {/* ── Card 1: СЪЕМКА (Top-Left, z-10, #2957DE, 539x506, Solid Opacity) ── */}
           <motion.div
             style={{
               y: card1Y,
-              opacity: card1Opacity,
-              scale: card1Scale,
               zIndex: 10,
               padding: '24px',
             }}
-            className="absolute left-[2%] sm:left-[6%] top-[8%] sm:top-[12%] w-[90%] sm:w-[440px] md:w-[480px] min-h-[440px] bg-[#1458E6] flex flex-col justify-between items-start shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-white/10"
+            className="absolute left-0 top-0 w-[539px] max-w-[92vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
@@ -112,11 +103,11 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               )}
             </div>
 
-            {/* Center title */}
+            {/* Center title (128px Geist Mono) */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-4 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
               style={{
-                fontSize: 'clamp(52px, 8vw, 96px)',
+                fontSize: 'clamp(56px, 9vw, 128px)',
                 lineHeight: '90%',
               }}
             >
@@ -141,19 +132,17 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
             </div>
           </motion.div>
 
-          {/* ── Card 2: МОНТАЖ И ЦВЕТ (Right, z-20, #FFFFFF) ── */}
+          {/* ── Card 2: МОНТАЖ И ЦВЕТ (Top-Right, z-20, #FFFFFF, 446x506, Solid Opacity) ── */}
           <motion.div
             style={{
               y: card2Y,
-              opacity: card2Opacity,
-              scale: card2Scale,
               zIndex: 20,
               padding: '24px',
             }}
-            className="absolute right-[2%] sm:right-[6%] top-[14%] sm:top-[18%] w-[90%] sm:w-[420px] md:w-[450px] min-h-[440px] bg-[#FFFFFF] flex flex-col justify-between items-start shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-black/10"
+            className="absolute right-0 top-[50px] w-[446px] max-w-[90vw] h-[506px] bg-[#FFFFFF] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
           >
             {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#1458E6] lowercase">
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#2957DE] lowercase">
               {lang === 'ru' ? (
                 <p>монтирую и крашу в davinci.</p>
               ) : (
@@ -161,11 +150,11 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               )}
             </div>
 
-            {/* Center title */}
+            {/* Center title (64px Geist Mono) */}
             <h2
-              className="font-mono font-semibold uppercase text-[#1458E6] text-center w-full my-4 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-[#2957DE] text-center w-full my-2 tracking-[-2.56px]"
               style={{
-                fontSize: 'clamp(42px, 6vw, 60px)',
+                fontSize: 'clamp(44px, 6.5vw, 64px)',
                 lineHeight: '90%',
               }}
             >
@@ -185,7 +174,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
             </h2>
 
             {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#1458E6] lowercase max-w-[326px]">
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#2957DE] lowercase max-w-[326px]">
               {lang === 'ru' ? (
                 <>
                   <p>авторская цветокоррекция — то,</p>
@@ -202,16 +191,14 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
             </div>
           </motion.div>
 
-          {/* ── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Left-Center, z-30, #18181B) ── */}
+          {/* ── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Center-Left, z-30, #232323, 539x506, Solid Opacity) ── */}
           <motion.div
             style={{
               y: card3Y,
-              opacity: card3Opacity,
-              scale: card3Scale,
               zIndex: 30,
               padding: '24px',
             }}
-            className="absolute left-[6%] sm:left-[12%] top-[22%] sm:top-[26%] w-[90%] sm:w-[440px] md:w-[480px] min-h-[440px] bg-[#18181B] flex flex-col justify-between items-start shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-white/10"
+            className="absolute left-[80px] top-[120px] w-[539px] max-w-[92vw] h-[506px] bg-[#232323] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
@@ -228,11 +215,11 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               )}
             </div>
 
-            {/* Center title */}
+            {/* Center title (64px Geist Mono) */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-4 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
               style={{
-                fontSize: 'clamp(40px, 5.5vw, 56px)',
+                fontSize: 'clamp(42px, 6.5vw, 64px)',
                 lineHeight: '90%',
               }}
             >
@@ -267,16 +254,14 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
             </div>
           </motion.div>
 
-          {/* ── Card 4: КОМАНДА (Right-Center, z-40, #1458E6) ── */}
+          {/* ── Card 4: КОМАНДА (Bottom-Right, z-40, #2957DE, 640x506, Solid Opacity) ── */}
           <motion.div
             style={{
               y: card4Y,
-              opacity: card4Opacity,
-              scale: card4Scale,
               zIndex: 40,
               padding: '24px',
             }}
-            className="absolute right-[4%] sm:right-[10%] top-[28%] sm:top-[32%] w-[90%] sm:w-[460px] md:w-[500px] min-h-[440px] bg-[#1458E6] flex flex-col justify-between items-start shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-white/10"
+            className="absolute right-0 top-[214px] w-[640px] max-w-[95vw] h-[506px] bg-[#2957DE] flex flex-col justify-between items-start shadow-[0_30px_70px_rgba(0,0,0,0.85)] rounded-none"
           >
             {/* Top text */}
             <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
@@ -295,11 +280,11 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
               )}
             </div>
 
-            {/* Center title */}
+            {/* Center title (128px Geist Mono) */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-4 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
               style={{
-                fontSize: 'clamp(52px, 8vw, 96px)',
+                fontSize: 'clamp(56px, 9vw, 128px)',
                 lineHeight: '90%',
               }}
             >
