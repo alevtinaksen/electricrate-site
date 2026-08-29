@@ -18,6 +18,7 @@ import {
   FolderPlus,
   X,
   HelpCircle,
+  Check,
 } from 'lucide-react';
 import {
   HERO_REELS,
@@ -481,11 +482,13 @@ export default function AdminStudio() {
   // ─── MAIN ADMIN STUDIO (Root Layout: 100vh 100vw, p-[12px], gap-[12px]) ─────
   return (
     <div className="w-screen h-screen bg-black p-[12px] flex flex-row gap-[12px] overflow-hidden box-border select-none text-white font-mono">
-      {/* Toast Notification */}
+      {/* Toast Notification — Borderless with blue check inside filled white circle */}
       {toast.show && (
-        <div className="fixed top-6 right-6 z-50 bg-[#161719] border border-[#1458E6] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-[#1458E6] shrink-0" />
-          <span className="text-xs font-bold font-mono">{toast.message}</span>
+        <div className="fixed top-6 right-6 z-50 bg-[#141416] text-white px-5 py-3 rounded-[16px] shadow-2xl flex items-center gap-3 animate-in fade-in duration-200 border-none">
+          <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0">
+            <Check className="w-3.5 h-3.5 text-[#1458E6] stroke-[3]" />
+          </div>
+          <span className="text-xs font-bold font-mono uppercase">{toast.message}</span>
         </div>
       )}
 
