@@ -752,7 +752,7 @@ export default function AdminStudio() {
                 backgroundColor: '#1458E6',
                 borderRadius: '56px',
                 color: '#FFFFFF',
-                fontFamily: '"Lebowski by Pragmatica", monospace',
+                fontFamily: '"Geist Mono", monospace',
                 fontSize: '20px',
                 fontWeight: 700,
                 lineHeight: '125%', // 25px

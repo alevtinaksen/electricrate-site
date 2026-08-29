@@ -100,7 +100,7 @@ function ReelCard({
         className="font-mono text-center uppercase shrink-0"
         style={{
           color: '#FFFFFF',
-          fontFamily: '"Lebowski by Pragmatica", monospace',
+          fontFamily: '"Geist Mono", monospace',
           fontSize: '20px',
           fontStyle: 'normal',
           fontWeight: 700,

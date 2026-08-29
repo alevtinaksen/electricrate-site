@@ -45,7 +45,7 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
           <h1
             className="font-mono uppercase font-semibold text-center select-none text-white tracking-[-2.56px]"
             style={{
-              fontFamily: '"Lebowski by Pragmatica", monospace',
+              fontFamily: '"Geist Mono", monospace',
               fontSize: 'clamp(44px, 7.5vw, 128px)',
               fontWeight: 600,
               lineHeight: '90%', // 115.2px
