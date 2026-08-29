@@ -487,11 +487,13 @@ export default function AdminStudio() {
               {mounted && (
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <Droppable droppableId="hero-reels-studio">
-                    {(provided) => (
+                    {(provided, snapshotDroppable) => (
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className="flex flex-col gap-[12px] w-full"
+                        className={`flex flex-col gap-[12px] w-full rounded-2xl transition-colors ${
+                          snapshotDroppable.isDraggingOver ? 'bg-white/[0.02] p-1' : ''
+                        }`}
                       >
                         {heroReels.map((reel, index) => {
                           const currentSizePreset =
@@ -505,18 +507,27 @@ export default function AdminStudio() {
                                 <div
                                   ref={providedDraggable.innerRef}
                                   {...providedDraggable.draggableProps}
-                                  style={{ padding: '24px' }}
-                                  className={`bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full ${
-                                    snapshot.isDragging ? 'bg-[#1C1C20] shadow-2xl' : ''
+                                  style={{
+                                    padding: '24px',
+                                    ...providedDraggable.draggableProps.style,
+                                  }}
+                                  className={`rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 w-full ${
+                                    snapshot.isDragging
+                                      ? 'bg-[#1D1E24] shadow-[0_25px_60px_rgba(0,0,0,0.95)] ring-2 ring-[#1458E6] scale-[1.015] z-50 cursor-grabbing'
+                                      : 'bg-[#141416] border-none'
                                   }`}
                                 >
-                                  {/* Drag Grip Handle — py-[8px] */}
+                                  {/* Drag Grip Handle — vivid visual grab feedback */}
                                   <div
                                     {...providedDraggable.dragHandleProps}
-                                    className="py-[8px] text-[#555] hover:text-white cursor-grab active:cursor-grabbing transition-colors shrink-0"
-                                    title="Зажмите для перетаскивания"
+                                    className={`py-[8px] px-1 rounded transition-colors shrink-0 flex items-center justify-center ${
+                                      snapshot.isDragging
+                                        ? 'text-[#1458E6] cursor-grabbing'
+                                        : 'text-[#666] hover:text-white hover:bg-white/5 cursor-grab active:cursor-grabbing'
+                                    }`}
+                                    title="Зажмите и тяните для изменения порядка"
                                   >
-                                    <GripVertical className="w-5 h-5" />
+                                    <GripVertical className="w-5 h-5 stroke-[2.5]" />
                                   </div>
 
                                   {/* Left: Thumbnail Preview Frame (borderless) */}

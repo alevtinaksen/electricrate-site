@@ -39,13 +39,6 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
             <span className="text-left block w-full">САПУНОВ</span>
           </h1>
         </div>
-
-        {/* Subtitle description with exact 150px left padding */}
-        <div className="mt-4 pl-[150px] text-white/90 font-mono text-[13px] sm:text-[14px] leading-[1.4] whitespace-nowrap relative z-50">
-          <p>видеомейкер полного цикла.</p>
-          <p>картинка уровня кино — от идеи</p>
-          <p>до мастеринга.</p>
-        </div>
       </div>
 
       {/* Center: White Menu Button (Burger) + White Rectangular Badges — z-50 ON TOP of PNG masks */}
