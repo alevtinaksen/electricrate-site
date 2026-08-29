@@ -543,9 +543,9 @@ export default function AdminStudio() {
     );
   }
 
-  // ─── MAIN ADMIN STUDIO (Root Layout: 100vh 100vw, p-[12px], gap-[12px]) ─────
+  // ─── MAIN ADMIN STUDIO (Two rounded cards inside 12px padded black canvas) ─────
   return (
-    <div className="w-screen h-screen bg-black p-[12px] flex flex-row gap-[12px] overflow-hidden box-border select-none text-white font-mono">
+    <div className="w-full h-full flex flex-row gap-[12px] overflow-hidden select-none text-white font-mono">
       {/* Toast Notification — Borderless with blue check inside filled white circle */}
       {toast.show && (
         <div className="fixed top-6 right-6 z-50 bg-[#141416] text-white px-5 py-3 rounded-[16px] shadow-2xl flex items-center gap-3 animate-in fade-in duration-200 border-none">
@@ -556,8 +556,8 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, bg-[#141416] matching cards) ── */}
-      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#141416] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
+      {/* ── LEFT CARD (Sidebar: 298px, bg-[#0D0D0E], rounded-[24px], border border-white/5) ── */}
+      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] border border-white/5 flex flex-col justify-between overflow-hidden shrink-0 select-none">
         <div className="flex flex-col w-full">
           {/* Top Profile Block */}
           <div
@@ -666,7 +666,7 @@ export default function AdminStudio() {
                   : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
               }`}
             >
-              КЛИЕНТЫ & ЛОГО
+              КЛИЕНТЫ
             </button>
 
             <button
@@ -742,8 +742,8 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: Transparent, floating with 12px padding) ── */}
-      <main className="flex-1 h-full bg-transparent overflow-y-auto flex flex-col border-none relative pr-[12px]">
+      {/* ── RIGHT CARD (Content Zone: bg-[#0D0D0E], rounded-[24px], border border-white/5, overflow-y-auto) ── */}
+      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] border border-white/5 overflow-y-auto flex flex-col relative select-none">
         {/* Header Bar */}
         <header
           style={{ padding: '24px' }}
