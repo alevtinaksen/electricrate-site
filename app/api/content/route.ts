@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { HERO_REELS, WORK_SECTIONS } from '@/lib/supabase';
+import {
+  HERO_REELS,
+  WORK_SECTIONS,
+  DEFAULT_CLIENTS,
+  DEFAULT_SETTINGS,
+  HeroReel,
+  WorkCategoryGroup,
+  ClientItem,
+  SiteSettings,
+} from '@/lib/supabase';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -7,10 +16,12 @@ import path from 'path';
 const dataDir = path.join(process.cwd(), 'data');
 const dataFilePath = path.join(dataDir, 'content.json');
 
-// In-memory fallback if filesystem is read-only (e.g. serverless runtime memory)
+// In-memory fallback if filesystem is read-only
 let memoryStore = {
   heroReels: HERO_REELS,
   workSections: WORK_SECTIONS,
+  clients: DEFAULT_CLIENTS,
+  settings: DEFAULT_SETTINGS,
 };
 
 async function readStoredContent() {
@@ -19,6 +30,8 @@ async function readStoredContent() {
     const parsed = JSON.parse(data);
     if (parsed.heroReels) memoryStore.heroReels = parsed.heroReels;
     if (parsed.workSections) memoryStore.workSections = parsed.workSections;
+    if (parsed.clients) memoryStore.clients = parsed.clients;
+    if (parsed.settings) memoryStore.settings = parsed.settings;
     return parsed;
   } catch {
     return memoryStore;
@@ -31,7 +44,7 @@ async function writeStoredContent(content: any) {
     await fs.mkdir(dataDir, { recursive: true });
     await fs.writeFile(dataFilePath, JSON.stringify(content, null, 2), 'utf8');
   } catch (err) {
-    console.warn('Could not write to local filesystem (likely Vercel read-only runtime), using in-memory store:', err);
+    console.warn('Could not write to local filesystem, using in-memory store:', err);
   }
 }
 
@@ -47,18 +60,20 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { heroReels, workSections } = body;
+    const { heroReels, workSections, clients, settings } = body;
 
     const toSave = {
       heroReels: heroReels || memoryStore.heroReels,
       workSections: workSections || memoryStore.workSections,
+      clients: clients || memoryStore.clients,
+      settings: settings || memoryStore.settings,
       updatedAt: new Date().toISOString(),
     };
 
     await writeStoredContent(toSave);
 
     return NextResponse.json({ success: true, data: toSave });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Ошибка сохранения' }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
   }
 }

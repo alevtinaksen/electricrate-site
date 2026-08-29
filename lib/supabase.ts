@@ -160,3 +160,40 @@ export const WORK_SECTIONS: WorkCategoryGroup[] = [
     ],
   },
 ];
+
+// ─── Clients & Logos ─────────────────────────────────────────────────────────
+
+export interface ClientItem {
+  id: string;
+  name_ru: string;
+  name_en: string;
+  logo_url?: string;
+  color?: string;
+}
+
+export const DEFAULT_CLIENTS: ClientItem[] = [
+  { id: 'c1', name_ru: 'Петербургский нефтяной терминал (ПНТ)', name_en: 'Petersburg Oil Terminal (PNT)', logo_url: '', color: '#FFFFFF' },
+  { id: 'c2', name_ru: 'FINNTRAIL', name_en: 'FINNTRAIL', logo_url: '', color: '#FFFFFF' },
+  { id: 'c3', name_ru: 'СБЕРСТРАХОВАНИЕ', name_en: 'SBERINSURANCE', logo_url: '', color: '#FFFFFF' },
+  { id: 'c4', name_ru: 'ПМЭФ (Форум)', name_en: 'SPIEF', logo_url: '', color: '#B89758' },
+  { id: 'c5', name_ru: 'КТК (Каспийский трубопровод)', name_en: 'KTK', logo_url: '', color: '#001435' },
+];
+
+// ─── Site Settings ───────────────────────────────────────────────────────────
+
+export interface SiteSettings {
+  telegram: string;
+  email: string;
+  vk: string;
+  phone: string;
+  adminPin: string;
+}
+
+export const DEFAULT_SETTINGS: SiteSettings = {
+  telegram: 'https://t.me/',
+  email: 'vlad@sapunov.ru',
+  vk: 'https://vk.com/',
+  phone: '+7 (999) 000-00-00',
+  adminPin: '2026',
+};
+

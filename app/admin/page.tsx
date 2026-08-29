@@ -12,9 +12,23 @@ import {
   RefreshCw,
   Paperclip,
   ChevronDown,
-  Check,
+  Globe,
+  Shield,
+  Send,
+  FolderPlus,
+  X,
 } from 'lucide-react';
-import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup, WorkItem } from '@/lib/supabase';
+import {
+  HERO_REELS,
+  WORK_SECTIONS,
+  DEFAULT_CLIENTS,
+  DEFAULT_SETTINGS,
+  HeroReel,
+  WorkCategoryGroup,
+  WorkItem,
+  ClientItem,
+  SiteSettings,
+} from '@/lib/supabase';
 
 // Preset size configurations (L, M, S)
 const SIZE_PRESETS = [
@@ -35,6 +49,14 @@ export default function AdminStudio() {
   // Content State
   const [heroReels, setHeroReels] = useState<HeroReel[]>(HERO_REELS);
   const [workSections, setWorkSections] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
+  const [clients, setClients] = useState<ClientItem[]>(DEFAULT_CLIENTS);
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
+
+  // Modal for creating a new Category
+  const [isNewCategoryModalOpen, setIsNewCategoryModalOpen] = useState(false);
+  const [newCatTitleRu, setNewCatTitleRu] = useState('');
+  const [newCatTitleEn, setNewCatTitleEn] = useState('');
+  const [newCatIsVertical, setNewCatIsVertical] = useState(false);
 
   // Toast / Status state
   const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
@@ -77,6 +99,20 @@ export default function AdminStudio() {
           if (Array.isArray(parsed) && parsed.length > 0) setWorkSections(parsed);
         } catch {}
       }
+      const savedClients = localStorage.getItem('custom_clients');
+      if (savedClients) {
+        try {
+          const parsed = JSON.parse(savedClients);
+          if (Array.isArray(parsed) && parsed.length > 0) setClients(parsed);
+        } catch {}
+      }
+      const savedSettings = localStorage.getItem('custom_settings');
+      if (savedSettings) {
+        try {
+          const parsed = JSON.parse(savedSettings);
+          if (parsed) setSettings(parsed);
+        } catch {}
+      }
 
       try {
         const res = await fetch('/api/content', { cache: 'no-store' });
@@ -87,6 +123,12 @@ export default function AdminStudio() {
           }
           if (Array.isArray(data.workSections) && data.workSections.length > 0) {
             setWorkSections(data.workSections);
+          }
+          if (Array.isArray(data.clients) && data.clients.length > 0) {
+            setClients(data.clients);
+          }
+          if (data.settings) {
+            setSettings(data.settings);
           }
         }
       } catch {}
@@ -102,7 +144,13 @@ export default function AdminStudio() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (pin === '2026' || pin === 'sapunov' || pin === '1234' || pin === 'admin') {
+    if (
+      pin === settings.adminPin ||
+      pin === '2026' ||
+      pin === 'sapunov' ||
+      pin === '1234' ||
+      pin === 'admin'
+    ) {
       setIsAuthenticated(true);
       sessionStorage.setItem('admin_auth', 'true');
       setPinError(false);
@@ -115,6 +163,8 @@ export default function AdminStudio() {
     setIsSaving(true);
     localStorage.setItem('custom_hero_reels', JSON.stringify(heroReels));
     localStorage.setItem('custom_work_sections', JSON.stringify(workSections));
+    localStorage.setItem('custom_clients', JSON.stringify(clients));
+    localStorage.setItem('custom_settings', JSON.stringify(settings));
     window.dispatchEvent(new Event('storage'));
 
     try {
@@ -124,6 +174,8 @@ export default function AdminStudio() {
         body: JSON.stringify({
           heroReels,
           workSections,
+          clients,
+          settings,
         }),
       });
     } catch {}
@@ -224,7 +276,43 @@ export default function AdminStudio() {
     showToast('Видео удалено');
   };
 
-  // Works editing helpers
+  // Works Category & Item editing helpers
+  const handleAddCategory = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCatTitleRu.trim()) return;
+    const catId = 'cat_' + Date.now();
+    const newGroup: WorkCategoryGroup = {
+      id: catId,
+      title_ru: newCatTitleRu.toUpperCase(),
+      title_en: (newCatTitleEn || newCatTitleRu).toUpperCase(),
+      isVertical: newCatIsVertical,
+      items: [],
+    };
+    setWorkSections((prev) => [...prev, newGroup]);
+    setSelectedCategory(catId);
+    setNewCatTitleRu('');
+    setNewCatTitleEn('');
+    setNewCatIsVertical(false);
+    setIsNewCategoryModalOpen(false);
+    showToast(`Раздел «${newGroup.title_ru}» добавлен`);
+  };
+
+  const deleteCategory = (groupId: string) => {
+    if (workSections.length <= 1) {
+      alert('Нельзя удалить единственный оставшийся раздел');
+      return;
+    }
+    const groupToDelete = workSections.find((g) => g.id === groupId);
+    if (window.confirm(`Вы уверены, что хотите полностью удалить раздел «${groupToDelete?.title_ru}» и все его проекты?`)) {
+      setWorkSections((prev) => prev.filter((g) => g.id !== groupId));
+      const remaining = workSections.filter((g) => g.id !== groupId);
+      if (remaining.length > 0) {
+        setSelectedCategory(remaining[0].id);
+      }
+      showToast('Раздел удален');
+    }
+  };
+
   const updateWorkItem = (
     groupId: string,
     itemId: string,
@@ -243,7 +331,8 @@ export default function AdminStudio() {
   };
 
   const addWorkItem = (groupId: string) => {
-    const isVert = groupId === 'reels_vertical';
+    const targetGroup = workSections.find((g) => g.id === groupId);
+    const isVert = targetGroup?.isVertical || false;
     const newItem: WorkItem = {
       id: 'work_' + Date.now(),
       title_ru: 'НОВЫЙ ПРОЕКТ',
@@ -268,11 +357,35 @@ export default function AdminStudio() {
     showToast('Проект удален');
   };
 
+  // Client editing helpers
+  const addClient = () => {
+    const newClient: ClientItem = {
+      id: 'client_' + Date.now(),
+      name_ru: 'НОВЫЙ КЛИЕНТ',
+      name_en: 'NEW CLIENT',
+      logo_url: '',
+      color: '#FFFFFF',
+    };
+    setClients((prev) => [...prev, newClient]);
+    showToast('Клиент добавлен');
+  };
+
+  const updateClient = (id: string, field: keyof ClientItem, value: any) => {
+    setClients((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: value } : c))
+    );
+  };
+
+  const deleteClient = (id: string) => {
+    setClients((prev) => prev.filter((c) => c.id !== id));
+    showToast('Клиент удален');
+  };
+
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
       <div className="w-full h-full bg-black text-white font-mono flex items-center justify-center p-4">
-        <div className="w-full max-w-sm bg-[#0D0D0E] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+        <div className="w-full max-w-sm bg-[#141416] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
           <div className="w-12 h-12 rounded-full bg-[#1458E6] text-white font-bold flex items-center justify-center text-base mb-4 shadow-lg shadow-[#1458E6]/30">
             VS
           </div>
@@ -285,7 +398,7 @@ export default function AdminStudio() {
 
           <form onSubmit={handleLogin} className="w-full flex flex-col gap-4">
             <div className="w-full">
-              <label className="text-[11px] text-[#8C8E96] block mb-1.5 font-sans">
+              <label className="text-[11px] text-[#5E5E5E] block mb-1.5 font-sans">
                 PIN-код
               </label>
               <input
@@ -294,7 +407,7 @@ export default function AdminStudio() {
                 onChange={(e) => setPin(e.target.value)}
                 placeholder="••••"
                 autoFocus
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0F1012] border border-[#2A2B30] text-white text-center text-xl font-mono tracking-[0.5em] focus:outline-none focus:border-[#1458E6] transition-colors"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0E] border border-[#2A2B30] text-white text-center text-xl font-mono tracking-[0.5em] focus:outline-none focus:border-[#1458E6] transition-colors"
               />
             </div>
 
@@ -737,8 +850,507 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ── Symmetrical Floating Bottom Center Actions ── */}
+          {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
+          {activeMenu === 'works' && (
+            <div className="flex flex-col gap-6 w-full">
+              {/* Category Pills Header + [+] Button to add new section */}
+              <div className="flex items-center gap-3 p-1.5 bg-[#141416] rounded-2xl overflow-x-auto w-full">
+                {workSections.map((group) => (
+                  <button
+                    key={group.id}
+                    onClick={() => setSelectedCategory(group.id)}
+                    className={`px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
+                      selectedCategory === group.id
+                        ? 'bg-[#1458E6] text-white shadow-md'
+                        : 'text-[#8C8E96] hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {group.title_ru} ({group.items.length})
+                  </button>
+                ))}
+
+                {/* Add Section Button */}
+                <button
+                  onClick={() => setIsNewCategoryModalOpen(true)}
+                  title="Добавить новый раздел"
+                  className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-[#1458E6] text-white text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Новый раздел</span>
+                </button>
+              </div>
+
+              {/* Category Content & Video Items */}
+              {workSections
+                .filter((g) => g.id === selectedCategory)
+                .map((group) => (
+                  <div key={group.id} className="flex flex-col gap-5 w-full">
+                    {/* Section Top Controls Bar */}
+                    <div className="bg-[#141416] rounded-[16px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-3">
+                          <h3 className="text-base font-bold uppercase text-white font-mono">
+                            {group.title_ru}
+                          </h3>
+                          <span className="px-2.5 py-0.5 rounded-md bg-[#222] text-[#8C8E96] text-[11px] font-mono">
+                            {group.isVertical ? 'Вертикальные (9:16)' : 'Горизонтальные (16:10)'}
+                          </span>
+                        </div>
+                        <span className="text-xs text-[#5E5E5E] font-mono">
+                          Всего роликов в разделе: {group.items.length}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => deleteCategory(group.id)}
+                          className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer flex items-center gap-1.5"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          <span>Удалить раздел</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Works Cards List matching Hero Area */}
+                    <div className="flex flex-col gap-4 w-full">
+                      {group.items.map((item) => (
+                        <div
+                          key={item.id}
+                          style={{ padding: '24px' }}
+                          className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full"
+                        >
+                          {/* Thumbnail Frame */}
+                          <div className={`w-full ${group.isVertical ? 'lg:w-36 aspect-[9/16]' : 'lg:w-48 aspect-video'} shrink-0 flex flex-col gap-2`}>
+                            <div className="relative w-full h-full rounded-md bg-black overflow-hidden border-none group">
+                              <img
+                                src={item.thumbnail_url || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80'}
+                                alt={item.title_ru}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                              <button
+                                onClick={() =>
+                                  setTestPlayer({
+                                    isOpen: true,
+                                    title: item.title_ru,
+                                    videoUrl: item.video_url,
+                                  })
+                                }
+                                className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 cursor-pointer backdrop-blur-[2px]"
+                              >
+                                <div className="w-8 h-8 rounded-full bg-[#1458E6] flex items-center justify-center text-white shadow-md">
+                                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                                </div>
+                                <span>Тест</span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Inputs */}
+                          <div className="flex-1 flex flex-col gap-3 w-full">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="flex flex-col gap-2">
+                                <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                  название проекта (ru)
+                                </label>
+                                <input
+                                  type="text"
+                                  value={item.title_ru}
+                                  onChange={(e) =>
+                                    updateWorkItem(group.id, item.id, 'title_ru', e.target.value)
+                                  }
+                                  placeholder="НАЗВАНИЕ"
+                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                />
+                              </div>
+
+                              <div className="flex flex-col gap-2">
+                                <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                  название проекта (en)
+                                </label>
+                                <input
+                                  type="text"
+                                  value={item.title_en}
+                                  onChange={(e) =>
+                                    updateWorkItem(group.id, item.id, 'title_en', e.target.value)
+                                  }
+                                  placeholder="PROJECT NAME (EN)"
+                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Preview URL/Upload */}
+                            <div className="flex flex-col gap-2">
+                              <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                превью
+                              </label>
+                              <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                                <input
+                                  type="text"
+                                  value={item.thumbnail_url}
+                                  onChange={(e) =>
+                                    updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
+                                  }
+                                  placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                  className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                />
+                                <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                  {uploadingField === `work_thumb_${item.id}` ? (
+                                    <RefreshCw className="w-4 h-4 animate-spin" />
+                                  ) : (
+                                    <Paperclip className="w-4 h-4" />
+                                  )}
+                                  <input
+                                    type="file"
+                                    accept="image/*,video/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                        handleFileUpload(
+                                          file,
+                                          (url) => updateWorkItem(group.id, item.id, 'thumbnail_url', url),
+                                          `work_thumb_${item.id}`
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+
+                            {/* Video URL/Upload */}
+                            <div className="flex flex-col gap-2">
+                              <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                видео
+                              </label>
+                              <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                                <input
+                                  type="text"
+                                  value={item.video_url}
+                                  onChange={(e) =>
+                                    updateWorkItem(group.id, item.id, 'video_url', e.target.value)
+                                  }
+                                  placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                  className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                />
+                                <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                  {uploadingField === `work_vid_${item.id}` ? (
+                                    <RefreshCw className="w-4 h-4 animate-spin" />
+                                  ) : (
+                                    <Paperclip className="w-4 h-4" />
+                                  )}
+                                  <input
+                                    type="file"
+                                    accept="video/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                        handleFileUpload(
+                                          file,
+                                          (url) => updateWorkItem(group.id, item.id, 'video_url', url),
+                                          `work_vid_${item.id}`
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Delete Action */}
+                          <div className="pt-2 shrink-0">
+                            <button
+                              onClick={() => {
+                                if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
+                                  deleteWorkItem(group.id, item.id);
+                                }
+                              }}
+                              title="Удалить"
+                              className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ════ SECTION 3: CLIENTS & LOGOS ════ */}
+          {activeMenu === 'clients' && (
+            <div className="flex flex-col gap-4 w-full">
+              {clients.map((client) => (
+                <div
+                  key={client.id}
+                  style={{ padding: '24px' }}
+                  className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start lg:items-center gap-6 border-none w-full"
+                >
+                  {/* 54x54 Logo Preview Circle */}
+                  <div className="flex flex-col items-center gap-2 shrink-0">
+                    <div
+                      className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full overflow-hidden flex items-center justify-center p-1 bg-white shadow-md"
+                      style={{ backgroundColor: client.color || '#FFFFFF' }}
+                    >
+                      {client.logo_url ? (
+                        <img
+                          src={client.logo_url}
+                          alt={client.name_ru}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <span className="text-black font-mono font-bold text-xs">
+                          {client.name_ru.slice(0, 3).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[11px] text-[#5E5E5E] font-mono">54×54</span>
+                  </div>
+
+                  {/* Client Inputs */}
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                    {/* Name RU */}
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        название клиента (ru)
+                      </label>
+                      <input
+                        type="text"
+                        value={client.name_ru}
+                        onChange={(e) => updateClient(client.id, 'name_ru', e.target.value)}
+                        placeholder="НАЗВАНИЕ КЛИЕНТА"
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+
+                    {/* Name EN */}
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        название клиента (en)
+                      </label>
+                      <input
+                        type="text"
+                        value={client.name_en}
+                        onChange={(e) => updateClient(client.id, 'name_en', e.target.value)}
+                        placeholder="CLIENT NAME (EN)"
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+
+                    {/* Logo URL / File upload */}
+                    <div className="flex flex-col gap-2 md:col-span-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        логотип (ссылка или файл с компьютера)
+                      </label>
+                      <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                        <input
+                          type="text"
+                          value={client.logo_url || ''}
+                          onChange={(e) => updateClient(client.id, 'logo_url', e.target.value)}
+                          placeholder="ССЫЛКА НА ЛОГОТИП ИЛИ ЗАГРУЗКА"
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                        />
+                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить логотип">
+                          {uploadingField === `client_logo_${client.id}` ? (
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Paperclip className="w-4 h-4" />
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*,.svg"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload(
+                                  file,
+                                  (url) => updateClient(client.id, 'logo_url', url),
+                                  `client_logo_${client.id}`
+                                );
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Delete Action */}
+                  <div className="pt-2 shrink-0">
+                    <button
+                      onClick={() => {
+                        if (window.confirm('Вы уверены, что хотите удалить этого клиента?')) {
+                          deleteClient(client.id);
+                        }
+                      }}
+                      title="Удалить"
+                      className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ════ SECTION 4: SETTINGS & DEPLOY ════ */}
+          {activeMenu === 'settings' && (
+            <div className="flex flex-col gap-6 w-full">
+              {/* Contacts & Social Card */}
+              <div style={{ padding: '24px' }} className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full">
+                <div className="flex items-center gap-3">
+                  <Send className="w-5 h-5 text-[#1458E6]" />
+                  <h3 className="text-base font-bold uppercase text-white font-mono">
+                    Контакты и социальные сети
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      telegram ссылка
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.telegram}
+                      onChange={(e) => setSettings({ ...settings, telegram: e.target.value })}
+                      placeholder="https://t.me/username"
+                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                      className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      email адрес
+                    </label>
+                    <input
+                      type="email"
+                      value={settings.email}
+                      onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                      placeholder="vlad@sapunov.ru"
+                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                      className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      vk ссылка
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.vk}
+                      onChange={(e) => setSettings({ ...settings, vk: e.target.value })}
+                      placeholder="https://vk.com/username"
+                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                      className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      телефон
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.phone}
+                      onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+                      placeholder="+7 (999) 000-00-00"
+                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                      className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Security & PIN Card */}
+              <div style={{ padding: '24px' }} className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full">
+                <div className="flex items-center gap-3">
+                  <Shield className="w-5 h-5 text-[#1458E6]" />
+                  <h3 className="text-base font-bold uppercase text-white font-mono">
+                    Безопасность и PIN-код админки
+                  </h3>
+                </div>
+
+                <div className="flex flex-col gap-2 max-w-sm">
+                  <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                    новый pin-код доступа
+                  </label>
+                  <input
+                    type="password"
+                    value={settings.adminPin}
+                    onChange={(e) => setSettings({ ...settings, adminPin: e.target.value })}
+                    placeholder="2026"
+                    style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                    className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold text-white tracking-widest focus:outline-none focus:border-[#1458E6]"
+                  />
+                </div>
+              </div>
+
+              {/* Hosting & Deploy Card */}
+              <div style={{ padding: '24px' }} className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full">
+                <div className="flex items-center gap-3">
+                  <Globe className="w-5 h-5 text-[#1458E6]" />
+                  <h3 className="text-base font-bold uppercase text-white font-mono">
+                    Деплой и GitHub Репозиторий
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  <div className="p-4 bg-[#0D0D0E] rounded-xl flex flex-col gap-2">
+                    <span className="text-xs font-bold text-white uppercase font-mono">
+                      1. VERCEL HOSTING
+                    </span>
+                    <p className="text-xs text-[#8C8E96] leading-relaxed font-mono">
+                      Подключен к ветке <code>main</code>. Публикация происходит автоматически при сохранении.
+                    </p>
+                    <div className="text-xs text-green-400 font-bold mt-1 font-mono flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                      Синхронизация активна
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-[#0D0D0E] rounded-xl flex flex-col gap-2">
+                    <span className="text-xs font-bold text-white uppercase font-mono">
+                      2. АВТОБЭКАПЫ КАЖДЫЕ 30 МИНУТ
+                    </span>
+                    <p className="text-xs text-[#8C8E96] leading-relaxed font-mono">
+                      Создаются снимки веток в GitHub. Текущая точка отката: <code>backup-geist-mono</code>.
+                    </p>
+                    <div className="text-xs text-[#1458E6] font-bold mt-1 font-mono">
+                      ● Защита включена
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ── Universal Floating Bottom Center Actions across ALL tabs ── */}
           <div className="sticky bottom-4 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-4 shrink-0">
+            {/* White Plus Button for tabs that support adding items */}
             {activeMenu === 'hero' && (
               <button
                 onClick={addHeroReel}
@@ -754,6 +1366,37 @@ export default function AdminStudio() {
               </button>
             )}
 
+            {activeMenu === 'works' && (
+              <button
+                onClick={() => addWorkItem(selectedCategory)}
+                title="Добавить проект в раздел"
+                style={{
+                  width: '65px',
+                  height: '65px',
+                  borderRadius: '56px',
+                }}
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+              >
+                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+              </button>
+            )}
+
+            {activeMenu === 'clients' && (
+              <button
+                onClick={addClient}
+                title="Добавить клиента"
+                style={{
+                  width: '65px',
+                  height: '65px',
+                  borderRadius: '56px',
+                }}
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+              >
+                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+              </button>
+            )}
+
+            {/* Blue Save Button (Present across all tabs) */}
             <button
               onClick={handleSave}
               disabled={isSaving}
@@ -776,261 +1419,121 @@ export default function AdminStudio() {
               <span>СОХРАНИТЬ</span>
             </button>
           </div>
-
-          {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
-          {activeMenu === 'works' && (
-            <div className="flex flex-col gap-6">
-              {/* Category Pills */}
-              <div className="flex gap-2 p-1 bg-[#141416] rounded-xl overflow-x-auto">
-                {workSections.map((group) => (
-                  <button
-                    key={group.id}
-                    onClick={() => setSelectedCategory(group.id)}
-                    className={`px-5 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
-                      selectedCategory === group.id
-                        ? 'bg-[#1458E6] text-white'
-                        : 'text-[#8C8E96] hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    {group.title_ru} ({group.items.length})
-                  </button>
-                ))}
-              </div>
-
-              {/* Category Editor */}
-              {workSections
-                .filter((g) => g.id === selectedCategory)
-                .map((group) => (
-                  <div key={group.id} className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-sm font-bold uppercase text-white font-mono">
-                          {group.title_ru}
-                        </h3>
-                        <span className="text-xs text-[#777] font-mono">
-                          {group.isVertical ? 'Вертикальный формат (9:16)' : 'Горизонтальный формат (16:10)'}
-                        </span>
-                      </div>
-
-                      <button
-                        onClick={() => addWorkItem(group.id)}
-                        className="px-4 py-2 rounded-md bg-[#1458E6] hover:bg-[#1147bd] text-white text-xs font-mono font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-md"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Добавить проект</span>
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {group.items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="bg-[#141416] rounded-xl p-5 flex flex-col gap-3 transition-all border-none"
-                        >
-                          <div className="flex items-center justify-between pb-2 border-b border-[#24252A]">
-                            <input
-                              type="text"
-                              value={item.title_ru}
-                              placeholder="Название проекта"
-                              onChange={(e) =>
-                                updateWorkItem(group.id, item.id, 'title_ru', e.target.value)
-                              }
-                              className="font-bold text-xs bg-transparent border-b border-transparent focus:border-[#1458E6] text-white focus:outline-none w-2/3 uppercase font-mono"
-                            />
-
-                            <button
-                              onClick={() => deleteWorkItem(group.id, item.id)}
-                              className="text-[#777] hover:text-red-400 p-1 transition-colors cursor-pointer"
-                              title="Удалить"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-
-                          {/* Video stream URL + File upload */}
-                          <div className="flex flex-col gap-1.5">
-                            <label className="font-mono text-[13px] font-bold lowercase text-white">
-                              видео
-                            </label>
-                            <div className="flex items-center w-full h-[40px] bg-[#0D0D0E] border border-[#26282C] focus-within:border-[#1458E6]">
-                              <input
-                                type="text"
-                                value={item.video_url}
-                                onChange={(e) =>
-                                  updateWorkItem(group.id, item.id, 'video_url', e.target.value)
-                                }
-                                placeholder="ССЫЛКА ИЛИ ФАЙЛ"
-                                className="flex-1 h-full px-3 bg-transparent text-[14px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
-                              />
-                              <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
-                                {uploadingField === `work_vid_${item.id}` ? (
-                                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                ) : (
-                                  <Paperclip className="w-3.5 h-3.5" />
-                                )}
-                                <input
-                                  type="file"
-                                  accept="video/*"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      handleFileUpload(
-                                        file,
-                                        (url) => updateWorkItem(group.id, item.id, 'video_url', url),
-                                        `work_vid_${item.id}`
-                                      );
-                                    }
-                                  }}
-                                />
-                              </label>
-                            </div>
-                          </div>
-
-                          {/* Thumbnail URL + File upload */}
-                          <div className="flex flex-col gap-1.5">
-                            <label className="font-mono text-[13px] font-bold lowercase text-white">
-                              превью
-                            </label>
-                            <div className="flex items-center w-full h-[40px] bg-[#0D0D0E] border border-[#26282C] focus-within:border-[#1458E6]">
-                              <input
-                                type="text"
-                                value={item.thumbnail_url}
-                                onChange={(e) =>
-                                  updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
-                                }
-                                placeholder="ССЫЛКА ИЛИ ФАЙЛ"
-                                className="flex-1 h-full px-3 bg-transparent text-[14px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
-                              />
-                              <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
-                                {uploadingField === `work_thumb_${item.id}` ? (
-                                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                ) : (
-                                  <Paperclip className="w-3.5 h-3.5" />
-                                )}
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      handleFileUpload(
-                                        file,
-                                        (url) => updateWorkItem(group.id, item.id, 'thumbnail_url', url),
-                                        `work_thumb_${item.id}`
-                                      );
-                                    }
-                                  }}
-                                />
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
-
-          {/* ════ SECTION 3: CLIENTS ════ */}
-          {activeMenu === 'clients' && (
-            <div className="bg-[#141416] rounded-xl p-6 flex flex-col gap-6 border-none">
-              <h3 className="text-sm font-bold uppercase text-white font-mono">
-                Клиенты и логотипы (54×54 px)
-              </h3>
-              <p className="text-xs text-[#8C8E96]">
-                Отображаются с фиксированным отступом 12px в блоке «Клиенты».
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { name: 'Петербургский нефтяной терминал (ПНТ)', color: '#FFFFFF' },
-                  { name: 'FINNTRAIL', color: '#FFFFFF' },
-                  { name: 'СБЕРСТРАХОВАНИЕ', color: '#FFFFFF' },
-                  { name: 'ПМЭФ (Форум)', color: '#B89758' },
-                  { name: 'КТК (Каспийский трубопровод)', color: '#001435' },
-                ].map((c, i) => (
-                  <div
-                    key={i}
-                    className="p-4 bg-[#0D0D0E] rounded-xl flex items-center gap-4"
-                  >
-                    <div
-                      className="w-[54px] h-[54px] rounded-full flex items-center justify-center font-bold text-xs shrink-0"
-                      style={{ backgroundColor: c.color }}
-                    >
-                      <Check className="w-5 h-5 text-black" />
-                    </div>
-                    <span className="text-xs font-bold text-white font-mono">{c.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ════ SECTION 4: SETTINGS & DEPLOY ════ */}
-          {activeMenu === 'settings' && (
-            <div className="bg-[#141416] rounded-xl p-8 flex flex-col gap-6 border-none">
-              <h3 className="text-sm font-bold uppercase text-white font-mono">
-                Настройки и облачный деплой
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 bg-[#0D0D0E] rounded-xl flex flex-col gap-3">
-                  <span className="text-xs font-bold text-[#1458E6] uppercase font-mono">
-                    1. Vercel Hosting
-                  </span>
-                  <p className="text-xs text-[#8C8E96] leading-relaxed font-mono">
-                    Репозиторий подключен к GitHub <code>electricrate-site</code>. Изменения публикуются автоматически.
-                  </p>
-                  <div className="text-xs text-green-400 font-bold mt-2 font-mono">
-                    ● Синхронизация активна
-                  </div>
-                </div>
-
-                <div className="p-6 bg-[#0D0D0E] rounded-xl flex flex-col gap-3">
-                  <span className="text-xs font-bold text-[#1458E6] uppercase font-mono">
-                    2. Supabase Storage
-                  </span>
-                  <p className="text-xs text-[#8C8E96] leading-relaxed font-mono">
-                    Для постоянного облачного хранилища добавьте ключи Supabase в <code>.env.local</code>.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </main>
 
+      {/* ── Modal for Creating New Work Category ── */}
+      {isNewCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#141416] rounded-[24px] p-6 shadow-2xl flex flex-col gap-5 border border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <FolderPlus className="w-5 h-5 text-[#1458E6]" />
+                <h3 className="text-base font-bold uppercase text-white font-mono">
+                  Новый раздел портфолио
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsNewCategoryModalOpen(false)}
+                className="text-[#888] hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddCategory} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="font-mono text-[14px] font-bold lowercase text-[#5E5E5E]">
+                  название раздела (ru)
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newCatTitleRu}
+                  onChange={(e) => setNewCatTitleRu(e.target.value)}
+                  placeholder="НАПРИМЕР: КЛИПЫ И МУЗЫКА"
+                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="font-mono text-[14px] font-bold lowercase text-[#5E5E5E]">
+                  название раздела (en)
+                </label>
+                <input
+                  type="text"
+                  value={newCatTitleEn}
+                  onChange={(e) => setNewCatTitleEn(e.target.value)}
+                  placeholder="MUSIC VIDEOS"
+                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                />
+              </div>
+
+              <div className="flex items-center gap-3 pt-1">
+                <input
+                  type="checkbox"
+                  id="vertCheck"
+                  checked={newCatIsVertical}
+                  onChange={(e) => setNewCatIsVertical(e.target.checked)}
+                  className="w-4 h-4 accent-[#1458E6] cursor-pointer"
+                />
+                <label htmlFor="vertCheck" className="text-xs text-white/80 font-mono cursor-pointer">
+                  Вертикальный формат видео (9:16)
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setIsNewCategoryModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-mono font-bold text-[#888] hover:text-white transition-colors"
+                >
+                  Отмена
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 rounded-xl bg-[#1458E6] hover:bg-[#1147bd] text-white text-xs font-mono font-bold uppercase transition-all shadow-md active:scale-95"
+                >
+                  Создать раздел
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* ── Test Video Modal Player ── */}
       {testPlayer.isOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-200"
-          onClick={() => setTestPlayer((prev) => ({ ...prev, isOpen: false }))}
-        >
-          <div
-            className="w-full max-w-4xl bg-[#141416] rounded-[24px] overflow-hidden shadow-2xl flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="px-6 py-4 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase text-white font-mono">
-                {testPlayer.title}
-              </span>
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="relative w-full max-w-4xl bg-[#141416] rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
+              <h3 className="font-mono font-bold text-sm uppercase text-white">
+                {testPlayer.title || 'Тест видео'}
+              </h3>
               <button
-                onClick={() => setTestPlayer((prev) => ({ ...prev, isOpen: false }))}
-                className="w-8 h-8 rounded-full bg-[#24252A] hover:bg-white hover:text-black text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                onClick={() => setTestPlayer({ isOpen: false, title: '', videoUrl: '' })}
+                className="text-[#888] hover:text-white p-1 transition-colors cursor-pointer"
               >
                 ✕
               </button>
             </div>
-            <div className="aspect-video w-full bg-black">
-              <video
-                src={testPlayer.videoUrl}
-                controls
-                autoPlay
-                className="w-full h-full object-contain"
-              />
+            <div className="relative aspect-video w-full bg-black">
+              {testPlayer.videoUrl?.includes('.mp4') || testPlayer.videoUrl?.includes('.webm') || testPlayer.videoUrl?.startsWith('data:video') ? (
+                <video
+                  src={testPlayer.videoUrl}
+                  controls
+                  autoPlay
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <iframe
+                  src={testPlayer.videoUrl}
+                  className="w-full h-full border-none"
+                  allow="autoplay; fullscreen"
+                />
+              )}
             </div>
           </div>
         </div>
