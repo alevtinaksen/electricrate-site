@@ -464,8 +464,8 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: Completely transparent, no background) ── */}
-      <main className="flex-1 h-full bg-transparent overflow-y-auto flex flex-col border-none relative">
+      {/* ── RIGHT CARD (Content Zone: Completely transparent, floating with 12px padding) ── */}
+      <main className="flex-1 h-full bg-transparent overflow-y-auto flex flex-col border-none relative pr-[12px]">
         {/* Header Bar — EXACTLY 24px padding on top, left, bottom, right */}
         <header
           style={{ padding: '24px' }}
@@ -480,7 +480,7 @@ export default function AdminStudio() {
         </header>
 
         {/* Content Section */}
-        <div className="px-[24px] pb-[32px] flex flex-col gap-6 w-full flex-1">
+        <div className="px-[24px] pb-[24px] flex flex-col gap-6 w-full flex-1">
           {/* ════ SECTION 1: HERO AREA ════ */}
           {activeMenu === 'hero' && (
             <div className="flex flex-col gap-[12px] w-full">
@@ -721,13 +721,13 @@ export default function AdminStudio() {
                 </DragDropContext>
               )}
 
-              {/* Pseudo-spacer so the bottom floating dock never overlaps the last card */}
-              <div className="h-[80px] w-full shrink-0" />
+              {/* Moderate symmetrical bottom spacer */}
+              <div className="h-[24px] w-full shrink-0" />
             </div>
           )}
 
-          {/* ── Fixed Floating Bottom Center Actions: Matching Style to Main Button «СВЯЗАТЬСЯ» ── */}
-          <div className="sticky bottom-6 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-auto">
+          {/* ── Symmetrical Floating Bottom Center Actions ── */}
+          <div className="sticky bottom-4 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-4 shrink-0">
             {activeMenu === 'hero' && (
               <button
                 onClick={addHeroReel}
