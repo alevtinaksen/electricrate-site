@@ -21,21 +21,22 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
   return (
     <section
       id="faq"
-      className="w-full max-w-[964px] min-h-screen py-16 lg:py-24 font-mono text-white flex flex-col items-center select-none"
+      className="w-full max-w-[964px] min-h-[90vh] py-16 lg:py-24 font-mono text-white flex flex-col items-center select-none"
     >
-      {/* ── Giant Header "F.A.Q." strictly matching Screenshot 1 & 2 ── */}
+      {/* ── Giant Header "F.A.Q." stretched across the top of the right panel ── */}
       <h2
-        className="font-mono font-semibold uppercase tracking-[-2.56px] text-white select-none text-center w-full mb-12 sm:mb-16"
+        className="font-mono font-bold uppercase tracking-[-3px] sm:tracking-[-6px] text-white select-none text-center w-full"
         style={{
-          fontSize: 'clamp(64px, 12vw, 160px)',
-          lineHeight: '90%',
+          fontFamily: '"Geist Mono", monospace',
+          fontSize: 'clamp(96px, 18vw, 220px)',
+          lineHeight: '85%',
         }}
       >
         F.A.Q.
       </h2>
 
-      {/* ── Questions Accordion List ── */}
-      <div className="w-full flex flex-col gap-2">
+      {/* ── Questions List Container (Width strictly 570px matching Figma layout) ── */}
+      <div className="w-full max-w-[570px] mx-auto flex flex-col gap-2 mt-10 sm:mt-16">
         {faqs.map((faq) => {
           const isOpen = openId === faq.id;
           const questionText = isRu ? faq.question_ru : faq.question_en;
@@ -45,28 +46,28 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
           return (
             <div
               key={faq.id}
-              className="w-full flex flex-col transition-colors group cursor-pointer"
-              onClick={() => toggleAccordion(faq.id)}
+              className="w-full flex flex-col transition-colors cursor-pointer"
             >
-              {/* Question Row */}
-              <div className="w-full py-4 sm:py-5 flex items-center justify-between gap-4 border-b border-white/10 hover:border-white/30 transition-colors">
-                <span
-                  className={`lowercase font-mono text-[16px] sm:text-[18px] md:text-[20px] font-bold tracking-[-0.2px] transition-all duration-200 ${
-                    isOpen
-                      ? 'text-white'
-                      : 'text-white/90 group-hover:text-white'
-                  }`}
-                >
+              {/* Question Row: No underline, white-bar hover effect, gray text when open */}
+              <button
+                onClick={() => toggleAccordion(faq.id)}
+                className={`w-full py-2 px-2 flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none ${
+                  isOpen
+                    ? 'text-[#8C8E96] hover:bg-white hover:text-black'
+                    : 'text-white hover:bg-white hover:text-black'
+                }`}
+              >
+                <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[125%]">
                   {questionText}
                 </span>
 
-                {/* Triangle Toggle Indicator (▼ / ▲) */}
-                <div className="shrink-0 text-white/80 group-hover:text-white transition-transform duration-200 text-xs sm:text-sm">
+                {/* Triangle Indicator (▲ / ▼) */}
+                <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none">
                   {isOpen ? '▲' : '▼'}
-                </div>
-              </div>
+                </span>
+              </button>
 
-              {/* Accordion Expandable Content (Two-column layout matching Screenshot 2) */}
+              {/* Opened Accordion Content (Strictly matching Figma: 20px / 110% line-height, no underline) */}
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <motion.div
@@ -76,45 +77,45 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                       height: 'auto',
                       opacity: 1,
                       transition: {
-                        height: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-                        opacity: { duration: 0.3, delay: 0.1 },
+                        height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                        opacity: { duration: 0.25, delay: 0.05 },
                       },
                     }}
                     exit={{
                       height: 0,
                       opacity: 0,
                       transition: {
-                        height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-                        opacity: { duration: 0.2 },
+                        height: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+                        opacity: { duration: 0.15 },
                       },
                     }}
                     className="overflow-hidden w-full"
                   >
-                    <div className="py-6 sm:py-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 items-start">
-                      {/* Left Highlight Column with underline */}
-                      <div className="flex flex-col">
-                        <span
-                          className="font-mono font-bold uppercase text-white tracking-[-0.5px] border-b-2 border-[#1458E6] pb-1 w-fit"
+                    <div className="pt-3 pb-6 px-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start w-full">
+                      {/* Left Column (flex: 1 0 0) */}
+                      <div className="flex-1 flex flex-col">
+                        <p
+                          className="font-mono font-bold uppercase text-white tracking-[-0.2px]"
                           style={{
-                            fontSize: 'clamp(18px, 2.4vw, 28px)',
-                            lineHeight: '120%',
+                            fontSize: '20px',
+                            lineHeight: '110%', // 22px
                           }}
                         >
                           {leftAnswer}
-                        </span>
+                        </p>
                       </div>
 
-                      {/* Right Detail Column */}
-                      <div className="flex flex-col">
-                        <span
-                          className="font-mono font-bold uppercase text-white tracking-[-0.5px]"
+                      {/* Right Column (flex: 1 0 0) */}
+                      <div className="flex-1 flex flex-col">
+                        <p
+                          className="font-mono font-bold uppercase text-white tracking-[-0.2px]"
                           style={{
-                            fontSize: 'clamp(18px, 2.4vw, 28px)',
-                            lineHeight: '120%',
+                            fontSize: '20px',
+                            lineHeight: '110%', // 22px
                           }}
                         >
                           {rightAnswer}
-                        </span>
+                        </p>
                       </div>
                     </div>
                   </motion.div>
