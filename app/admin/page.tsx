@@ -463,45 +463,26 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: Rectangle 77 — completely borderless, no blue border) ── */}
+      {/* ── RIGHT CARD (Content Zone: Rectangle 77 — bg-[#0D0D0E], completely borderless) ── */}
       <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] overflow-y-auto flex flex-col border-none">
-        {/* Header Bar — pt-[24px] pl-[24px] pr-[24px] pb-[16px], no bottom border */}
-        <header className="pt-[24px] pl-[24px] pr-[24px] pb-[16px] flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-4">
-            <h1 className="text-[20px] font-bold uppercase tracking-[-0.2px] text-white font-mono">
-              {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
-              {activeMenu === 'works' && 'ВСЕ РАБОТЫ (СЕТКИ ПОРТФОЛИО)'}
-              {activeMenu === 'clients' && 'КЛИЕНТЫ & ЛОГОТИПЫ (54×54)'}
-              {activeMenu === 'settings' && 'НАСТРОЙКИ & ДЕПЛОЙ'}
-            </h1>
-
-            {activeMenu === 'hero' && (
-              <button
-                onClick={addHeroReel}
-                className="px-3.5 py-1.5 bg-[#1458E6] hover:bg-[#1147bd] text-white rounded-md text-xs font-mono font-bold uppercase flex items-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Добавить видео</span>
-              </button>
-            )}
-          </div>
-
-          {/* Blue Pill Save Button from Figma */}
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="px-6 py-2.5 rounded-full bg-[#1458E6] hover:bg-[#1147bd] active:scale-95 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md flex items-center gap-2"
-          >
-            {isSaving ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
-            <span>СОХРАНИТЬ</span>
-          </button>
+        {/* Header Bar — EXACTLY 24px padding on top, left, bottom, right */}
+        <header
+          style={{ padding: '24px' }}
+          className="flex items-center justify-between shrink-0 w-full"
+        >
+          <h1 className="text-[20px] font-bold uppercase tracking-[-0.2px] text-white font-mono">
+            {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
+            {activeMenu === 'works' && 'ВСЕ РАБОТЫ (СЕТКИ ПОРТФОЛИО)'}
+            {activeMenu === 'clients' && 'КЛИЕНТЫ & ЛОГОТИПЫ (54×54)'}
+            {activeMenu === 'settings' && 'НАСТРОЙКИ & ДЕПЛОЙ'}
+          </h1>
         </header>
 
-        {/* Content Section with pl-[24px] pr-[24px] pb-[24px] */}
-        <div className="pl-[24px] pr-[24px] pb-[24px] flex flex-col gap-6">
-          {/* ════ SECTION 1: HERO AREA (Strictly with Figma Screenshots 2-5 input styling) ════ */}
+        {/* Content Section */}
+        <div className="flex flex-col gap-6 w-full">
+          {/* ════ SECTION 1: HERO AREA ════ */}
           {activeMenu === 'hero' && (
-            <div className="flex flex-col gap-[4px]">
+            <div className="flex flex-col gap-[4px] w-full">
               {mounted && (
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <Droppable droppableId="hero-reels-studio">
@@ -509,7 +490,7 @@ export default function AdminStudio() {
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className="flex flex-col gap-[4px]"
+                        className="flex flex-col gap-[4px] w-full"
                       >
                         {heroReels.map((reel, index) => {
                           const currentSizePreset =
@@ -523,8 +504,9 @@ export default function AdminStudio() {
                                 <div
                                   ref={providedDraggable.innerRef}
                                   {...providedDraggable.draggableProps}
-                                  className={`bg-[#141416] rounded-xl p-5 transition-all flex flex-col lg:flex-row items-start gap-4 border-none ${
-                                    snapshot.isDragging ? 'bg-[#1C1C20] shadow-2xl' : ''
+                                  style={{ padding: '24px' }}
+                                  className={`bg-[#0D0D0E] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full ${
+                                    snapshot.isDragging ? 'bg-[#151518] shadow-2xl' : ''
                                   }`}
                                 >
                                   {/* Drag Grip Handle — py-[8px] */}
@@ -563,7 +545,7 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Center: Input Fields strictly from Screenshots 2-5 */}
+                                  {/* Center: Input Fields with transparent bg and 12px padding */}
                                   <div className="flex-1 flex flex-col gap-3 w-full">
                                     {/* Line 1: Name RU and Name EN (2 columns) */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -579,7 +561,8 @@ export default function AdminStudio() {
                                             updateHeroReel(reel.id, 'title_ru', e.target.value)
                                           }
                                           placeholder="TEXT"
-                                          className="w-full h-[40px] px-3 bg-[#0D0D0E] border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
                                         />
                                       </div>
 
@@ -595,7 +578,8 @@ export default function AdminStudio() {
                                             updateHeroReel(reel.id, 'title_en', e.target.value)
                                           }
                                           placeholder="НАЗВАНИЕ РОЛИКА (EN)"
-                                          className="w-full h-[40px] px-3 bg-[#0D0D0E] border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
                                         />
                                       </div>
                                     </div>
@@ -605,17 +589,18 @@ export default function AdminStudio() {
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
                                         превью
                                       </label>
-                                      <div className="flex items-center w-full h-[40px] bg-[#0D0D0E] border border-[#26282C] focus-within:border-[#1458E6]">
+                                      <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                                         <input
                                           type="text"
                                           value={reel.preview_video_url || reel.thumbnail_url}
                                           placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
                                           onChange={(e) => {
                                             const val = e.target.value;
                                             updateHeroReel(reel.id, 'preview_video_url', val);
                                             updateHeroReel(reel.id, 'thumbnail_url', val);
                                           }}
-                                          className="flex-1 h-full px-3 bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                          className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                         />
                                         <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
                                           {uploadingField === `prev_${reel.id}` ? (
@@ -650,15 +635,16 @@ export default function AdminStudio() {
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
                                         видео
                                       </label>
-                                      <div className="flex items-center w-full h-[40px] bg-[#0D0D0E] border border-[#26282C] focus-within:border-[#1458E6]">
+                                      <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                                         <input
                                           type="text"
                                           value={reel.video_url}
                                           placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
                                           onChange={(e) =>
                                             updateHeroReel(reel.id, 'video_url', e.target.value)
                                           }
-                                          className="flex-1 h-full px-3 bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                          className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                         />
                                         <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
                                           {uploadingField === `vid_${reel.id}` ? (
@@ -693,7 +679,8 @@ export default function AdminStudio() {
                                       <select
                                         value={currentSizePreset}
                                         onChange={(e) => handleSizeChange(reel.id, e.target.value)}
-                                        className="w-full max-w-[240px] h-[40px] px-3 bg-[#0D0D0E] border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white focus:outline-none focus:border-[#1458E6] cursor-pointer"
+                                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                        className="w-full max-w-[240px] h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white focus:outline-none focus:border-[#1458E6] cursor-pointer"
                                       >
                                         {SIZE_PRESETS.map((preset) => (
                                           <option key={preset.label} value={preset.label} className="bg-[#0D0D0E] text-white">
@@ -725,6 +712,26 @@ export default function AdminStudio() {
                   </Droppable>
                 </DragDropContext>
               )}
+
+              {/* ── Bottom Center Actions: [+] and [СОХРАНИТЬ] ── */}
+              <div className="flex items-center justify-center gap-4 pt-8 pb-12 w-full">
+                <button
+                  onClick={addHeroReel}
+                  title="Добавить видео"
+                  className="w-[44px] h-[44px] rounded-full bg-[#1458E6] hover:bg-[#1147bd] flex items-center justify-center text-white cursor-pointer shadow-lg active:scale-95 transition-transform shrink-0"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="h-[44px] px-8 rounded-full bg-[#1458E6] hover:bg-[#1147bd] active:scale-95 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg flex items-center gap-2"
+                >
+                  {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : null}
+                  <span>СОХРАНИТЬ</span>
+                </button>
+              </div>
             </div>
           )}
 
