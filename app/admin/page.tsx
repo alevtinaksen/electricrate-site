@@ -988,8 +988,8 @@ export default function AdminStudio() {
                                               deleteHeroReel(reel.id);
                                             }
                                           }}
-                                          style={{ borderRadius: '56px' }}
-                                          className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                                          style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                                          className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                                         >
                                           УДАЛИТЬ
                                         </button>
@@ -1089,8 +1089,8 @@ export default function AdminStudio() {
                         {/* Delete Section Button in Gray pill with white text, red on hover */}
                         <button
                           onClick={() => deleteCategory(group.id)}
-                          style={{ borderRadius: '56px' }}
-                          className="h-[44px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                          style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                          className="h-[44px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                         >
                           УДАЛИТЬ
                         </button>
@@ -1282,16 +1282,16 @@ export default function AdminStudio() {
                                           </div>
                                         </div>
 
-                                        {/* Delete Action in Bottom Right */}
-                                        <div className="flex items-center justify-end w-full pt-1">
+                                        {/* Delete Action in Bottom Right with 12px margin above */}
+                                        <div className="flex items-center justify-end w-full mt-[12px] pt-[4px]">
                                           <button
                                             onClick={() => {
                                               if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
                                                 deleteWorkItem(group.id, item.id);
                                               }
                                             }}
-                                            style={{ borderRadius: '56px' }}
-                                            className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                                            style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                                            className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                                           >
                                             УДАЛИТЬ
                                           </button>
@@ -1718,8 +1718,8 @@ export default function AdminStudio() {
                           deleteClient(client.id);
                         }
                       }}
-                      style={{ borderRadius: '56px' }}
-                      className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                      style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                      className="h-[40px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                     >
                       УДАЛИТЬ
                     </button>
@@ -1750,8 +1750,8 @@ export default function AdminStudio() {
 
                     <button
                       onClick={() => deleteFaq(faq.id)}
-                      style={{ borderRadius: '56px' }}
-                      className="h-[36px] px-5 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-xs uppercase transition-colors cursor-pointer shrink-0"
+                      style={{ borderRadius: '56px', paddingLeft: '24px', paddingRight: '24px' }}
+                      className="h-[36px] bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-xs uppercase transition-colors cursor-pointer shrink-0"
                     >
                       УДАЛИТЬ
                     </button>
