@@ -255,6 +255,22 @@ export default function AdminStudio() {
     showToast(`Порядок изменен: #${result.destination.index + 1} ${reorderedItem.title_ru}`);
   };
 
+  // Drag and Drop handler for Works Items in selected Category
+  const handleWorksDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const currentGroup = workSections.find((g) => g.id === selectedCategory);
+    if (!currentGroup) return;
+
+    const items = Array.from(currentGroup.items);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setWorkSections((prev) =>
+      prev.map((g) => (g.id === selectedCategory ? { ...g, items } : g))
+    );
+    showToast(`Порядок изменен: #${result.destination.index + 1} ${reorderedItem.title_ru}`);
+  };
+
   // Hero Reel editing helpers
   const updateHeroReel = (id: string, field: keyof HeroReel, value: any) => {
     setHeroReels((prev) =>
@@ -915,227 +931,295 @@ export default function AdminStudio() {
           {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
           {activeMenu === 'works' && (
             <div className="flex flex-col gap-6 w-full">
-              {/* Category Pills Header */}
-              <div className="flex items-center gap-3 p-1.5 bg-[#141416] rounded-2xl overflow-x-auto w-full">
-                {workSections.map((group) => (
-                  <button
-                    key={group.id}
-                    onClick={() => setSelectedCategory(group.id)}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
-                      selectedCategory === group.id
-                        ? 'bg-[#1458E6] text-white shadow-md'
-                        : 'text-[#8C8E96] hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    {group.title_ru} ({group.items.length})
-                  </button>
-                ))}
+              {/* Category Pills Header strictly matching screenshot */}
+              <div className="flex items-center gap-2 overflow-x-auto w-full py-1">
+                {workSections.map((group) => {
+                  const isSelected = selectedCategory === group.id;
+                  return (
+                    <button
+                      key={group.id}
+                      onClick={() => setSelectedCategory(group.id)}
+                      className={`px-5 py-2.5 rounded-full text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
+                        isSelected
+                          ? 'bg-[#1458E6] text-white shadow-md'
+                          : 'bg-[#1E1E22] text-white/90 hover:text-white hover:bg-[#28282D]'
+                      }`}
+                    >
+                      {group.title_ru} ({group.items.length})
+                    </button>
+                  );
+                })}
 
+                {/* + Новый раздел button */}
                 <button
                   onClick={() => setIsNewCategoryModalOpen(true)}
                   title="Добавить новый раздел"
-                  className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-[#1458E6] text-white text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                  className="px-5 py-2.5 rounded-full bg-white text-[#1458E6] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                 >
-                  <Plus className="w-4 h-4" />
-                  <span>Новый раздел</span>
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span>НОВЫЙ РАЗДЕЛ</span>
                 </button>
               </div>
 
-              {/* Category Content */}
+              {/* Category Settings Block & Draggable Video Cards */}
               {workSections
                 .filter((g) => g.id === selectedCategory)
                 .map((group) => (
-                  <div key={group.id} className="flex flex-col gap-5 w-full">
-                    <div className="bg-[#141416] rounded-[16px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-3">
-                          <h3 className="text-base font-bold uppercase text-white font-mono">
-                            {group.title_ru}
-                          </h3>
-                          <span className="px-2.5 py-0.5 rounded-md bg-[#222] text-[#8C8E96] text-[11px] font-mono">
-                            {group.isVertical ? 'Вертикальные (9:16)' : 'Горизонтальные (16:10)'}
-                          </span>
-                        </div>
-                        <span className="text-xs text-[#5E5E5E] font-mono">
-                          Всего роликов в разделе: {group.items.length}
-                        </span>
-                      </div>
+                  <div key={group.id} className="flex flex-col gap-6 w-full">
+                    {/* Category Title & Delete Row strictly matching screenshot */}
+                    <div
+                      style={{ padding: '24px' }}
+                      className="bg-[#141416] rounded-[24px] flex flex-col gap-2 w-full border-none"
+                    >
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        название раздела
+                      </label>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-between gap-4 w-full">
+                        {/* Input with embedded blue check button */}
+                        <div className="flex items-center flex-1 h-[44px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                          <input
+                            type="text"
+                            value={group.title_ru}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setWorkSections((prev) =>
+                                prev.map((g) => (g.id === group.id ? { ...g, title_ru: val } : g))
+                              );
+                            }}
+                            placeholder="НАЗВАНИЕ РАЗДЕЛА"
+                            style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                            className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                          />
+                          <button
+                            onClick={handleSave}
+                            title="Сохранить название"
+                            className="w-[44px] h-[44px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors"
+                          >
+                            <Check className="w-5 h-5 stroke-[2.5]" />
+                          </button>
+                        </div>
+
+                        {/* Delete Section Button in Red */}
                         <button
                           onClick={() => deleteCategory(group.id)}
-                          className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer flex items-center gap-1.5"
+                          className="text-red-500 hover:text-red-400 font-mono font-bold text-[14px] uppercase cursor-pointer transition-colors px-2 shrink-0"
                         >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Удалить раздел</span>
+                          УДАЛИТЬ
                         </button>
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-4 w-full">
-                      {group.items.map((item) => (
-                        <div
-                          key={item.id}
-                          style={{ padding: '24px' }}
-                          className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full"
-                        >
-                          <div className={`w-full ${group.isVertical ? 'lg:w-36 aspect-[9/16]' : 'lg:w-48 aspect-video'} shrink-0 flex flex-col gap-2`}>
-                            <div className="relative w-full h-full rounded-md bg-black overflow-hidden border-none group">
-                              <img
-                                src={item.thumbnail_url || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80'}
-                                alt={item.title_ru}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                              <button
-                                onClick={() =>
-                                  setTestPlayer({
-                                    isOpen: true,
-                                    title: item.title_ru,
-                                    videoUrl: item.video_url,
-                                  })
-                                }
-                                className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 cursor-pointer backdrop-blur-[2px]"
-                              >
-                                <div className="w-8 h-8 rounded-full bg-[#1458E6] flex items-center justify-center text-white shadow-md">
-                                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-                                </div>
-                                <span>Тест</span>
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="flex-1 flex flex-col gap-3 w-full">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="flex flex-col gap-2">
-                                <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                                  название проекта (ru)
-                                </label>
-                                <input
-                                  type="text"
-                                  value={item.title_ru}
-                                  onChange={(e) =>
-                                    updateWorkItem(group.id, item.id, 'title_ru', e.target.value)
-                                  }
-                                  placeholder="НАЗВАНИЕ"
-                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                                />
-                              </div>
-
-                              <div className="flex flex-col gap-2">
-                                <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                                  название проекта (en)
-                                </label>
-                                <input
-                                  type="text"
-                                  value={item.title_en}
-                                  onChange={(e) =>
-                                    updateWorkItem(group.id, item.id, 'title_en', e.target.value)
-                                  }
-                                  placeholder="PROJECT NAME (EN)"
-                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                                  className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                                />
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                              <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                                превью
-                              </label>
-                              <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
-                                <input
-                                  type="text"
-                                  value={item.thumbnail_url}
-                                  onChange={(e) =>
-                                    updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
-                                  }
-                                  placeholder="ССЫЛКА ИЛИ ФАЙЛ"
-                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                                  className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
-                                />
-                                <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
-                                  {uploadingField === `work_thumb_${item.id}` ? (
-                                    <RefreshCw className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <Paperclip className="w-4 h-4" />
-                                  )}
-                                  <input
-                                    type="file"
-                                    accept="image/*,video/*"
-                                    className="hidden"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) {
-                                        handleFileUpload(
-                                          file,
-                                          (url) => updateWorkItem(group.id, item.id, 'thumbnail_url', url),
-                                          `work_thumb_${item.id}`
-                                        );
-                                      }
-                                    }}
-                                  />
-                                </label>
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                              <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                                видео
-                              </label>
-                              <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
-                                <input
-                                  type="text"
-                                  value={item.video_url}
-                                  onChange={(e) =>
-                                    updateWorkItem(group.id, item.id, 'video_url', e.target.value)
-                                  }
-                                  placeholder="ССЫЛКА ИЛИ ФАЙЛ"
-                                  style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                                  className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
-                                />
-                                <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
-                                  {uploadingField === `work_vid_${item.id}` ? (
-                                    <RefreshCw className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <Paperclip className="w-4 h-4" />
-                                  )}
-                                  <input
-                                    type="file"
-                                    accept="video/*"
-                                    className="hidden"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) {
-                                        handleFileUpload(
-                                          file,
-                                          (url) => updateWorkItem(group.id, item.id, 'video_url', url),
-                                          `work_vid_${item.id}`
-                                        );
-                                      }
-                                    }}
-                                  />
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="pt-2 shrink-0">
-                            <button
-                              onClick={() => {
-                                if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
-                                  deleteWorkItem(group.id, item.id);
-                                }
-                              }}
-                              title="Удалить"
-                              className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                    {/* Draggable Works Cards List */}
+                    {mounted && (
+                      <DragDropContext onDragEnd={handleWorksDragEnd}>
+                        <Droppable droppableId={`works-${group.id}`}>
+                          {(provided, snapshotDroppable) => (
+                            <div
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                              className={`flex flex-col gap-[12px] w-full rounded-2xl transition-colors ${
+                                snapshotDroppable.isDraggingOver ? 'bg-white/[0.02] p-1' : ''
+                              }`}
                             >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                              {group.items.map((item, index) => (
+                                <Draggable key={item.id} draggableId={item.id} index={index}>
+                                  {(providedDraggable, snapshot) => (
+                                    <div
+                                      ref={providedDraggable.innerRef}
+                                      {...providedDraggable.draggableProps}
+                                      style={{
+                                        padding: '24px',
+                                        ...providedDraggable.draggableProps.style,
+                                      }}
+                                      className={`rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 w-full ${
+                                        snapshot.isDragging
+                                          ? 'bg-[#1D1E24] shadow-[0_25px_60px_rgba(0,0,0,0.95)] ring-2 ring-[#1458E6] scale-[1.015] z-50 cursor-grabbing'
+                                          : 'bg-[#141416] border-none'
+                                      }`}
+                                    >
+                                      {/* Drag Grip Handle */}
+                                      <div
+                                        {...providedDraggable.dragHandleProps}
+                                        className={`py-[8px] px-1 rounded transition-colors shrink-0 flex items-center justify-center ${
+                                          snapshot.isDragging
+                                            ? 'text-[#1458E6] cursor-grabbing'
+                                            : 'text-[#666] hover:text-white hover:bg-white/5 cursor-grab active:cursor-grabbing'
+                                        }`}
+                                        title="Зажмите и тяните для изменения порядка"
+                                      >
+                                        <GripVertical className="w-5 h-5 stroke-[2.5]" />
+                                      </div>
+
+                                      {/* Thumbnail Frame */}
+                                      <div className={`w-full ${group.isVertical ? 'lg:w-36 aspect-[9/16]' : 'lg:w-48 aspect-video'} shrink-0 flex flex-col gap-2`}>
+                                        <div className="relative w-full h-full rounded-md bg-black overflow-hidden border-none group">
+                                          <img
+                                            src={item.thumbnail_url || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80'}
+                                            alt={item.title_ru}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                          />
+                                          <button
+                                            onClick={() =>
+                                              setTestPlayer({
+                                                isOpen: true,
+                                                title: item.title_ru,
+                                                videoUrl: item.video_url,
+                                              })
+                                            }
+                                            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 cursor-pointer backdrop-blur-[2px]"
+                                          >
+                                            <div className="w-8 h-8 rounded-full bg-[#1458E6] flex items-center justify-center text-white shadow-md">
+                                              <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                                            </div>
+                                            <span>Тест</span>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      {/* Center: Input Fields */}
+                                      <div className="flex-1 flex flex-col gap-3 w-full">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                          <div className="flex flex-col gap-2">
+                                            <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                              название проекта (ru)
+                                            </label>
+                                            <input
+                                              type="text"
+                                              value={item.title_ru}
+                                              onChange={(e) =>
+                                                updateWorkItem(group.id, item.id, 'title_ru', e.target.value)
+                                              }
+                                              placeholder="НАЗВАНИЕ"
+                                              style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                            />
+                                          </div>
+
+                                          <div className="flex flex-col gap-2">
+                                            <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                              название проекта (en)
+                                            </label>
+                                            <input
+                                              type="text"
+                                              value={item.title_en}
+                                              onChange={(e) =>
+                                                updateWorkItem(group.id, item.id, 'title_en', e.target.value)
+                                              }
+                                              placeholder="PROJECT NAME (EN)"
+                                              style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                                            />
+                                          </div>
+                                        </div>
+
+                                        {/* Preview */}
+                                        <div className="flex flex-col gap-2">
+                                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                            превью
+                                          </label>
+                                          <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                                            <input
+                                              type="text"
+                                              value={item.thumbnail_url}
+                                              onChange={(e) =>
+                                                updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
+                                              }
+                                              placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                              style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                            />
+                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                              {uploadingField === `work_thumb_${item.id}` ? (
+                                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                              ) : (
+                                                <Paperclip className="w-4 h-4" />
+                                              )}
+                                              <input
+                                                type="file"
+                                                accept="image/*,video/*"
+                                                className="hidden"
+                                                onChange={(e) => {
+                                                  const file = e.target.files?.[0];
+                                                  if (file) {
+                                                    handleFileUpload(
+                                                      file,
+                                                      (url) => updateWorkItem(group.id, item.id, 'thumbnail_url', url),
+                                                      `work_thumb_${item.id}`
+                                                    );
+                                                  }
+                                                }}
+                                              />
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                        {/* Video */}
+                                        <div className="flex flex-col gap-2">
+                                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                                            видео
+                                          </label>
+                                          <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                                            <input
+                                              type="text"
+                                              value={item.video_url}
+                                              onChange={(e) =>
+                                                updateWorkItem(group.id, item.id, 'video_url', e.target.value)
+                                              }
+                                              placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                              style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                                            />
+                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                              {uploadingField === `work_vid_${item.id}` ? (
+                                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                              ) : (
+                                                <Paperclip className="w-4 h-4" />
+                                              )}
+                                              <input
+                                                type="file"
+                                                accept="video/*"
+                                                className="hidden"
+                                                onChange={(e) => {
+                                                  const file = e.target.files?.[0];
+                                                  if (file) {
+                                                    handleFileUpload(
+                                                      file,
+                                                      (url) => updateWorkItem(group.id, item.id, 'video_url', url),
+                                                      `work_vid_${item.id}`
+                                                    );
+                                                  }
+                                                }}
+                                              />
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      {/* Delete Action */}
+                                      <div className="pt-2 shrink-0">
+                                        <button
+                                          onClick={() => {
+                                            if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
+                                              deleteWorkItem(group.id, item.id);
+                                            }
+                                          }}
+                                          title="Удалить"
+                                          className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                                        >
+                                          <Trash2 className="w-4 h-4" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
+                    )}
                   </div>
                 ))}
 
