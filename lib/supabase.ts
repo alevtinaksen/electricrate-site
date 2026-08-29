@@ -358,10 +358,10 @@ export interface AboutContent {
 
 export const DEFAULT_ABOUT: AboutContent = {
   photo_url: '/vlad-portrait.jpg',
-  top_text_ru: 'Я — ВИДЕОМЕЙКЕР ИЗ ПЕТЕРБУРГА. В ЭТОЙ СФЕРЕ БОЛЬШЕ 10 ЛЕТ.',
-  top_text_en: 'I AM A FILMMAKER FROM ST. PETERSBURG. OVER 10 YEARS IN THE INDUSTRY.',
-  bottom_text_ru: 'РАБОТАЮ В РАЗНЫХ СФЕРАХ : ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ.',
-  bottom_text_en: 'WORKING ACROSS DIVERSE INDUSTRIES: INDUSTRIAL, LEGAL, REAL ESTATE, HORECA, SPORT.',
+  top_text_ru: 'Я —\nВИДЕОМЕЙКЕР\nИЗ\nПЕТЕРБУРГА.\nВ ЭТОЙ\nСФЕРЕ\nБОЛЬШЕ 10\nЛЕТ.',
+  top_text_en: 'I AM A\nFILMMAKER\nFROM\nST. PETERSBURG.\nIN THIS\nINDUSTRY\nOVER 10\nYEARS.',
+  bottom_text_ru: 'РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ :\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.',
+  bottom_text_en: 'WORKING\nACROSS\nINDUSTRIES :\nINDUSTRIAL,\nLEGAL,\nREAL ESTATE,\nHORECA, SPORT.',
 };
 
 

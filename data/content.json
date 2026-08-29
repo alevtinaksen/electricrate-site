@@ -383,5 +383,12 @@
       "answer_right_en": "UPLOADED TO CLOUD STORAGE OR TRANSFERRED ON YOUR HARD DRIVE IN MAXIMUM QUALITY."
     }
   ],
-  "updatedAt": "2026-08-29T13:05:36.101Z"
+  "about": {
+    "photo_url": "/vlad-portrait.jpg",
+    "top_text_ru": "Я —\nВИДЕОМЕЙКЕР\nИЗ\nПЕТЕРБУРГА.\nВ ЭТОЙ\nСФЕРЕ\nБОЛЬШЕ 10\nЛЕТ.",
+    "top_text_en": "I AM A\nFILMMAKER\nFROM\nST. PETERSBURG.\nIN THIS\nINDUSTRY\nOVER 10\nYEARS.",
+    "bottom_text_ru": "РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ :\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.",
+    "bottom_text_en": "WORKING\nACROSS\nINDUSTRIES :\nINDUSTRIAL,\nLEGAL,\nREAL ESTATE,\nHORECA, SPORT."
+  },
+  "updatedAt": "2026-08-29T13:22:00.000Z"
 }
