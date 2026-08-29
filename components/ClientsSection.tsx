@@ -1,9 +1,12 @@
 'use client';
 
 import { Language } from '@/types';
+import { ClientItem, DEFAULT_CLIENTS } from '@/lib/supabase';
 
 interface ClientsSectionProps {
   lang: Language;
+  clients?: ClientItem[];
+  onVideoSelect?: (title: string, videoUrl: string, posterUrl?: string) => void;
 }
 
 // 54x54 SVG client logos matching Screenshot 4
@@ -70,13 +73,25 @@ function KtkLogo() {
   );
 }
 
-export default function ClientsSection({ lang }: ClientsSectionProps) {
+export default function ClientsSection({
+  lang,
+  clients = DEFAULT_CLIENTS,
+  onVideoSelect,
+}: ClientsSectionProps) {
+  const isRu = lang === 'ru';
+
+  const handleClientClick = (client: ClientItem) => {
+    const title = isRu ? client.name_ru : client.name_en;
+    const video = client.video_url || 'https://assets.mixkit.co/videos/41870/41870-720.mp4';
+    onVideoSelect?.(title, video);
+  };
+
   return (
     <section
       id="clients"
       className="w-full max-w-[964px] font-mono flex flex-col items-center select-none"
     >
-      {/* Subtitle "КЛИЕНТЫ" matching Screenshot 1 & 3 */}
+      {/* Subtitle "КЛИЕНТЫ" */}
       <h3
         className="uppercase text-center shrink-0"
         style={{
@@ -92,62 +107,91 @@ export default function ClientsSection({ lang }: ClientsSectionProps) {
           padding: 0,
         }}
       >
-        {lang === 'ru' ? 'КЛИЕНТЫ' : 'CLIENTS'}
+        {isRu ? 'КЛИЕНТЫ' : 'CLIENTS'}
       </h3>
 
       {/* Exact 12px gap between header and client list */}
       <div className="h-[12px] w-full shrink-0" />
 
-      {/* Client List strictly styled with 70px Geist Mono, explicit 12px logo spacing, and white dots */}
+      {/* Client List with full white hover fill, black text, and video modal trigger */}
       <div
-        className="w-full text-center"
+        className="w-full flex flex-col items-center text-center gap-1.5"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(30px, 4.8vw, 70px)',
+          fontSize: 'clamp(28px, 4.5vw, 64px)',
           fontStyle: 'normal',
           fontWeight: 500,
-          lineHeight: '98%', // 68.6px
+          lineHeight: '100%',
           letterSpacing: '-0.7px',
           textTransform: 'uppercase',
         }}
       >
-        {/* Line 1: Logo + 12px + ПЕТЕРБУРГСКИЙ */}
-        <div className="flex flex-wrap items-center justify-center gap-[12px] my-1.5">
+        {/* Line 1: ПНТ */}
+        <div
+          onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
+          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
+        >
           <PntLogo />
-          <span>{lang === 'ru' ? 'ПЕТЕРБУРГСКИЙ' : 'PETERSBURG'}</span>
+          <span className="transition-colors group-hover:text-black">
+            {isRu ? 'ПЕТЕРБУРГСКИЙ' : 'PETERSBURG'}
+          </span>
         </div>
 
         {/* Line 2: НЕФТЯНОЙ ТЕРМИНАЛ · */}
-        <div className="flex flex-wrap items-center justify-center my-1.5">
-          <span>{lang === 'ru' ? 'НЕФТЯНОЙ ТЕРМИНАЛ' : 'OIL TERMINAL'}</span>
-          <span className="mx-4 text-white font-bold">·</span>
+        <div
+          onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
+          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center w-fit mx-auto"
+        >
+          <span className="transition-colors group-hover:text-black">
+            {isRu ? 'НЕФТЯНОЙ ТЕРМИНАЛ' : 'OIL TERMINAL'}
+          </span>
+          <span className="mx-4 text-white group-hover:text-black font-bold">·</span>
         </div>
 
-        {/* Line 3: Logo + 12px + FINNTRAIL · */}
-        <div className="flex flex-wrap items-center justify-center gap-[12px] my-1.5">
+        {/* Line 3: FINNTRAIL · */}
+        <div
+          onClick={() => handleClientClick(clients[1] || DEFAULT_CLIENTS[1])}
+          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
+        >
           <FinntrailLogo />
-          <span>FINNTRAIL</span>
-          <span className="ml-2 text-white font-bold">·</span>
+          <span className="transition-colors group-hover:text-black">FINNTRAIL</span>
+          <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
         </div>
 
-        {/* Line 4: Logo + 12px + СБЕРСТРАХОВАНИЕ · */}
-        <div className="flex flex-wrap items-center justify-center gap-[12px] my-1.5">
+        {/* Line 4: СБЕРСТРАХОВАНИЕ · */}
+        <div
+          onClick={() => handleClientClick(clients[2] || DEFAULT_CLIENTS[2])}
+          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
+        >
           <SberLogo />
-          <span>{lang === 'ru' ? 'СБЕРСТРАХОВАНИЕ' : 'SBERINSURANCE'}</span>
-          <span className="ml-2 text-white font-bold">·</span>
+          <span className="transition-colors group-hover:text-black">
+            {isRu ? 'СБЕРСТРАХОВАНИЕ' : 'SBERINSURANCE'}
+          </span>
+          <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
         </div>
 
-        {/* Line 5: Logo + 12px + ПМЭФ · Logo + 12px + КТК */}
-        <div className="flex flex-wrap items-center justify-center gap-[16px] my-1.5">
-          <div className="inline-flex items-center gap-[12px]">
+        {/* Line 5: SPIEF + KTK */}
+        <div className="flex flex-wrap items-center justify-center gap-2 w-fit mx-auto">
+          <div
+            onClick={() => handleClientClick(clients[3] || DEFAULT_CLIENTS[3])}
+            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px]"
+          >
             <SpiefLogo />
-            <span>{lang === 'ru' ? 'ПМЭФ' : 'SPIEF'}</span>
+            <span className="transition-colors group-hover:text-black">
+              {isRu ? 'ПМЭФ' : 'SPIEF'}
+            </span>
+            <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
           </div>
-          <span className="text-white font-bold">·</span>
-          <div className="inline-flex items-center gap-[12px]">
+
+          <div
+            onClick={() => handleClientClick(clients[4] || DEFAULT_CLIENTS[4])}
+            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px]"
+          >
             <KtkLogo />
-            <span>KTK</span>
+            <span className="transition-colors group-hover:text-black">
+              {isRu ? 'КТК' : 'KTK'}
+            </span>
           </div>
         </div>
       </div>

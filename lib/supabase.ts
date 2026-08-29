@@ -168,15 +168,16 @@ export interface ClientItem {
   name_ru: string;
   name_en: string;
   logo_url?: string;
+  video_url?: string;
   color?: string;
 }
 
 export const DEFAULT_CLIENTS: ClientItem[] = [
-  { id: 'c1', name_ru: 'Петербургский нефтяной терминал (ПНТ)', name_en: 'Petersburg Oil Terminal (PNT)', logo_url: '', color: '#FFFFFF' },
-  { id: 'c2', name_ru: 'FINNTRAIL', name_en: 'FINNTRAIL', logo_url: '', color: '#FFFFFF' },
-  { id: 'c3', name_ru: 'СБЕРСТРАХОВАНИЕ', name_en: 'SBERINSURANCE', logo_url: '', color: '#FFFFFF' },
-  { id: 'c4', name_ru: 'ПМЭФ (Форум)', name_en: 'SPIEF', logo_url: '', color: '#B89758' },
-  { id: 'c5', name_ru: 'КТК (Каспийский трубопровод)', name_en: 'KTK', logo_url: '', color: '#001435' },
+  { id: 'c1', name_ru: 'Петербургский нефтяной терминал (ПНТ)', name_en: 'Petersburg Oil Terminal (PNT)', logo_url: '', video_url: 'https://assets.mixkit.co/videos/41870/41870-720.mp4', color: '#FFFFFF' },
+  { id: 'c2', name_ru: 'FINNTRAIL', name_en: 'FINNTRAIL', logo_url: '', video_url: 'https://assets.mixkit.co/videos/42998/42998-720.mp4', color: '#FFFFFF' },
+  { id: 'c3', name_ru: 'СБЕРСТРАХОВАНИЕ', name_en: 'SBERINSURANCE', logo_url: '', video_url: 'https://assets.mixkit.co/videos/41668/41668-720.mp4', color: '#FFFFFF' },
+  { id: 'c4', name_ru: 'ПМЭФ (Форум)', name_en: 'SPIEF', logo_url: '', video_url: 'https://assets.mixkit.co/videos/41982/41982-720.mp4', color: '#B89758' },
+  { id: 'c5', name_ru: 'КТК (Каспийский трубопровод)', name_en: 'KTK', logo_url: '', video_url: 'https://assets.mixkit.co/videos/42289/42289-720.mp4', color: '#001435' },
 ];
 
 // ─── Site Settings ───────────────────────────────────────────────────────────

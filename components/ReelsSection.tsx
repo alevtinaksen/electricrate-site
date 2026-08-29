@@ -28,6 +28,7 @@ function ReelCard({
   const cardRef = useRef<HTMLDivElement>(null);
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   // Smooth cursor follow with springs
   const springConfig = { damping: 25, stiffness: 250, mass: 0.5 };
@@ -86,7 +87,7 @@ function ReelCard({
 
   return (
     <div ref={containerRef} className="flex flex-col items-center w-full">
-      {/* Video Container — exact fixed dimensions, centered, clickable with floating cursor bubble */}
+      {/* Video Container — exact fixed dimensions, centered, clickable with floating blue cursor bubble */}
       <div
         ref={cardRef}
         onClick={onSelect}
@@ -100,7 +101,7 @@ function ReelCard({
           height: `${reel.height}px`,
         }}
       >
-        {/* Background Poster Image (No zoom on hover) */}
+        {/* Background Poster Image (always displayed first until video is fully ready) */}
         <Image
           src={reel.thumbnail_url}
           alt={title}
@@ -110,7 +111,7 @@ function ReelCard({
           className="object-cover"
         />
 
-        {/* Loop Preview Video Element (autoplay loop muted, no zoom on hover) */}
+        {/* Loop Preview Video Element (smoothly fades in once loaded, loop muted) */}
         {feedVideoSrc && (
           <video
             ref={videoRef}
@@ -119,11 +120,14 @@ function ReelCard({
             loop
             playsInline
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover"
+            onLoadedData={() => setIsVideoLoaded(true)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              isVideoLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
           />
         )}
 
-        {/* Floating Bubble Button following cursor (like Contact button, white rounded pill, no shadow, wider padding) */}
+        {/* Floating Bubble Button in Brand Blue (#1458E6) with white text */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -140,9 +144,9 @@ function ReelCard({
             >
               <div
                 style={{
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: '#1458E6',
                   borderRadius: '56px',
-                  color: '#0B0B0B',
+                  color: '#FFFFFF',
                   fontFamily: '"Geist Mono", monospace',
                   fontSize: '13px',
                   fontWeight: 700,

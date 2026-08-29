@@ -236,6 +236,7 @@ export default function Home() {
             {/* Section 2: Clients with 54x54 logos, 12px gap, and white dots */}
             <ClientsSection
               lang={lang}
+              onVideoSelect={openVideoModal}
             />
 
             {/* 150px exact spacing between Clients and Works */}
@@ -248,8 +249,8 @@ export default function Home() {
               onVideoSelect={openVideoModal}
             />
 
-            {/* 150px exact spacing between Works and Process Section */}
-            <div className="h-[150px] w-full shrink-0" />
+            {/* Reduced 60px spacing between Works and Process Section */}
+            <div className="h-[60px] w-full shrink-0" />
 
             {/* Section 4: Process / Services «КАРТИНКА УРОВНЯ КИНО» (Scroll Pinning & Stacking Deck) */}
             <ProcessSection

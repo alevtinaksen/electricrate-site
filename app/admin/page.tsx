@@ -1218,23 +1218,21 @@ export default function AdminStudio() {
                                           </div>
                                         </div>
 
-                                        {/* Preview */}
+                                        {/* Cover Image */}
                                         <div className="flex flex-col gap-2">
                                           <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                                            превью
+                                            обложка (статичное изображение)
                                           </label>
                                           <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                                             <input
                                               type="text"
-                                              value={item.thumbnail_url}
-                                              onChange={(e) =>
-                                                updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)
-                                              }
-                                              placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                              value={item.thumbnail_url || ''}
+                                              placeholder="ССЫЛКА НА ОБЛОЖКУ ИЛИ ФАЙЛ"
                                               style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              onChange={(e) => updateWorkItem(group.id, item.id, 'thumbnail_url', e.target.value)}
                                               className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                             />
-                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить обложку">
                                               {uploadingField === `work_thumb_${item.id}` ? (
                                                 <RefreshCw className="w-4 h-4 animate-spin" />
                                               ) : (
@@ -1242,7 +1240,7 @@ export default function AdminStudio() {
                                               )}
                                               <input
                                                 type="file"
-                                                accept="image/*,video/*"
+                                                accept="image/*"
                                                 className="hidden"
                                                 onChange={(e) => {
                                                   const file = e.target.files?.[0];
@@ -1267,15 +1265,13 @@ export default function AdminStudio() {
                                           <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
                                             <input
                                               type="text"
-                                              value={item.video_url}
-                                              onChange={(e) =>
-                                                updateWorkItem(group.id, item.id, 'video_url', e.target.value)
-                                              }
-                                              placeholder="ССЫЛКА ИЛИ ФАЙЛ"
+                                              value={item.video_url || ''}
+                                              placeholder="ССЫЛКА НА ВИДЕО ИЛИ ФАЙЛ"
                                               style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                                              onChange={(e) => updateWorkItem(group.id, item.id, 'video_url', e.target.value)}
                                               className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                             />
-                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
+                                            <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить видео">
                                               {uploadingField === `work_vid_${item.id}` ? (
                                                 <RefreshCw className="w-4 h-4 animate-spin" />
                                               ) : (
@@ -1729,6 +1725,44 @@ export default function AdminStudio() {
                                   file,
                                   (url) => updateClient(client.id, 'logo_url', url),
                                   `client_logo_${client.id}`
+                                );
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 md:col-span-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        видео проекта клиента (ссылка или файл с компьютера)
+                      </label>
+                      <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                        <input
+                          type="text"
+                          value={client.video_url || ''}
+                          onChange={(e) => updateClient(client.id, 'video_url', e.target.value)}
+                          placeholder="ССЫЛКА НА ВИДЕО ИЛИ ЗАГРУЗКА"
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                        />
+                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить видео">
+                          {uploadingField === `client_vid_${client.id}` ? (
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Paperclip className="w-4 h-4" />
+                          )}
+                          <input
+                            type="file"
+                            accept="video/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload(
+                                  file,
+                                  (url) => updateClient(client.id, 'video_url', url),
+                                  `client_vid_${client.id}`
                                 );
                               }
                             }}

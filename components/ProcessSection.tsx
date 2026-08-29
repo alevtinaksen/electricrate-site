@@ -25,11 +25,11 @@ export default function ProcessSection({
     offset: ['start start', 'end end'],
   });
 
-  // ─── 4 Solid Cards Pure Slide-in (100% Opaque, No Transparency) ───
-  const card1Y = useTransform(scrollYProgress, [0.02, 0.24], [900, 0]);
-  const card2Y = useTransform(scrollYProgress, [0.24, 0.48], [900, 0]);
-  const card3Y = useTransform(scrollYProgress, [0.48, 0.72], [900, 0]);
-  const card4Y = useTransform(scrollYProgress, [0.72, 0.96], [900, 0]);
+  // ─── 4 Solid Cards Pure Slide-in (Completely hidden at progress 0, rises as user scrolls) ───
+  const card1Y = useTransform(scrollYProgress, [0.06, 0.28], [1400, 0]);
+  const card2Y = useTransform(scrollYProgress, [0.28, 0.50], [1400, 0]);
+  const card3Y = useTransform(scrollYProgress, [0.50, 0.72], [1400, 0]);
+  const card4Y = useTransform(scrollYProgress, [0.72, 0.94], [1400, 0]);
 
   const cards = services.cards || DEFAULT_SERVICES.cards;
   const card1 = cards[0] || DEFAULT_SERVICES.cards[0];
