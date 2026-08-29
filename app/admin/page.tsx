@@ -331,11 +331,14 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, 12px outer spacing) ── */}
+      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, completely borderless) ── */}
       <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
         <div className="flex flex-col w-full">
-          {/* Top Profile Block (Frame 173: pt-[24px] pl-[24px] pr-[63px] pb-0, gap-[21px]) */}
-          <div className="pt-[24px] pl-[24px] pr-[63px] pb-0 flex items-center gap-[21px] w-full">
+          {/* Top Profile Block — EXACTLY 24px padding on ALL 4 sides (top, right, bottom, left) */}
+          <div
+            style={{ padding: '24px' }}
+            className="flex items-center gap-[21px] w-full"
+          >
             <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] flex items-center justify-center font-bold text-white text-[16px] shrink-0">
               VS
             </div>
@@ -349,13 +352,13 @@ export default function AdminStudio() {
             </div>
           </div>
 
-          {/* Main Navigation Menu (mt-[26.5px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
-          <nav className="mt-[26.5px] flex flex-col w-full gap-0">
+          {/* Main Navigation Menu (h-[33px], paddingLeft: 24px) */}
+          <nav className="flex flex-col w-full gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
               style={{
                 paddingLeft: '24px',
-                paddingRight: '108px',
+                paddingRight: '24px',
                 paddingTop: '4px',
                 paddingBottom: '4px',
                 height: '33px',
@@ -373,7 +376,7 @@ export default function AdminStudio() {
               onClick={() => setActiveMenu('works')}
               style={{
                 paddingLeft: '24px',
-                paddingRight: '108px',
+                paddingRight: '24px',
                 paddingTop: '4px',
                 paddingBottom: '4px',
                 height: '33px',
@@ -391,7 +394,7 @@ export default function AdminStudio() {
               onClick={() => setActiveMenu('clients')}
               style={{
                 paddingLeft: '24px',
-                paddingRight: '108px',
+                paddingRight: '24px',
                 paddingTop: '4px',
                 paddingBottom: '4px',
                 height: '33px',
@@ -409,7 +412,7 @@ export default function AdminStudio() {
               onClick={() => setActiveMenu('settings')}
               style={{
                 paddingLeft: '24px',
-                paddingRight: '108px',
+                paddingRight: '24px',
                 paddingTop: '4px',
                 paddingBottom: '4px',
                 height: '33px',
@@ -425,14 +428,14 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block (pb-[49px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
-        <div className="pb-[49px] flex flex-col w-full gap-0">
+        {/* Bottom Footer Block (paddingLeft: 24px, pb-[24px]) */}
+        <div className="pb-[24px] flex flex-col w-full gap-0">
           <Link
             href="/"
             target="_blank"
             style={{
               paddingLeft: '24px',
-              paddingRight: '108px',
+              paddingRight: '24px',
               paddingTop: '4px',
               paddingBottom: '4px',
               height: '33px',
@@ -448,7 +451,7 @@ export default function AdminStudio() {
             }}
             style={{
               paddingLeft: '24px',
-              paddingRight: '108px',
+              paddingRight: '24px',
               paddingTop: '4px',
               paddingBottom: '4px',
               height: '33px',
