@@ -429,8 +429,8 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block (paddingLeft: 24px, pb-[48px] with extra 24px bottom space) */}
-        <div className="pb-[48px] flex flex-col w-full gap-0">
+        {/* Bottom Footer Block with explicit 24px bottom margin */}
+        <div style={{ marginBottom: '24px' }} className="flex flex-col w-full gap-0">
           <Link
             href="/"
             target="_blank"
@@ -456,6 +456,7 @@ export default function AdminStudio() {
               paddingTop: '4px',
               paddingBottom: '4px',
               height: '33px',
+              marginBottom: '24px',
             }}
             className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left w-full"
           >
@@ -464,8 +465,8 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: Rectangle 77 — bg-[#0D0D0E], completely borderless) ── */}
-      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] overflow-y-auto flex flex-col border-none relative">
+      {/* ── RIGHT CARD (Content Zone: Completely transparent, no background) ── */}
+      <main className="flex-1 h-full bg-transparent overflow-y-auto flex flex-col border-none relative">
         {/* Header Bar — EXACTLY 24px padding on top, left, bottom, right */}
         <header
           style={{ padding: '24px' }}
@@ -719,23 +720,40 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ── Fixed Floating Bottom Center Actions: Large White [+] and Padded [СОХРАНИТЬ] ── */}
+          {/* ── Fixed Floating Bottom Center Actions: Matching Style to Main Button «СВЯЗАТЬСЯ» ── */}
           <div className="sticky bottom-6 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-auto">
             {activeMenu === 'hero' && (
               <button
                 onClick={addHeroReel}
                 title="Добавить видео"
-                className="w-[56px] h-[56px] min-w-[56px] rounded-full bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.8)] active:scale-95 transition-all shrink-0"
+                style={{
+                  width: '65px',
+                  height: '65px',
+                  borderRadius: '56px',
+                }}
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
               >
-                <Plus className="w-7 h-7 text-black stroke-[2.5]" />
+                <Plus className="w-8 h-8 text-black stroke-[2.5]" />
               </button>
             )}
 
             <button
               onClick={handleSave}
               disabled={isSaving}
-              style={{ paddingLeft: '36px', paddingRight: '36px' }}
-              className="h-[56px] rounded-full bg-[#1458E6] hover:bg-[#1147bd] active:scale-95 text-white font-mono font-bold text-[15px] uppercase tracking-wider transition-all cursor-pointer shadow-[0_10px_30px_rgba(20,88,230,0.4)] flex items-center gap-3 shrink-0"
+              style={{
+                width: '187px',
+                height: '65px',
+                backgroundColor: '#1458E6',
+                borderRadius: '56px',
+                color: '#FFFFFF',
+                fontFamily: '"Geist Mono", monospace',
+                fontSize: '20px',
+                fontWeight: 700,
+                lineHeight: '125%', // 25px
+                letterSpacing: '-0.2px',
+                textTransform: 'uppercase',
+              }}
+              className="hover:bg-[#1147bd] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0 border-none outline-none shadow-none"
             >
               {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : null}
               <span>СОХРАНИТЬ</span>
