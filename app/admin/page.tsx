@@ -10,7 +10,8 @@ import {
   CheckCircle2,
   Plus,
   RefreshCw,
-  ArrowDownToLine,
+  Paperclip,
+  ChevronDown,
   Check,
 } from 'lucide-react';
 import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup, WorkItem } from '@/lib/supabase';
@@ -428,8 +429,8 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block (paddingLeft: 24px, pb-[24px]) */}
-        <div className="pb-[24px] flex flex-col w-full gap-0">
+        {/* Bottom Footer Block (paddingLeft: 24px, pb-[48px] with extra 24px bottom space) */}
+        <div className="pb-[48px] flex flex-col w-full gap-0">
           <Link
             href="/"
             target="_blank"
@@ -464,7 +465,7 @@ export default function AdminStudio() {
       </aside>
 
       {/* ── RIGHT CARD (Content Zone: Rectangle 77 — bg-[#0D0D0E], completely borderless) ── */}
-      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] overflow-y-auto flex flex-col border-none">
+      <main className="flex-1 h-full bg-[#0D0D0E] rounded-[24px] overflow-y-auto flex flex-col border-none relative">
         {/* Header Bar — EXACTLY 24px padding on top, left, bottom, right */}
         <header
           style={{ padding: '24px' }}
@@ -479,10 +480,10 @@ export default function AdminStudio() {
         </header>
 
         {/* Content Section */}
-        <div className="flex flex-col gap-6 w-full">
+        <div className="px-[24px] pb-[32px] flex flex-col gap-6 w-full flex-1">
           {/* ════ SECTION 1: HERO AREA ════ */}
           {activeMenu === 'hero' && (
-            <div className="flex flex-col gap-[4px] w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {mounted && (
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <Droppable droppableId="hero-reels-studio">
@@ -490,7 +491,7 @@ export default function AdminStudio() {
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className="flex flex-col gap-[4px] w-full"
+                        className="flex flex-col gap-[12px] w-full"
                       >
                         {heroReels.map((reel, index) => {
                           const currentSizePreset =
@@ -505,8 +506,8 @@ export default function AdminStudio() {
                                   ref={providedDraggable.innerRef}
                                   {...providedDraggable.draggableProps}
                                   style={{ padding: '24px' }}
-                                  className={`bg-[#0D0D0E] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full ${
-                                    snapshot.isDragging ? 'bg-[#151518] shadow-2xl' : ''
+                                  className={`bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full ${
+                                    snapshot.isDragging ? 'bg-[#1C1C20] shadow-2xl' : ''
                                   }`}
                                 >
                                   {/* Drag Grip Handle — py-[8px] */}
@@ -545,13 +546,13 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Center: Input Fields with transparent bg and 12px padding */}
+                                  {/* Center: Input Fields with grey headers and 12px padding */}
                                   <div className="flex-1 flex flex-col gap-3 w-full">
                                     {/* Line 1: Name RU and Name EN (2 columns) */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                       {/* название ролика (ru) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
                                           название ролика (ru)
                                         </label>
                                         <input
@@ -568,7 +569,7 @@ export default function AdminStudio() {
 
                                       {/* название ролика (en) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
                                           название ролика (en)
                                         </label>
                                         <input
@@ -586,7 +587,7 @@ export default function AdminStudio() {
 
                                     {/* Line 2: превью (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
                                         превью
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -602,11 +603,11 @@ export default function AdminStudio() {
                                           }}
                                           className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                         />
-                                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
+                                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
                                           {uploadingField === `prev_${reel.id}` ? (
                                             <RefreshCw className="w-4 h-4 animate-spin" />
                                           ) : (
-                                            <ArrowDownToLine className="w-4 h-4" />
+                                            <Paperclip className="w-4 h-4" />
                                           )}
                                           <input
                                             type="file"
@@ -632,7 +633,7 @@ export default function AdminStudio() {
 
                                     {/* Line 3: видео (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
                                         видео
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -646,11 +647,11 @@ export default function AdminStudio() {
                                           }
                                           className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
                                         />
-                                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors">
+                                        <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Прикрепить файл">
                                           {uploadingField === `vid_${reel.id}` ? (
                                             <RefreshCw className="w-4 h-4 animate-spin" />
                                           ) : (
-                                            <ArrowDownToLine className="w-4 h-4" />
+                                            <Paperclip className="w-4 h-4" />
                                           )}
                                           <input
                                             type="file"
@@ -671,23 +672,26 @@ export default function AdminStudio() {
                                       </div>
                                     </div>
 
-                                    {/* Line 4: размер (L, M, S Dropdown) */}
+                                    {/* Line 4: размер (L, M, S Dropdown with right-padded arrow) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-white">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
                                         размер
                                       </label>
-                                      <select
-                                        value={currentSizePreset}
-                                        onChange={(e) => handleSizeChange(reel.id, e.target.value)}
-                                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                                        className="w-full max-w-[240px] h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white focus:outline-none focus:border-[#1458E6] cursor-pointer"
-                                      >
-                                        {SIZE_PRESETS.map((preset) => (
-                                          <option key={preset.label} value={preset.label} className="bg-[#0D0D0E] text-white">
-                                            {preset.label}
-                                          </option>
-                                        ))}
-                                      </select>
+                                      <div className="relative inline-block w-full max-w-[240px]">
+                                        <select
+                                          value={currentSizePreset}
+                                          onChange={(e) => handleSizeChange(reel.id, e.target.value)}
+                                          style={{ paddingLeft: '12px', paddingRight: '36px' }}
+                                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white appearance-none focus:outline-none focus:border-[#1458E6] cursor-pointer"
+                                        >
+                                          {SIZE_PRESETS.map((preset) => (
+                                            <option key={preset.label} value={preset.label} className="bg-[#141416] text-white">
+                                              {preset.label}
+                                            </option>
+                                          ))}
+                                        </select>
+                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none" />
+                                      </div>
                                     </div>
                                   </div>
 
@@ -712,28 +716,31 @@ export default function AdminStudio() {
                   </Droppable>
                 </DragDropContext>
               )}
-
-              {/* ── Bottom Center Actions: [+] and [СОХРАНИТЬ] ── */}
-              <div className="flex items-center justify-center gap-4 pt-8 pb-12 w-full">
-                <button
-                  onClick={addHeroReel}
-                  title="Добавить видео"
-                  className="w-[44px] h-[44px] rounded-full bg-[#1458E6] hover:bg-[#1147bd] flex items-center justify-center text-white cursor-pointer shadow-lg active:scale-95 transition-transform shrink-0"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
-
-                <button
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="h-[44px] px-8 rounded-full bg-[#1458E6] hover:bg-[#1147bd] active:scale-95 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg flex items-center gap-2"
-                >
-                  {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : null}
-                  <span>СОХРАНИТЬ</span>
-                </button>
-              </div>
             </div>
           )}
+
+          {/* ── Fixed Floating Bottom Center Actions: Large White [+] and Padded [СОХРАНИТЬ] ── */}
+          <div className="sticky bottom-6 z-50 flex items-center justify-center gap-4 py-2 pointer-events-auto mt-auto">
+            {activeMenu === 'hero' && (
+              <button
+                onClick={addHeroReel}
+                title="Добавить видео"
+                className="w-[56px] h-[56px] min-w-[56px] rounded-full bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.8)] active:scale-95 transition-all shrink-0"
+              >
+                <Plus className="w-7 h-7 text-black stroke-[2.5]" />
+              </button>
+            )}
+
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              style={{ paddingLeft: '36px', paddingRight: '36px' }}
+              className="h-[56px] rounded-full bg-[#1458E6] hover:bg-[#1147bd] active:scale-95 text-white font-mono font-bold text-[15px] uppercase tracking-wider transition-all cursor-pointer shadow-[0_10px_30px_rgba(20,88,230,0.4)] flex items-center gap-3 shrink-0"
+            >
+              {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : null}
+              <span>СОХРАНИТЬ</span>
+            </button>
+          </div>
 
           {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
           {activeMenu === 'works' && (
@@ -824,7 +831,7 @@ export default function AdminStudio() {
                                 {uploadingField === `work_vid_${item.id}` ? (
                                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                                 ) : (
-                                  <ArrowDownToLine className="w-3.5 h-3.5" />
+                                  <Paperclip className="w-3.5 h-3.5" />
                                 )}
                                 <input
                                   type="file"
@@ -864,7 +871,7 @@ export default function AdminStudio() {
                                 {uploadingField === `work_thumb_${item.id}` ? (
                                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                                 ) : (
-                                  <ArrowDownToLine className="w-3.5 h-3.5" />
+                                  <Paperclip className="w-3.5 h-3.5" />
                                 )}
                                 <input
                                   type="file"
