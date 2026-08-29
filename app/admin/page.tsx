@@ -309,41 +309,41 @@ export default function AdminStudio() {
 
   // ─── MAIN ADMIN STUDIO (Strictly matching Frame 172 & Screenshot 1) ──────────
   return (
-    <div className="min-h-screen bg-[#0E0E10] text-white font-mono flex select-none p-4 lg:p-6 gap-6">
+    <div className="min-h-screen bg-[#0E0E10] text-white font-mono flex select-none p-[12px] gap-[12px]">
       {/* Toast Notification */}
       {toast.show && (
-        <div className="fixed top-6 right-6 z-50 bg-[#161719] border border-[#1E6BFF] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-[#1E6BFF] shrink-0" />
+        <div className="fixed top-6 right-6 z-50 bg-[#161719] border border-[#1458E6] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-[#1458E6] shrink-0" />
           <span className="text-xs font-bold font-mono">{toast.message}</span>
         </div>
       )}
 
-      {/* ── LEFT SIDEBAR (Strictly Frame 172 — borderless) ── */}
-      <aside className="w-64 bg-[#141416] rounded-3xl flex flex-col justify-between py-6 shrink-0">
+      {/* ── LEFT SIDEBAR (Strictly Frame 172: 298px, 24px radius, exact margins) ── */}
+      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-[calc(100vh-24px)] bg-[#141416] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none">
         <div className="flex flex-col">
-          {/* Top User Info (Avatar VS + Name + Subtitle) */}
-          <div className="flex items-center gap-3 px-6 pb-6 border-b border-[#222328]">
-            <div className="w-10 h-10 rounded-full bg-[#1E6BFF] text-white font-bold flex items-center justify-center text-sm shrink-0 shadow-md shadow-[#1E6BFF]/25">
+          {/* Top User Profile Block (Rectangle 76 / Frame 173) */}
+          <div className="pt-[24px] pl-[24px] pr-[63px] pb-0 flex items-center gap-[21px]">
+            <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] text-white font-mono font-bold flex items-center justify-center text-[18px] shrink-0 shadow-sm">
               VS
             </div>
-            <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-white">
+            <div className="flex flex-col justify-center">
+              <h2 className="font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] text-white uppercase whitespace-nowrap">
                 ВЛАД САПУНОВ
               </h2>
-              <span className="text-[10px] text-[#777] block mt-0.5">
+              <span className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] text-white opacity-40 lowercase whitespace-nowrap">
                 управление видео
               </span>
             </div>
           </div>
 
-          {/* Navigation Menu (Full-width Solid Blue Block for Active Item) */}
-          <nav className="flex flex-col mt-4">
+          {/* Main Navigation Menu (mt-[26.5px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
+          <nav className="mt-[26.5px] flex flex-col gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
-              className={`w-full text-left px-6 py-3 font-mono text-xs font-bold uppercase transition-colors cursor-pointer ${
+              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
                 activeMenu === 'hero'
-                  ? 'bg-[#1E6BFF] text-white'
-                  : 'text-white hover:text-white/80 hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-white/5'
               }`}
             >
               HERO AREA
@@ -351,10 +351,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('works')}
-              className={`w-full text-left px-6 py-3 font-mono text-xs font-bold uppercase transition-colors cursor-pointer ${
+              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
                 activeMenu === 'works'
-                  ? 'bg-[#1E6BFF] text-white'
-                  : 'text-white hover:text-white/80 hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-white/5'
               }`}
             >
               ВСЕ РАБОТЫ
@@ -362,10 +362,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('clients')}
-              className={`w-full text-left px-6 py-3 font-mono text-xs font-bold uppercase transition-colors cursor-pointer ${
+              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
                 activeMenu === 'clients'
-                  ? 'bg-[#1E6BFF] text-white'
-                  : 'text-white hover:text-white/80 hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-white/5'
               }`}
             >
               КЛИЕНТЫ & ЛОГО
@@ -373,10 +373,10 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('settings')}
-              className={`w-full text-left px-6 py-3 font-mono text-xs font-bold uppercase transition-colors cursor-pointer ${
+              className={`w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap transition-colors cursor-pointer ${
                 activeMenu === 'settings'
-                  ? 'bg-[#1E6BFF] text-white'
-                  : 'text-white hover:text-white/80 hover:bg-white/5'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-white/5'
               }`}
             >
               НАСТРОЙКИ
@@ -384,12 +384,12 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Sidebar Links */}
-        <div className="flex flex-col gap-2 px-6 pt-4 border-t border-[#222328]">
+        {/* Bottom Footer Menu (pb-[24px], h-[33px], py-[4px] pl-[24px] pr-[108px], opacity-40) */}
+        <div className="pb-[24px] flex flex-col gap-0">
           <Link
             href="/"
             target="_blank"
-            className="text-[11px] font-mono uppercase text-[#777] hover:text-white transition-colors"
+            className="w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -398,15 +398,15 @@ export default function AdminStudio() {
               sessionStorage.removeItem('admin_auth');
               setIsAuthenticated(false);
             }}
-            className="text-[11px] font-mono uppercase text-[#777] hover:text-white text-left transition-colors cursor-pointer"
+            className="w-full text-left h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
         </div>
       </aside>
 
-      {/* ── RIGHT MAIN CANVAS WITH BLUE OUTLINE FRAME (Frame 172) ── */}
-      <main className="flex-1 bg-[#141416] border-2 border-[#1E6BFF] rounded-3xl flex flex-col h-[calc(100vh-32px)] lg:h-[calc(100vh-48px)] overflow-hidden shadow-2xl">
+      {/* ── RIGHT MAIN CANVAS WITH BLUE OUTLINE FRAME (Frame 172: 24px radius, #1458E6) ── */}
+      <main className="flex-1 bg-[#141416] border-2 border-[#1458E6] rounded-[24px] h-[calc(100vh-24px)] flex flex-col overflow-hidden shadow-2xl">
         {/* Header Bar */}
         <header className="px-8 py-5 border-b border-[#222328] flex items-center justify-between bg-[#141416]/95 backdrop-blur-md shrink-0">
           <div className="flex items-center gap-3">
