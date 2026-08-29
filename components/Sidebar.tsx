@@ -22,7 +22,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-40 flex flex-col justify-between bg-[#0d0d0d] p-5 lg:p-7 relative select-none">
+    <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
       {/* Top: Name + Subtitle — z-50 strictly ON TOP of PNG masks */}
       <div className="flex flex-col relative z-50">
         {/* Main Title — fixed 522px with nowrap and +8px left padding added */}
@@ -50,7 +50,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
         </div>
       </div>
 
-      {/* Center: White Menu Button (Burger) + White Rectangular Badges */}
+      {/* Center: White Menu Button (Burger) + White Rectangular Badges — z-50 ON TOP of PNG masks */}
       <div
         className="absolute top-1/2 -translate-y-1/2 left-[24px] z-50"
         onMouseEnter={() => setIsMenuOpen(true)}
@@ -61,7 +61,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Меню навигации"
-            className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-none z-50"
+            className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-xl z-50"
           >
             <span className={`w-6 h-[2.5px] bg-[#0B0B0B] rounded-full transition-transform duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
             <span className={`w-6 h-[2.5px] bg-[#0B0B0B] rounded-full transition-transform duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
@@ -80,7 +80,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
                   onSectionClick(item.key);
                   setIsMenuOpen(false);
                 }}
-                className="w-auto inline-block text-left bg-white hover:bg-[#e6e6e6] text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-md"
+                className="w-auto inline-block text-left bg-white hover:bg-[#e6e6e6] text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-xl"
               >
                 {item.label[lang]}
               </button>
@@ -89,21 +89,21 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
         </div>
       </div>
 
-      {/* Bottom Left Corner: 65x65 White Social Buttons (TG, EM, VK) aligned on red line */}
+      {/* Bottom Left Corner: 65x65 White Social Buttons (TG, EM, VK) — z-50 ON TOP of PNG masks */}
       <div className="absolute left-[24px] bottom-[20px] flex flex-col gap-2.5 z-50">
         <a
           href="https://t.me/"
           target="_blank"
           rel="noopener noreferrer"
           title="Telegram"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
         >
           TG
         </a>
         <a
           href="mailto:vlad@sapunov.ru"
           title="Email"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
         >
           EM
         </a>
@@ -112,7 +112,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
           target="_blank"
           rel="noopener noreferrer"
           title="ВКонтакте"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none z-50"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#e6e6e6] active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-xl z-50"
         >
           VK
         </a>

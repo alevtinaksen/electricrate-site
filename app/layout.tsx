@@ -21,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="ru" className={GeistMono.variable}>
       <body className={`${GeistMono.className} antialiased bg-[#0d0d0d] text-white relative`}>
-        {/* Background Ambient Glow Masks positioned underneath all content */}
+        {/* Ambient Glow Masks at z-20 */}
         <AmbientGlowOverlay />
-        <div className="relative z-10 min-h-screen">
+        {/* Main layout container allowing z-50 buttons & titles to stay strictly ABOVE glow masks */}
+        <div className="min-h-screen">
           {children}
         </div>
       </body>

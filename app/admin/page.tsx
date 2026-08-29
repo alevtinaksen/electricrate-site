@@ -318,8 +318,8 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT SIDEBAR (Strictly Frame 172) ── */}
-      <aside className="w-64 bg-[#141416] border border-[#222328] rounded-3xl flex flex-col justify-between py-6 shrink-0">
+      {/* ── LEFT SIDEBAR (Strictly Frame 172 — borderless) ── */}
+      <aside className="w-64 bg-[#141416] rounded-3xl flex flex-col justify-between py-6 shrink-0">
         <div className="flex flex-col">
           {/* Top User Info (Avatar VS + Name + Subtitle) */}
           <div className="flex items-center gap-3 px-6 pb-6 border-b border-[#222328]">
@@ -895,64 +895,8 @@ export default function AdminStudio() {
           {activeMenu === 'settings' && (
             <div className="bg-[#17181A] border border-[#26282C] rounded-2xl p-8 flex flex-col gap-6">
               <h3 className="text-sm font-bold uppercase text-white">
-                Настройки и управление данными
+                Настройки и облачный деплой
               </h3>
-
-              {/* JSON Backup & Restore Card */}
-              <div className="p-6 bg-[#0F1012] border border-[#2A2B30] rounded-xl flex flex-col gap-4">
-                <div>
-                  <span className="text-xs font-bold text-[#1E6BFF] uppercase block mb-1">
-                    Резервное копирование (JSON)
-                  </span>
-                  <p className="text-xs text-[#8C8E96] leading-relaxed">
-                    Вы можете в 1 клик скачать файл со всеми текущими роликами, ссылками и названиями на свой компьютер или загрузить готовую конфигурацию.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    onClick={() => {
-                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ heroReels, workSections }, null, 2));
-                      const downloadAnchor = document.createElement('a');
-                      downloadAnchor.setAttribute("href", dataStr);
-                      downloadAnchor.setAttribute("download", `portfolio_backup_${new Date().toISOString().slice(0,10)}.json`);
-                      document.body.appendChild(downloadAnchor);
-                      downloadAnchor.click();
-                      downloadAnchor.remove();
-                      showToast('✓ Резервная копия сохранена на компьютер');
-                    }}
-                    className="px-5 py-2.5 rounded-xl bg-[#24252A] hover:bg-[#1E6BFF] hover:text-white text-xs font-bold text-white transition-colors cursor-pointer flex items-center gap-2"
-                  >
-                    <span>📥 Скачать резервную копию (JSON)</span>
-                  </button>
-
-                  <label className="px-5 py-2.5 rounded-xl bg-[#24252A] hover:bg-[#1E6BFF] hover:text-white text-xs font-bold text-white transition-colors cursor-pointer flex items-center gap-2">
-                    <span>📤 Восстановить из JSON файла</span>
-                    <input
-                      type="file"
-                      accept=".json,application/json"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (event) => {
-                            try {
-                              const parsed = JSON.parse(event.target?.result as string);
-                              if (parsed.heroReels) setHeroReels(parsed.heroReels);
-                              if (parsed.workSections) setWorkSections(parsed.workSections);
-                              showToast('✓ Конфигурация успешно загружена! Нажмите Сохранить.');
-                            } catch {
-                              showToast('Ошибка при чтении JSON файла');
-                            }
-                          };
-                          reader.readAsText(file);
-                        }
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-6 bg-[#0F1012] border border-[#2A2B30] rounded-xl flex flex-col gap-3">
@@ -969,15 +913,11 @@ export default function AdminStudio() {
 
                 <div className="p-6 bg-[#0F1012] border border-[#2A2B30] rounded-xl flex flex-col gap-3">
                   <span className="text-xs font-bold text-[#1E6BFF] uppercase">
-                    2. Supabase Cloud Database
+                    2. Supabase Storage
                   </span>
                   <p className="text-xs text-[#8C8E96] leading-relaxed">
-                    Для постоянного глобального облачного хранения добавьте ключи Supabase в переменные Vercel:
+                    Для постоянного облачного хранилища добавьте ключи Supabase в <code>.env.local</code>.
                   </p>
-                  <div className="text-[10px] font-mono text-[#8C8E96] bg-[#0A0A0C] p-2.5 rounded-lg border border-[#222]">
-                    NEXT_PUBLIC_SUPABASE_URL=...<br />
-                    NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-                  </div>
                 </div>
               </div>
             </div>
