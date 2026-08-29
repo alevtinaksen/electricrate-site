@@ -113,7 +113,7 @@ export default function ClientsSection({
       {/* Exact 12px gap between header and client list */}
       <div className="h-[12px] w-full shrink-0" />
 
-      {/* Client List with full white hover fill, black text, and video modal trigger */}
+      {/* Client List with clean white text-only hover fill, black text, and video modal trigger */}
       <div
         className="w-full flex flex-col items-center text-center gap-1.5"
         style={{
@@ -127,75 +127,77 @@ export default function ClientsSection({
           textTransform: 'uppercase',
         }}
       >
-        {/* Line 1: ПНТ */}
-        <div
-          onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
-          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
-        >
+        {/* Line 1: ПЕТЕРБУРГСКИЙ НЕФТЯНОЙ ТЕРМИНАЛ · (2 lines to fit right panel) */}
+        <div className="flex items-center justify-center gap-[12px] w-fit max-w-full mx-auto">
           <PntLogo />
-          <span className="transition-colors group-hover:text-black">
-            {isRu ? 'ПЕТЕРБУРГСКИЙ' : 'PETERSBURG'}
+          <span
+            onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
+            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 inline-block text-center leading-[1.05]"
+          >
+            {isRu ? (
+              <>
+                ПЕТЕРБУРГСКИЙ<br />НЕФТЯНОЙ ТЕРМИНАЛ
+              </>
+            ) : (
+              <>
+                PETERSBURG<br />OIL TERMINAL
+              </>
+            )}
           </span>
+          <span className="text-white font-bold ml-1 select-none">·</span>
         </div>
 
-        {/* Line 2: НЕФТЯНОЙ ТЕРМИНАЛ · */}
-        <div
-          onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
-          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center w-fit mx-auto"
-        >
-          <span className="transition-colors group-hover:text-black">
-            {isRu ? 'НЕФТЯНОЙ ТЕРМИНАЛ' : 'OIL TERMINAL'}
-          </span>
-          <span className="mx-4 text-white group-hover:text-black font-bold">·</span>
-        </div>
-
-        {/* Line 3: FINNTRAIL · */}
-        <div
-          onClick={() => handleClientClick(clients[1] || DEFAULT_CLIENTS[1])}
-          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
-        >
+        {/* Line 2: FINNTRAIL · */}
+        <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
           <FinntrailLogo />
-          <span className="transition-colors group-hover:text-black">FINNTRAIL</span>
-          <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
+          <span
+            onClick={() => handleClientClick(clients[1] || DEFAULT_CLIENTS[1])}
+            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+          >
+            {clients[1]?.name_ru && clients[1].name_ru !== 'FINNTRAIL' ? (isRu ? clients[1].name_ru : clients[1].name_en) : 'FINNTRAIL'}
+          </span>
+          <span className="text-white font-bold ml-1 select-none">·</span>
         </div>
 
-        {/* Line 4: СБЕРСТРАХОВАНИЕ · */}
-        <div
-          onClick={() => handleClientClick(clients[2] || DEFAULT_CLIENTS[2])}
-          className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px] w-fit mx-auto"
-        >
+        {/* Line 3: СБЕРСТРАХОВАНИЕ · */}
+        <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
           <SberLogo />
-          <span className="transition-colors group-hover:text-black">
+          <span
+            onClick={() => handleClientClick(clients[2] || DEFAULT_CLIENTS[2])}
+            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+          >
             {isRu ? 'СБЕРСТРАХОВАНИЕ' : 'SBERINSURANCE'}
           </span>
-          <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
+          <span className="text-white font-bold ml-1 select-none">·</span>
         </div>
 
-        {/* Line 5: SPIEF + KTK */}
-        <div className="flex flex-wrap items-center justify-center gap-2 w-fit mx-auto">
-          <div
-            onClick={() => handleClientClick(clients[3] || DEFAULT_CLIENTS[3])}
-            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center gap-[12px]"
-          >
+        {/* Line 4: SPIEF + KTK */}
+        <div className="flex flex-wrap items-center justify-center gap-4 w-fit mx-auto">
+          <div className="flex items-center justify-center gap-[12px]">
             <SpiefLogo />
-            <span className="transition-colors group-hover:text-black">
+            <span
+              onClick={() => handleClientClick(clients[3] || DEFAULT_CLIENTS[3])}
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+            >
               {isRu ? 'ПМЭФ' : 'SPIEF'}
             </span>
-            <span className="ml-2 text-white group-hover:text-black font-bold">·</span>
+            <span className="text-white font-bold ml-1 select-none">·</span>
           </div>
 
-          <div
-            onClick={() => handleClientClick(clients[4] || DEFAULT_CLIENTS[4])}
-            className="group cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 flex items-center justify-center"
-          >
+          <div className="flex items-center justify-center gap-[12px]">
             {clients[4]?.logo_url ? (
               <img
                 src={clients[4].logo_url}
                 alt="КТК"
-                className="w-[54px] h-[54px] rounded-full object-contain mr-[12px]"
+                className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full object-contain shrink-0"
               />
-            ) : null}
-            <span className="transition-colors group-hover:text-black">
+            ) : (
+              <KtkLogo />
+            )}
+            <span
+              onClick={() => handleClientClick(clients[4] || DEFAULT_CLIENTS[4])}
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+            >
               {isRu ? 'КТК' : 'KTK'}
             </span>
           </div>

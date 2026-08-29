@@ -327,11 +327,11 @@ export default function AdminStudio() {
       title_en: 'NEW REEL',
       width: 964,
       height: 542,
-      thumbnail_url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=85',
+      thumbnail_url: '/placeholder.png',
       preview_video_url: 'https://assets.mixkit.co/videos/43485/43485-720.mp4',
       video_url: 'https://assets.mixkit.co/videos/43485/43485-720.mp4',
     };
-    setHeroReels((prev) => [...prev, newReel]);
+    setHeroReels((prev) => [newReel, ...prev]);
     showToast('Видео добавлено');
   };
 
@@ -352,7 +352,7 @@ export default function AdminStudio() {
       isVertical: newCatIsVertical,
       items: [],
     };
-    setWorkSections((prev) => [...prev, newGroup]);
+    setWorkSections((prev) => [newGroup, ...prev]);
     setSelectedCategory(catId);
     setNewCatTitleRu('');
     setNewCatTitleEn('');
@@ -401,12 +401,12 @@ export default function AdminStudio() {
       id: 'work_' + Date.now(),
       title_ru: 'НОВЫЙ ПРОЕКТ',
       title_en: 'NEW PROJECT',
-      thumbnail_url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80',
+      thumbnail_url: '/placeholder.png',
       video_url: 'https://assets.mixkit.co/videos/43485/43485-720.mp4',
       isVertical: isVert,
     };
     setWorkSections((prev) =>
-      prev.map((g) => (g.id === groupId ? { ...g, items: [...g.items, newItem] } : g))
+      prev.map((g) => (g.id === groupId ? { ...g, items: [newItem, ...g.items] } : g))
     );
     showToast('Проект добавлен');
   };
@@ -430,7 +430,7 @@ export default function AdminStudio() {
       logo_url: '',
       color: '#FFFFFF',
     };
-    setClients((prev) => [...prev, newClient]);
+    setClients((prev) => [newClient, ...prev]);
     showToast('Клиент добавлен');
   };
 
@@ -456,7 +456,7 @@ export default function AdminStudio() {
       answer_right_ru: 'ОТВЕТ В ПРАВОЙ КОЛОНКЕ',
       answer_right_en: 'RIGHT COLUMN ANSWER',
     };
-    setFaqs((prev) => [...prev, newFaq]);
+    setFaqs((prev) => [newFaq, ...prev]);
     showToast('Вопрос добавлен');
   };
 
@@ -831,8 +831,11 @@ export default function AdminStudio() {
                                   <div className="w-full lg:w-48 shrink-0 flex flex-col gap-2">
                                     <div className="relative aspect-video rounded-md bg-black overflow-hidden border-none group">
                                       <img
-                                        src={reel.thumbnail_url || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80'}
+                                        src={reel.thumbnail_url || '/placeholder.png'}
                                         alt={reel.title_ru}
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).src = '/placeholder.png';
+                                        }}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                       />
 
@@ -1026,7 +1029,8 @@ export default function AdminStudio() {
                 </DragDropContext>
               )}
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -1178,8 +1182,11 @@ export default function AdminStudio() {
                                       <div className={`w-full ${group.isVertical ? 'lg:w-36 aspect-[9/16]' : 'lg:w-48 aspect-video'} shrink-0 flex flex-col gap-2`}>
                                         <div className="relative w-full h-full rounded-md bg-black overflow-hidden border-none group">
                                           <img
-                                            src={item.thumbnail_url || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80'}
+                                            src={item.thumbnail_url || '/placeholder.png'}
                                             alt={item.title_ru}
+                                            onError={(e) => {
+                                              (e.target as HTMLImageElement).src = '/placeholder.png';
+                                            }}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                           />
                                           <button
@@ -1361,7 +1368,8 @@ export default function AdminStudio() {
                   </div>
                 ))}
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -1373,12 +1381,9 @@ export default function AdminStudio() {
                 style={{ padding: '24px' }}
                 className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
               >
-                <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-white uppercase">
                     Заголовок секции (на фоне карточек)
-                  </span>
-                  <span className="text-[11px] text-[#8C8E96] font-mono">
-                    Позиционирование карточек зафиксировано по кино-макету
                   </span>
                 </div>
 
@@ -1415,107 +1420,111 @@ export default function AdminStudio() {
 
               {/* 4 Cards */}
               <div className="flex flex-col gap-[12px] w-full">
-                {services.cards.map((card, idx) => (
-                  <div
-                    key={card.id}
-                    style={{ padding: '24px' }}
-                    className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded-full bg-[#1458E6] text-white font-mono font-bold text-xs flex items-center justify-center">
-                        {idx + 1}
-                      </span>
-                      <span className="font-mono text-sm font-bold text-white uppercase">
-                        Карточка #{idx + 1}: {card.title_ru.replace('\n', ' ')}
-                      </span>
+                {services.cards.map((card, idx) => {
+                  const cardColorLabels = ['синяя', 'белая', 'черная', 'синяя'];
+                  return (
+                    <div
+                      key={card.id}
+                      style={{ padding: '24px' }}
+                      className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#1458E6] text-white font-mono font-bold text-xs flex items-center justify-center">
+                          {idx + 1}
+                        </span>
+                        <span className="font-mono text-sm font-bold text-white uppercase">
+                          Карточка №{idx + 1} ({cardColorLabels[idx] || 'синяя'})
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Top Text RU / EN */}
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            верхний текст (ru)
+                          </label>
+                          <input
+                            type="text"
+                            value={card.top_text_ru}
+                            onChange={(e) => updateServiceCard(card.id, 'top_text_ru', e.target.value)}
+                            placeholder="СЪЕМКА"
+                            style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                            className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            верхний текст (en)
+                          </label>
+                          <input
+                            type="text"
+                            value={card.top_text_en}
+                            onChange={(e) => updateServiceCard(card.id, 'top_text_en', e.target.value)}
+                            placeholder="SHOOTING"
+                            style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                            className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                          />
+                        </div>
+
+                        {/* Main Title RU / EN */}
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            главный заголовок карточки (ru)
+                          </label>
+                          <input
+                            type="text"
+                            value={card.title_ru}
+                            onChange={(e) => updateServiceCard(card.id, 'title_ru', e.target.value)}
+                            style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                            className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            главный заголовок карточки (en)
+                          </label>
+                          <input
+                            type="text"
+                            value={card.title_en}
+                            onChange={(e) => updateServiceCard(card.id, 'title_en', e.target.value)}
+                            style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                            className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                          />
+                        </div>
+
+                        {/* Bottom Text RU / EN */}
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            нижний текст с описанием (ru)
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={card.bottom_text_ru}
+                            onChange={(e) => updateServiceCard(card.id, 'bottom_text_ru', e.target.value)}
+                            style={{ padding: '12px' }}
+                            className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                            нижний текст с описанием (en)
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={card.bottom_text_en}
+                            onChange={(e) => updateServiceCard(card.id, 'bottom_text_en', e.target.value)}
+                            style={{ padding: '12px' }}
+                            className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                          />
+                        </div>
+                      </div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Top Text RU / EN */}
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          верхний текст (ru)
-                        </label>
-                        <input
-                          type="text"
-                          value={card.top_text_ru}
-                          onChange={(e) => updateServiceCard(card.id, 'top_text_ru', e.target.value)}
-                          placeholder="СЪЕМКА"
-                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          верхний текст (en)
-                        </label>
-                        <input
-                          type="text"
-                          value={card.top_text_en}
-                          onChange={(e) => updateServiceCard(card.id, 'top_text_en', e.target.value)}
-                          placeholder="SHOOTING"
-                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                        />
-                      </div>
-
-                      {/* Main Title RU / EN */}
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          главный заголовок карточки (ru)
-                        </label>
-                        <input
-                          type="text"
-                          value={card.title_ru}
-                          onChange={(e) => updateServiceCard(card.id, 'title_ru', e.target.value)}
-                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          главный заголовок карточки (en)
-                        </label>
-                        <input
-                          type="text"
-                          value={card.title_en}
-                          onChange={(e) => updateServiceCard(card.id, 'title_en', e.target.value)}
-                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
-                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
-                        />
-                      </div>
-
-                      {/* Bottom Text RU / EN */}
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          нижний текст с описанием (ru)
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={card.bottom_text_ru}
-                          onChange={(e) => updateServiceCard(card.id, 'bottom_text_ru', e.target.value)}
-                          style={{ padding: '12px' }}
-                          className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                          нижний текст с описанием (en)
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={card.bottom_text_en}
-                          onChange={(e) => updateServiceCard(card.id, 'bottom_text_en', e.target.value)}
-                          style={{ padding: '12px' }}
-                          className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -1537,8 +1546,11 @@ export default function AdminStudio() {
                   {/* Photo Preview */}
                   <div className="w-24 h-32 rounded-lg bg-black overflow-hidden border border-[#26282C] shrink-0 flex items-center justify-center">
                     <img
-                      src={about.photo_url || '/vlad-portrait.jpg'}
+                      src={about.photo_url || '/placeholder.png'}
                       alt="Влад Сапунов"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/placeholder.png';
+                      }}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -1566,31 +1578,31 @@ export default function AdminStudio() {
                           <X className="w-4 h-4" />
                         </button>
                       )}
-                    <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить фото">
-                      {uploadingField === 'about_photo' ? (
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Paperclip className="w-4 h-4" />
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleFileUpload(
-                              file,
-                              (url) => updateAbout('photo_url', url),
-                              'about_photo'
-                            );
-                          }
-                        }}
-                      />
-                    </label>
+                      <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить фото">
+                        {uploadingField === 'about_photo' ? (
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Paperclip className="w-4 h-4" />
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              handleFileUpload(
+                                file,
+                                (url) => updateAbout('photo_url', url),
+                                'about_photo'
+                              );
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
 
               {/* Upper Text Block */}
@@ -1598,7 +1610,7 @@ export default function AdminStudio() {
                 style={{ padding: '24px' }}
                 className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
               >
-                <span className="font-mono text-xs font-bold text-white uppercase pb-2 border-b border-white/5">
+                <span className="font-mono text-xs font-bold text-white uppercase">
                   Верхний блок текста (слева сверху)
                 </span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1607,12 +1619,12 @@ export default function AdminStudio() {
                       текст (ru)
                     </label>
                     <textarea
-                      rows={4}
+                      rows={8}
                       value={about.top_text_ru}
                       onChange={(e) => updateAbout('top_text_ru', e.target.value)}
                       placeholder="Я — ВИДЕОМЕЙКЕР ИЗ ПЕТЕРБУРГА. В ЭТОЙ СФЕРЕ БОЛЬШЕ 10 ЛЕТ."
                       style={{ padding: '12px' }}
-                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-y min-h-[190px]"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -1620,12 +1632,12 @@ export default function AdminStudio() {
                       текст (en)
                     </label>
                     <textarea
-                      rows={4}
+                      rows={8}
                       value={about.top_text_en}
                       onChange={(e) => updateAbout('top_text_en', e.target.value)}
                       placeholder="I AM A FILMMAKER FROM ST. PETERSBURG..."
                       style={{ padding: '12px' }}
-                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-y min-h-[190px]"
                     />
                   </div>
                 </div>
@@ -1636,7 +1648,7 @@ export default function AdminStudio() {
                 style={{ padding: '24px' }}
                 className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
               >
-                <span className="font-mono text-xs font-bold text-white uppercase pb-2 border-b border-white/5">
+                <span className="font-mono text-xs font-bold text-white uppercase">
                   Нижний блок текста (справа снизу)
                 </span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1645,12 +1657,12 @@ export default function AdminStudio() {
                       текст (ru)
                     </label>
                     <textarea
-                      rows={4}
+                      rows={8}
                       value={about.bottom_text_ru}
                       onChange={(e) => updateAbout('bottom_text_ru', e.target.value)}
                       placeholder="РАБОТАЮ В РАЗНЫХ СФЕРАХ: ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ."
                       style={{ padding: '12px' }}
-                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-y min-h-[190px]"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -1658,18 +1670,19 @@ export default function AdminStudio() {
                       текст (en)
                     </label>
                     <textarea
-                      rows={4}
+                      rows={8}
                       value={about.bottom_text_en}
                       onChange={(e) => updateAbout('bottom_text_en', e.target.value)}
                       placeholder="WORKING ACROSS DIVERSE INDUSTRIES..."
                       style={{ padding: '12px' }}
-                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-y min-h-[190px]"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -1683,7 +1696,7 @@ export default function AdminStudio() {
                   className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full"
                 >
                   {/* Top Row: Logo Avatar + Name + Delete Button */}
-                  <div className="flex items-center justify-between w-full pb-3 border-b border-white/5">
+                  <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-4">
                       <div
                         className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full overflow-hidden flex items-center justify-center p-1 bg-white shadow-md shrink-0"
@@ -1693,6 +1706,9 @@ export default function AdminStudio() {
                           <img
                             src={client.logo_url}
                             alt={client.name_ru}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/placeholder.png';
+                            }}
                             className="w-full h-full object-contain"
                           />
                         ) : (
@@ -1851,24 +1867,14 @@ export default function AdminStudio() {
                 </div>
               ))}
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
           {/* ════ SECTION 4: FAQ (ВОПРОСЫ И ОТВЕТЫ) ════ */}
           {activeMenu === 'faq' && (
             <div className="flex flex-col gap-[12px] w-full">
-              <div className="flex items-center justify-end w-full">
-                <button
-                  onClick={addFaq}
-                  style={{ padding: '8px 16px', borderRadius: '56px' }}
-                  className="bg-white text-[#2957DE] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0 mb-2"
-                >
-                  <Plus className="w-4 h-4 stroke-[2.5]" />
-                  <span>ДОБАВИТЬ ВОПРОС</span>
-                </button>
-              </div>
-
               {faqs.map((faq) => (
                 <div
                   key={faq.id}
@@ -1987,7 +1993,8 @@ export default function AdminStudio() {
                 </div>
               ))}
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -2123,7 +2130,8 @@ export default function AdminStudio() {
                 </div>
               </div>
 
-              <div className="h-[24px] w-full shrink-0" />
+              {/* Pseudo bottom spacer */}
+              <div className="h-[100px] w-full shrink-0" />
             </div>
           )}
 
@@ -2131,8 +2139,8 @@ export default function AdminStudio() {
 
         {/* ── Fixed Floating Bottom Center Actions: ALWAYS pinned to the bottom of the right panel, never scrolls away ── */}
         <div className="fixed bottom-[24px] left-[calc(298px+24px)] right-[12px] z-50 flex items-center justify-center pointer-events-none">
-          <div className="flex items-center justify-center gap-4 pointer-events-auto">
-            {/* White Plus Button for tabs that support adding items */}
+          <div className="flex items-center justify-center gap-0 pointer-events-auto">
+            {/* White Plus Button for tabs that support adding items: White bg default, Blue bg on hover, text white on hover */}
             {activeMenu === 'hero' && (
               <button
                 onClick={addHeroReel}
@@ -2142,9 +2150,9 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
+                className="bg-white hover:bg-[#1458E6] text-black flex items-center justify-center cursor-pointer active:scale-95 transition-colors shrink-0 border-none outline-none shadow-2xl group"
               >
-                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+                <Plus className="w-8 h-8 text-black group-hover:text-white stroke-[1.5] transition-colors" />
               </button>
             )}
 
@@ -2157,9 +2165,9 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
+                className="bg-white hover:bg-[#1458E6] text-black flex items-center justify-center cursor-pointer active:scale-95 transition-colors shrink-0 border-none outline-none shadow-2xl group"
               >
-                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+                <Plus className="w-8 h-8 text-black group-hover:text-white stroke-[1.5] transition-colors" />
               </button>
             )}
 
@@ -2172,9 +2180,9 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
+                className="bg-white hover:bg-[#1458E6] text-black flex items-center justify-center cursor-pointer active:scale-95 transition-colors shrink-0 border-none outline-none shadow-2xl group"
               >
-                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+                <Plus className="w-8 h-8 text-black group-hover:text-white stroke-[1.5] transition-colors" />
               </button>
             )}
 
@@ -2187,22 +2195,20 @@ export default function AdminStudio() {
                   height: '65px',
                   borderRadius: '56px',
                 }}
-                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-2xl"
+                className="bg-white hover:bg-[#1458E6] text-black flex items-center justify-center cursor-pointer active:scale-95 transition-colors shrink-0 border-none outline-none shadow-2xl group"
               >
-                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+                <Plus className="w-8 h-8 text-black group-hover:text-white stroke-[1.5] transition-colors" />
               </button>
             )}
 
-            {/* Blue Save Button */}
+            {/* Blue Save Button: Default Blue bg & White text; On hover White bg & Black text */}
             <button
               onClick={handleSave}
               disabled={isSaving}
               style={{
                 width: '187px',
                 height: '65px',
-                backgroundColor: '#1458E6',
                 borderRadius: '56px',
-                color: '#FFFFFF',
                 fontFamily: '"Geist Mono", monospace',
                 fontSize: '20px',
                 fontWeight: 700,
@@ -2210,7 +2216,7 @@ export default function AdminStudio() {
                 letterSpacing: '-0.2px',
                 textTransform: 'uppercase',
               }}
-              className="hover:bg-[#1147bd] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0 border-none outline-none shadow-2xl"
+              className="bg-[#1458E6] hover:bg-white text-white hover:text-black active:scale-95 transition-colors cursor-pointer flex items-center justify-center gap-2 shrink-0 border-none outline-none shadow-2xl group"
             >
               {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : null}
               <span>СОХРАНИТЬ</span>

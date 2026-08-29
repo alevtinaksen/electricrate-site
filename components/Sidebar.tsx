@@ -22,7 +22,15 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
+    <aside
+      style={{
+        marginTop: '12px',
+        marginBottom: '12px',
+        marginLeft: '12px',
+        height: 'calc(100vh - 24px)',
+      }}
+      className="sticky top-[12px] w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none"
+    >
       {/* Top: Name + Subtitle — ВЛАД and САПУНОВ aligned to the left of each other */}
       <div className="flex flex-col relative z-50 w-full items-start pl-1 sm:pl-2">
         <div className="relative z-50 w-fit pointer-events-none flex flex-col items-start">
@@ -58,12 +66,22 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
             <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
           </button>
 
-          {/* White Rectangular Menu Badges Stack with 2px gap and px-8 py-4 paddings */}
+          {/* White Rectangular Menu Badges Stack with 2px gap, items-start to adapt to text length, and px-8 py-4 paddings */}
           <div
-            className={`absolute left-[74px] top-1/2 -translate-y-1/2 flex flex-col gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+            className={`absolute left-[74px] top-1/2 -translate-y-1/2 flex flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
               isMenuOpen ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-3 scale-95 pointer-events-none'
             }`}
           >
+            {/* Language Switcher Button at top of menu */}
+            <button
+              onClick={() => {
+                onLangChange(lang === 'ru' ? 'en' : 'ru');
+              }}
+              className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase"
+            >
+              {lang === 'ru' ? 'EN' : 'RU'}
+            </button>
+
             {MENU_ITEMS.map((item) => (
               <button
                 key={item.key}
@@ -71,7 +89,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
                   onSectionClick(item.key);
                   setIsMenuOpen(false);
                 }}
-                className="w-auto inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none"
+                className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none"
               >
                 {item.label[lang]}
               </button>
@@ -80,7 +98,7 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
         </div>
       </div>
 
-      {/* Bottom Left Corner: 65x65 White Social Buttons with gap-0, blue hover, and no shadow/outline */}
+      {/* Bottom Left Corner: 65x65 White Social Buttons (TG and @) with gap-0, blue hover */}
       <div className="absolute left-[24px] bottom-[20px] flex flex-col gap-0 z-50">
         <a
           href="https://t.me/sapunov_vlad"
@@ -94,18 +112,9 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
         <a
           href="mailto:vlad@sapunov.ru"
           title="Email"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none border-none outline-none focus:outline-none cursor-pointer"
+          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[22px] leading-none shadow-none border-none outline-none focus:outline-none cursor-pointer"
         >
-          EM
-        </a>
-        <a
-          href="https://vk.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="ВКонтакте"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none border-none outline-none focus:outline-none cursor-pointer"
-        >
-          VK
+          @
         </a>
       </div>
     </aside>

@@ -277,8 +277,8 @@
   "clients": [
     {
       "id": "c1",
-      "name_ru": "Петербургский нефтяной терминал (ПНТ)",
-      "name_en": "Petersburg Oil Terminal (PNT)",
+      "name_ru": "ПНТ",
+      "name_en": "POT",
       "logo_url": "",
       "color": "#FFFFFF"
     },
@@ -305,17 +305,17 @@
     },
     {
       "id": "c5",
-      "name_ru": "КТК (Каспийский трубопровод)",
+      "name_ru": "КТК",
       "name_en": "KTK",
       "logo_url": "",
       "color": "#001435"
     }
   ],
   "settings": {
-    "telegram": "https://t.me/",
+    "telegram": "https://t.me/@ElllRate",
     "email": "vlad@sapunov.ru",
     "vk": "https://vk.com/",
-    "phone": "+7 (999) 000-00-00",
+    "phone": "+79500161751",
     "adminPin": "2026"
   },
   "faqs": [
@@ -383,12 +383,62 @@
       "answer_right_en": "UPLOADED TO CLOUD STORAGE OR TRANSFERRED ON YOUR HARD DRIVE IN MAXIMUM QUALITY."
     }
   ],
+  "services": {
+    "headline_ru": "КАРТИНКА\nУРОВНЯ КИНО:\nОТ ИДЕИ ДО\nРЕЛИЗА",
+    "headline_en": "CINEMATIC\nQUALITY:\nFROM IDEA TO\nRELEASE",
+    "cards": [
+      {
+        "id": "card1",
+        "top_text_ru": "снимаю на sony g-master\nс кино-светом.",
+        "top_text_en": "shooting on sony g-master\nwith cinema lighting.",
+        "title_ru": "СЪЕМКА",
+        "title_en": "SHOOTING",
+        "bottom_text_ru": "картинка выглядит дорого —\nхоть в студии, хоть в репортаже,\nхоть в грязи по колено.",
+        "bottom_text_en": "looks premium everywhere —\nstudio, reportage,\nor knee-deep in mud.",
+        "bg_color": "#1458E6",
+        "text_color": "#FFFFFF"
+      },
+      {
+        "id": "card2",
+        "top_text_ru": "монтирую и крашу в davinci.",
+        "top_text_en": "editing & grading in davinci.",
+        "title_ru": "МОНТАЖ И\nЦВЕТ",
+        "title_en": "EDITING &\nCOLOR",
+        "bottom_text_ru": "авторская цветокоррекция — то,\nчто отличает «снято на телефон»\nот «снято как кино».",
+        "bottom_text_en": "signature color grading —\nwhat separates phone videos\nfrom cinematic art.",
+        "bg_color": "#FFFFFF",
+        "text_color": "#1458E6"
+      },
+      {
+        "id": "card3",
+        "top_text_ru": "от идеи до мастеринга\nведу сам",
+        "top_text_en": "from idea to mastering\nled personally",
+        "title_ru": "ПОЛНЫЙ ЦИКЛ\nПОД КЛЮЧ",
+        "title_en": "FULL CYCLE\nTURNKEY",
+        "bottom_text_ru": "без испорченного телефона между\nоператором, монтажёром и колористом.",
+        "bottom_text_en": "seamless workflow without lost in translation\nbetween camera, editor, and colorist.",
+        "bg_color": "#1E1E22",
+        "text_color": "#FFFFFF"
+      },
+      {
+        "id": "card4",
+        "top_text_ru": "для больших проектов\nпривлекаю проверенных\nпрофи",
+        "top_text_en": "for large-scale projects\nbringing trusted\npros",
+        "title_ru": "КОМАНДА",
+        "title_en": "TEAM",
+        "bottom_text_ru": "вы общаетесь только со мной,\nа я ручаюсь за результат всей команды.",
+        "bottom_text_en": "you only communicate with me,\nand i vouch for the team result.",
+        "bg_color": "#1458E6",
+        "text_color": "#FFFFFF"
+      }
+    ]
+  },
   "about": {
-    "photo_url": "/vlad-portrait.jpg",
+    "photo_url": "/uploads/1788011252108_014.jpg",
     "top_text_ru": "Я —\nВИДЕОМЕЙКЕР\nИЗ\nПЕТЕРБУРГА.\nВ ЭТОЙ\nСФЕРЕ\nБОЛЬШЕ 10\nЛЕТ.",
     "top_text_en": "I AM A\nFILMMAKER\nFROM\nST. PETERSBURG.\nIN THIS\nINDUSTRY\nOVER 10\nYEARS.",
-    "bottom_text_ru": "РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ :\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.",
+    "bottom_text_ru": "РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ:\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.",
     "bottom_text_en": "WORKING\nACROSS\nINDUSTRIES :\nINDUSTRIAL,\nLEGAL,\nREAL ESTATE,\nHORECA, SPORT."
   },
-  "updatedAt": "2026-08-29T13:22:00.000Z"
+  "updatedAt": "2026-08-29T16:23:10.382Z"
 }
