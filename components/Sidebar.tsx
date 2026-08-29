@@ -25,12 +25,11 @@ export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarP
     <aside className="sticky top-0 h-screen w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none">
       {/* Top: Name + Subtitle — z-50 strictly ON TOP of PNG masks */}
       <div className="flex flex-col relative z-50">
-        {/* Main Title — w-fit with 'ВЛАД' aligned to the right edge of 'САПУНОВ' dynamically at ANY resolution */}
+        {/* Main Title — multi-breakpoint responsive scaling (mobile -> laptop -> Full HD -> 2K -> 4K) */}
         <div className="relative z-50 w-fit pointer-events-none pl-[8px] flex flex-col items-end">
           <h1
-            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-fit"
+            className="font-mono uppercase font-semibold text-white whitespace-nowrap flex flex-col items-end w-fit text-[56px] sm:text-[72px] md:text-[88px] lg:text-[104px] xl:text-[128.49px] 2xl:text-[144px] min-[1920px]:text-[164px] min-[2560px]:text-[198px]"
             style={{
-              fontSize: 'clamp(64px, 8.5vw, 128.49px)',
               lineHeight: '93%',
               letterSpacing: '-1.285px',
               color: '#FFFFFF',
