@@ -331,11 +331,11 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, completely borderless) ── */}
+      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, 12px outer spacing) ── */}
       <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
         <div className="flex flex-col w-full">
-          {/* Top Profile Block — exactly 24px padding on all 4 sides */}
-          <div className="p-[24px] flex items-center gap-[21px] w-full">
+          {/* Top Profile Block (Frame 173: pt-[24px] pl-[24px] pr-[63px] pb-0, gap-[21px]) */}
+          <div className="pt-[24px] pl-[24px] pr-[63px] pb-0 flex items-center gap-[21px] w-full">
             <div className="w-[48px] h-[48px] min-w-[48px] rounded-[24px] bg-[#1458E6] flex items-center justify-center font-bold text-white text-[16px] shrink-0">
               VS
             </div>
@@ -349,11 +349,11 @@ export default function AdminStudio() {
             </div>
           </div>
 
-          {/* Main Navigation Menu (mt-[24px], pl-[24px] aligned with profile text) */}
-          <nav className="mt-[24px] flex flex-col w-full">
+          {/* Main Navigation Menu (mt-[26.5px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
+          <nav className="mt-[26.5px] flex flex-col w-full gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
-              className={`h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left ${
+              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'hero'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -364,7 +364,7 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('works')}
-              className={`h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left ${
+              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'works'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -375,7 +375,7 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('clients')}
-              className={`h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left ${
+              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'clients'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -386,7 +386,7 @@ export default function AdminStudio() {
 
             <button
               onClick={() => setActiveMenu('settings')}
-              className={`h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left ${
+              className={`h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'settings'
                   ? 'bg-[#1458E6] text-white'
                   : 'bg-transparent text-white hover:bg-white/5'
@@ -397,12 +397,12 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block — exactly 24px padding bottom, pl-24 on items */}
-        <div className="pb-[24px] flex flex-col w-full gap-1">
+        {/* Bottom Footer Block (pb-[49px], h-[33px], py-[4px] pl-[24px] pr-[108px]) */}
+        <div className="pb-[49px] flex flex-col w-full gap-0">
           <Link
             href="/"
             target="_blank"
-            className="h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity"
+            className="h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -411,7 +411,7 @@ export default function AdminStudio() {
               sessionStorage.removeItem('admin_auth');
               setIsAuthenticated(false);
             }}
-            className="h-[33px] w-full pl-[24px] pr-[24px] flex items-center font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left"
+            className="h-[33px] min-h-[33px] py-[4px] pl-[24px] pr-[108px] flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left w-full"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
