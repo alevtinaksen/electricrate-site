@@ -2,23 +2,23 @@
   "heroReels": [
     {
       "id": "morskaya-party",
-      "title_ru": "MORSKAYA PARTY",
+      "title_ru": "Морская вечеринка",
       "title_en": "MORSKAYA PARTY",
       "width": 964,
       "height": 542,
-      "thumbnail_url": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=85",
-      "preview_video_url": "https://assets.mixkit.co/videos/43485/43485-720.mp4",
-      "video_url": "https://assets.mixkit.co/videos/43485/43485-720.mp4"
+      "thumbnail_url": "/uploads/1788008608653_06_Morskaya_Party.mp4",
+      "preview_video_url": "/uploads/1788008608653_06_Morskaya_Party.mp4",
+      "video_url": "/uploads/1788008614242_06_Morskaya_Party.mp4"
     },
     {
       "id": "runmore",
       "title_ru": "#RUNMORE",
       "title_en": "#RUNMORE",
-      "width": 556,
-      "height": 338,
-      "thumbnail_url": "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=85",
-      "preview_video_url": "https://assets.mixkit.co/videos/42289/42289-720.mp4",
-      "video_url": "https://assets.mixkit.co/videos/42289/42289-720.mp4"
+      "width": 557,
+      "height": 313,
+      "thumbnail_url": "/uploads/1788008687051_03_RUNMORE.mp4",
+      "preview_video_url": "/uploads/1788008687051_03_RUNMORE.mp4",
+      "video_url": "/uploads/1788008690075_03_RUNMORE.mp4"
     },
     {
       "id": "finntrail-hr",
@@ -26,9 +26,9 @@
       "title_en": "FINNTRAIL HR",
       "width": 818,
       "height": 460,
-      "thumbnail_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&q=85",
-      "preview_video_url": "https://assets.mixkit.co/videos/42998/42998-720.mp4",
-      "video_url": "https://assets.mixkit.co/videos/42998/42998-720.mp4"
+      "thumbnail_url": "/uploads/1788008699334_07_Finntrail_HR.mp4",
+      "preview_video_url": "/uploads/1788008699334_07_Finntrail_HR.mp4",
+      "video_url": "/uploads/1788008702404_07_Finntrail_HR.mp4"
     },
     {
       "id": "bar-hearts",
@@ -36,19 +36,19 @@
       "title_en": "BROKEN HEARTS BAR",
       "width": 557,
       "height": 313,
-      "thumbnail_url": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=85",
-      "preview_video_url": "https://assets.mixkit.co/videos/42867/42867-720.mp4",
-      "video_url": "https://assets.mixkit.co/videos/42867/42867-720.mp4"
+      "thumbnail_url": "/uploads/1788008709361_03____________________.mp4",
+      "preview_video_url": "/uploads/1788008709361_03____________________.mp4",
+      "video_url": "/uploads/1788008711829_03____________________.mp4"
     },
     {
       "id": "herzen-rowing",
-      "title_ru": "HERZENROWING",
+      "title_ru": "Гребля: герцена",
       "title_en": "HERZENROWING",
       "width": 964,
       "height": 542,
-      "thumbnail_url": "https://images.unsplash.com/photo-1544919982-b61976f0ba43?w=1200&q=85",
-      "preview_video_url": "https://assets.mixkit.co/videos/42813/42813-720.mp4",
-      "video_url": "https://assets.mixkit.co/videos/42813/42813-720.mp4"
+      "thumbnail_url": "/uploads/1788008731844_01_HerzenRowing_______.mov",
+      "preview_video_url": "/uploads/1788008731844_01_HerzenRowing_______.mov",
+      "video_url": "/uploads/1788008734645_01_HerzenRowing_______.mov"
     }
   ],
   "workSections": [
@@ -274,5 +274,114 @@
       ]
     }
   ],
-  "updatedAt": "2026-08-29T12:47:24.450Z"
+  "clients": [
+    {
+      "id": "c1",
+      "name_ru": "Петербургский нефтяной терминал (ПНТ)",
+      "name_en": "Petersburg Oil Terminal (PNT)",
+      "logo_url": "",
+      "color": "#FFFFFF"
+    },
+    {
+      "id": "c2",
+      "name_ru": "FINNTRAIL",
+      "name_en": "FINNTRAIL",
+      "logo_url": "",
+      "color": "#FFFFFF"
+    },
+    {
+      "id": "c3",
+      "name_ru": "СБЕРСТРАХОВАНИЕ",
+      "name_en": "SBERINSURANCE",
+      "logo_url": "",
+      "color": "#FFFFFF"
+    },
+    {
+      "id": "c4",
+      "name_ru": "ПМЭФ (Форум)",
+      "name_en": "SPIEF",
+      "logo_url": "",
+      "color": "#B89758"
+    },
+    {
+      "id": "c5",
+      "name_ru": "КТК (Каспийский трубопровод)",
+      "name_en": "KTK",
+      "logo_url": "",
+      "color": "#001435"
+    }
+  ],
+  "settings": {
+    "telegram": "https://t.me/",
+    "email": "vlad@sapunov.ru",
+    "vk": "https://vk.com/",
+    "phone": "+7 (999) 000-00-00",
+    "adminPin": "2026"
+  },
+  "faqs": [
+    {
+      "id": "faq1",
+      "question_ru": "сколько стоит съёмка или монтаж?",
+      "question_en": "how much does shooting or editing cost?",
+      "answer_left_ru": "СНИМАЮ НА SONY G-MASTER С КИНО-СВЕТОМ.",
+      "answer_left_en": "SHOOTING ON SONY G-MASTER WITH CINEMA LIGHTING.",
+      "answer_right_ru": "КАРТИНКА ВЫГЛЯДИТ ДОРОГО — ХОТЬ В СТУДИИ, ХОТЬ В РЕПОРТАЖЕ, ХОТЬ В ГРЯЗИ ПО КОЛЕНО.",
+      "answer_right_en": "THE PICTURE LOOKS EXPENSIVE — IN THE STUDIO, IN REPORTAGE, OR IN KNEE-DEEP MUD."
+    },
+    {
+      "id": "faq2",
+      "question_ru": "в каких городах работаете?",
+      "question_en": "which cities do you work in?",
+      "answer_left_ru": "БАЗИРУЮСЬ В САНКТ-ПЕТЕРБУРГЕ И МОСКВЕ.",
+      "answer_left_en": "BASED IN ST. PETERSBURG AND MOSCOW.",
+      "answer_right_ru": "ВЫЕЗЖАЮ НА ПРОЕКТЫ ПО ВСЕЙ РОССИИ И МИРУ С ПОЛНЫМ КОМПЛЕКТОМ ОБОРУДОВАНИЯ.",
+      "answer_right_en": "TRAVELING FOR PROJECTS ACROSS RUSSIA AND WORLDWIDE WITH FULL GEAR."
+    },
+    {
+      "id": "faq3",
+      "question_ru": "сколько времени занимает монтаж?",
+      "question_en": "how long does editing take?",
+      "answer_left_ru": "ОТ 3 ДО 10 РАБОЧИХ ДНЕЙ.",
+      "answer_left_en": "FROM 3 TO 10 BUSINESS DAYS.",
+      "answer_right_ru": "СРОКИ ЗАВИСЯТ ОТ МАСШТАБА: РИЛСЫ — 24 ЧАСА, ПОЛНОЦЕННЫЕ РОЛИКИ И РЕКЛАМА — ПО СОГЛАСОВАННОМУ ГРАФИКУ.",
+      "answer_right_en": "TIMELINES DEPEND ON SCOPE: REELS IN 24H, FULL PROMO AND COMMERCIALS ON AGREED SCHEDULE."
+    },
+    {
+      "id": "faq4",
+      "question_ru": "работаете с частными лицами или только с компаниями?",
+      "question_en": "do you work with individuals or only companies?",
+      "answer_left_ru": "РАБОТАЮ КАК С ЮРЛИЦАМИ, ТАК И С ЧАСТНЫМИ КЛИЕНТАМИ.",
+      "answer_left_en": "WORKING WITH BOTH CORPORATE AND PRIVATE CLIENTS.",
+      "answer_right_ru": "ОФОРМЛЕНИЕ ПО ДОГОВОРУ, ОПЛАТА ПО БЕЗНАЛИЧНОМУ РАСЧЕТУ ИЛИ САМОЗАНЯТОСТИ С ЧЕКОМ.",
+      "answer_right_en": "OFFICIAL CONTRACTS, INVOICE PAYMENTS OR SELF-EMPLOYED RECEIPTS."
+    },
+    {
+      "id": "faq5",
+      "question_ru": "можете взять большой проект с командой?",
+      "question_en": "can you take on a large project with a team?",
+      "answer_left_ru": "ПОЛНЫЙ ПРОДАКШН ПОД КЛЮЧ.",
+      "answer_left_en": "FULL TURNKEY PRODUCTION.",
+      "answer_right_ru": "СОБИРАЮ КОМАНДУ: ВТОРОЙ ОПЕРАТОР, ЗВУКОРЕЖИССЕР, ОСВЕТИТЕЛИ, ГРИМЕР И АССИСТЕНТЫ.",
+      "answer_right_en": "ASSEMBLING TEAMS: SECOND CAMERA, SOUND ENGINEER, GAFFERS, MAKEUP AND ASSISTANTS."
+    },
+    {
+      "id": "faq6",
+      "question_ru": "как происходит оплата?",
+      "question_en": "how does payment work?",
+      "answer_left_ru": "ПРЕДОПЛАТА 50% ПЕРЕД СЪЕМКАМИ.",
+      "answer_left_en": "50% DEPOSIT BEFORE PRODUCTION.",
+      "answer_right_ru": "ОСТАЛЬНЫЕ 50% ПОСЛЕ ПРИЕМКИ ФИНАЛЬНОГО МОНТАЖА И ЦВЕТОКОРРЕКЦИИ.",
+      "answer_right_en": "REMAINING 50% UPON FINAL EDIT APPROVAL AND COLOR GRADING."
+    },
+    {
+      "id": "faq7",
+      "question_ru": "остаётся ли исходный материал у меня?",
+      "question_en": "do i get the raw footage?",
+      "answer_left_ru": "ДА, ВСЕ ИСХОДНИКИ ПЕРЕДАЮТСЯ ПО ЗАПРОСУ.",
+      "answer_left_en": "YES, ALL RAW FOOTAGE IS DELIVERED UPON REQUEST.",
+      "answer_right_ru": "ОТПРАВЛЯЮ В ОБЛАКО ИЛИ ПЕРЕДАЮ НА ВАШЕМ ЖЕСТКОМ ДИСКЕ В МАКСИМАЛЬНОМ КАЧЕСТВЕ.",
+      "answer_right_en": "UPLOADED TO CLOUD STORAGE OR TRANSFERRED ON YOUR HARD DRIVE IN MAXIMUM QUALITY."
+    }
+  ],
+  "updatedAt": "2026-08-29T13:05:36.101Z"
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import Lenis from 'lenis';
 import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
@@ -21,6 +22,38 @@ export default function Home() {
   const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
   const [isLoaded, setIsLoaded] = useState(false);
   const rightPanelRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize Lenis Smooth Scroll (identical to hobro.digital)
+  useEffect(() => {
+    if (!rightPanelRef.current) return;
+
+    const lenis = new Lenis({
+      wrapper: rightPanelRef.current,
+      content: rightPanelRef.current.firstElementChild as HTMLElement,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth inertia curve
+      orientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   // Load custom data from /api/content + localStorage
   useEffect(() => {
@@ -119,17 +152,21 @@ export default function Home() {
         ? 'faq'
         : 'works';
     const el = document.getElementById(targetId);
-    if (el && rightPanelRef.current) {
-      rightPanelRef.current.scrollTo({
-        top: el.offsetTop - 20,
-        behavior: 'smooth',
-      });
+    if (el) {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
+      } else if (rightPanelRef.current) {
+        rightPanelRef.current.scrollTo({
+          top: el.offsetTop - 20,
+          behavior: 'smooth',
+        });
+      }
     }
   };
 
   return (
     <>
-      {/* ── Cinematic Preloader with % counter and smooth page reveal ── */}
+      {/* ── Minimal Hobro-style Preloader with % counter and cycling dots ── */}
       <Preloader onComplete={() => setIsLoaded(true)} />
 
       <motion.div
@@ -145,7 +182,7 @@ export default function Home() {
           onSectionClick={scrollToSection}
         />
 
-        {/* ── Right column: pinned to the right side on resize, max-w-[964px] content ── */}
+        {/* ── Right column: Lenis smooth scroll container, max-w-[964px] content ── */}
         <main
           ref={rightPanelRef}
           className="right-panel flex-1 h-screen overflow-y-auto overflow-x-hidden relative flex flex-col items-end"
