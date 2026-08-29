@@ -332,8 +332,8 @@ export default function AdminStudio() {
         </div>
       )}
 
-      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, completely borderless) ── */}
-      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#0D0D0E] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
+      {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, bg-[#141416] matching cards) ── */}
+      <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#141416] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
         <div className="flex flex-col w-full">
           {/* Top Profile Block — EXACTLY 24px padding on ALL 4 sides (top, right, bottom, left) */}
           <div
@@ -353,7 +353,7 @@ export default function AdminStudio() {
             </div>
           </div>
 
-          {/* Main Navigation Menu (h-[33px], paddingLeft: 24px) */}
+          {/* Main Navigation Menu (h-[33px], paddingLeft: 24px, hover:bg-[#1458E6]) */}
           <nav className="flex flex-col w-full gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
@@ -367,7 +367,7 @@ export default function AdminStudio() {
               className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'hero'
                   ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
               }`}
             >
               HERO AREA
@@ -385,7 +385,7 @@ export default function AdminStudio() {
               className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'works'
                   ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
               }`}
             >
               ВСЕ РАБОТЫ
@@ -403,7 +403,7 @@ export default function AdminStudio() {
               className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'clients'
                   ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
               }`}
             >
               КЛИЕНТЫ & ЛОГО
@@ -421,7 +421,7 @@ export default function AdminStudio() {
               className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
                 activeMenu === 'settings'
                   ? 'bg-[#1458E6] text-white'
-                  : 'bg-transparent text-white hover:bg-white/5'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
               }`}
             >
               НАСТРОЙКИ
@@ -429,7 +429,7 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block with explicit 24px bottom margin */}
+        {/* Bottom Footer Block (Frame 177: hover:bg-white hover:text-black, with only margin-bottom 24px) */}
         <div style={{ marginBottom: '24px' }} className="flex flex-col w-full gap-0">
           <Link
             href="/"
@@ -441,7 +441,7 @@ export default function AdminStudio() {
               paddingBottom: '4px',
               height: '33px',
             }}
-            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity w-full text-left"
+            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap text-[#8C8E96] hover:bg-white hover:text-black transition-colors w-full text-left"
           >
             ОТКРЫТЬ САЙТ
           </Link>
@@ -456,9 +456,8 @@ export default function AdminStudio() {
               paddingTop: '4px',
               paddingBottom: '4px',
               height: '33px',
-              marginBottom: '24px',
             }}
-            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap opacity-40 text-white hover:opacity-100 transition-opacity cursor-pointer text-left w-full"
+            className="flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap text-[#8C8E96] hover:bg-white hover:text-black transition-colors cursor-pointer text-left w-full"
           >
             ВЫЙТИ ИЗ СЕССИИ
           </button>
@@ -547,13 +546,13 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Center: Input Fields with grey headers and 12px padding */}
+                                  {/* Center: Input Fields with bright legible headers and 12px padding */}
                                   <div className="flex-1 flex flex-col gap-3 w-full">
                                     {/* Line 1: Name RU and Name EN (2 columns) */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                       {/* название ролика (ru) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
                                           название ролика (ru)
                                         </label>
                                         <input
@@ -570,7 +569,7 @@ export default function AdminStudio() {
 
                                       {/* название ролика (en) */}
                                       <div className="flex flex-col gap-2">
-                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
+                                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
                                           название ролика (en)
                                         </label>
                                         <input
@@ -588,7 +587,7 @@ export default function AdminStudio() {
 
                                     {/* Line 2: превью (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
                                         превью
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -634,7 +633,7 @@ export default function AdminStudio() {
 
                                     {/* Line 3: видео (ссылка или файл с компьютера) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
                                         видео
                                       </label>
                                       <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
@@ -675,7 +674,7 @@ export default function AdminStudio() {
 
                                     {/* Line 4: размер (L, M, S Dropdown with right-padded arrow) */}
                                     <div className="flex flex-col gap-2">
-                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#8C8E96]">
+                                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#B4B4B8]">
                                         размер
                                       </label>
                                       <div className="relative inline-block w-full max-w-[240px]">
@@ -696,10 +695,14 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Right: Delete Action */}
+                                  {/* Right: Delete Action with confirmation prompt */}
                                   <div className="pt-2 shrink-0">
                                     <button
-                                      onClick={() => deleteHeroReel(reel.id)}
+                                      onClick={() => {
+                                        if (window.confirm('Вы уверены, что хотите удалить?')) {
+                                          deleteHeroReel(reel.id);
+                                        }
+                                      }}
                                       title="Удалить"
                                       className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
                                     >
@@ -717,6 +720,9 @@ export default function AdminStudio() {
                   </Droppable>
                 </DragDropContext>
               )}
+
+              {/* Pseudo-spacer so the bottom floating dock never overlaps the last card */}
+              <div className="h-[80px] w-full shrink-0" />
             </div>
           )}
 
@@ -733,7 +739,7 @@ export default function AdminStudio() {
                 }}
                 className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
               >
-                <Plus className="w-8 h-8 text-black stroke-[2.5]" />
+                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
               </button>
             )}
 
