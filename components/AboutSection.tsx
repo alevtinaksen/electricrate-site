@@ -10,35 +10,6 @@ interface AboutSectionProps {
   about?: AboutContent;
 }
 
-// Masked slide-up line animation
-function MaskedLine({
-  children,
-  delay = 0,
-  className = '',
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  return (
-    <div className={`overflow-hidden block ${className}`}>
-      <motion.div
-        initial={{ y: '110%', opacity: 0 }}
-        whileInView={{ y: '0%', opacity: 1 }}
-        viewport={{ once: false, amount: 0.2 }}
-        transition={{
-          duration: 0.9,
-          ease: [0.16, 1, 0.3, 1], // easeOutExpo
-          delay,
-        }}
-        className="block"
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
-}
-
 export default function AboutSection({
   lang,
   about = DEFAULT_ABOUT,
@@ -51,10 +22,8 @@ export default function AboutSection({
     offset: ['start end', 'end start'],
   });
 
-  // Parallax transforms for photo and typography layers
-  const photoY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
-  const topTextY = useTransform(scrollYProgress, [0, 1], ['20px', '-40px']);
-  const bottomTextY = useTransform(scrollYProgress, [0, 1], ['40px', '-20px']);
+  // Smooth subtle vertical parallax for portrait
+  const photoY = useTransform(scrollYProgress, [0, 1], ['-4%', '4%']);
 
   const topTextRaw = isRu
     ? about.top_text_ru || DEFAULT_ABOUT.top_text_ru
@@ -64,7 +33,7 @@ export default function AboutSection({
     ? about.bottom_text_ru || DEFAULT_ABOUT.bottom_text_ru
     : about.bottom_text_en || DEFAULT_ABOUT.bottom_text_en;
 
-  // Split lines if multiline or break by sensible chunks
+  // Split lines if formatted with newlines or provide exact fallback
   const topLines = topTextRaw.includes('\n')
     ? topTextRaw.split('\n')
     : isRu
@@ -80,12 +49,12 @@ export default function AboutSection({
       ]
     : [
         'I AM A',
-        'VIDEOMAKER',
+        'FILMMAKER',
         'FROM',
         'ST. PETERSBURG.',
         'IN THIS',
-        'FIELD',
-        'FOR OVER 10',
+        'INDUSTRY',
+        'OVER 10',
         'YEARS.',
       ];
 
@@ -95,7 +64,7 @@ export default function AboutSection({
     ? [
         'РАБОТАЮ',
         'В РАЗНЫХ',
-        'СФЕРАХ :',
+        'СФЕРАХ:',
         'ПРОМЫШЛЕННОСТЬ,',
         'ЮРИСТЫ,',
         'НЕДВИЖИМОСТЬ,',
@@ -103,9 +72,9 @@ export default function AboutSection({
       ]
     : [
         'WORKING',
-        'IN VARIOUS',
-        'SPHERES :',
-        'INDUSTRY,',
+        'ACROSS',
+        'INDUSTRIES:',
+        'INDUSTRIAL,',
         'LEGAL,',
         'REAL ESTATE,',
         'HORECA, SPORT.',
@@ -115,64 +84,58 @@ export default function AboutSection({
     <section
       ref={sectionRef}
       id="about"
-      className="w-full max-w-[1020px] min-h-[110vh] py-20 lg:py-28 relative flex flex-col justify-between select-none font-mono text-white overflow-hidden"
+      className="relative w-full max-w-[964px] min-h-[850px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col justify-between p-6 sm:p-10 lg:p-12 select-none font-mono text-white"
+      style={{ fontFamily: '"Geist Mono", monospace' }}
     >
-      {/* ── Background Vlad Portrait (Stretches across entire right side with parallax) ── */}
-      <div className="absolute right-0 top-0 bottom-0 w-full sm:w-[75%] lg:w-[65%] h-full pointer-events-none z-0 overflow-hidden flex items-center justify-end">
-        <motion.div
-          style={{ y: photoY }}
-          className="relative w-full h-[120%] -top-[10%]"
-        >
-          <img
-            src={about.photo_url || '/vlad-portrait.jpg'}
-            alt="Влад Сапунов"
-            className="w-full h-full object-cover object-center filter grayscale-[15%] contrast-110"
-          />
-          {/* Deep cinematic fade into site background #0d0d0d */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d] via-[#0d0d0d]/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-[#0d0d0d]" />
-        </motion.div>
-      </div>
-
-      {/* ── Top-Left Editorial Typography with Parallax & Masked Reveal ── */}
+      {/* ── Background Vlad Portrait (Right 55%, object-contain, bottom gradient mask) ── */}
       <motion.div
-        style={{ y: topTextY }}
-        className="relative z-20 flex flex-col items-start text-left max-w-2xl"
+        style={{ y: photoY }}
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-full pointer-events-none z-0 select-none flex items-center justify-end"
       >
-        <h2
-          className="font-mono uppercase font-semibold text-white tracking-[-1.5px]"
+        <img
+          src={about.photo_url || '/vlad-portrait.jpg'}
+          alt="Влад Сапунов"
           style={{
-            fontSize: 'clamp(34px, 5.5vw, 78px)',
-            lineHeight: '92%',
+            maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
           }}
-        >
+          className="w-full h-full object-contain object-right-center"
+        />
+      </motion.div>
+
+      {/* ── Top-Left Typography Block (z-10, text-[42px] leading-[1.05] tracking-[-1px]) ── */}
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 flex flex-col items-start text-left max-w-[420px]"
+      >
+        <h2 className="text-[28px] sm:text-[36px] lg:text-[42px] leading-[1.05] tracking-[-1px] text-white font-bold text-left uppercase m-0 p-0 whitespace-pre-line">
           {topLines.map((line, idx) => (
-            <MaskedLine key={`top-${idx}`} delay={idx * 0.06}>
-              <span>{line}</span>
-            </MaskedLine>
+            <span key={`top-${idx}`} className="block">
+              {line}
+            </span>
           ))}
         </h2>
       </motion.div>
 
-      {/* Spacer for scroll depth */}
-      <div className="h-[20vh] w-full" />
+      {/* Spacer between blocks */}
+      <div className="h-16 w-full shrink-0" />
 
-      {/* ── Bottom-Right Editorial Typography with Parallax & Masked Reveal ── */}
+      {/* ── Bottom-Right Typography Block (z-10, self-end text-left max-w-[480px]) ── */}
       <motion.div
-        style={{ y: bottomTextY }}
-        className="relative z-20 flex flex-col items-end text-right w-full"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+        className="relative z-10 self-end text-left max-w-[480px]"
       >
-        <h2
-          className="font-mono uppercase font-semibold text-white tracking-[-1.5px] flex flex-col items-end"
-          style={{
-            fontSize: 'clamp(34px, 5.5vw, 78px)',
-            lineHeight: '92%',
-          }}
-        >
+        <h2 className="text-[28px] sm:text-[36px] lg:text-[42px] leading-[1.05] tracking-[-1px] text-white font-bold text-left uppercase m-0 p-0 whitespace-pre-line">
           {bottomLines.map((line, idx) => (
-            <MaskedLine key={`bottom-${idx}`} delay={0.15 + idx * 0.06}>
-              <span>{line}</span>
-            </MaskedLine>
+            <span key={`bottom-${idx}`} className="block">
+              {line}
+            </span>
           ))}
         </h2>
       </motion.div>
