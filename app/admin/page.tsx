@@ -17,17 +17,20 @@ import {
   Send,
   FolderPlus,
   X,
+  HelpCircle,
 } from 'lucide-react';
 import {
   HERO_REELS,
   WORK_SECTIONS,
   DEFAULT_CLIENTS,
   DEFAULT_SETTINGS,
+  DEFAULT_FAQS,
   HeroReel,
   WorkCategoryGroup,
   WorkItem,
   ClientItem,
   SiteSettings,
+  FaqItem,
 } from '@/lib/supabase';
 
 // Preset size configurations (L, M, S)
@@ -43,7 +46,7 @@ export default function AdminStudio() {
   const [pinError, setPinError] = useState(false);
 
   // Active Menu Section (Figma Frame 177)
-  const [activeMenu, setActiveMenu] = useState<'hero' | 'works' | 'clients' | 'settings'>('hero');
+  const [activeMenu, setActiveMenu] = useState<'hero' | 'works' | 'clients' | 'faq' | 'settings'>('hero');
   const [selectedCategory, setSelectedCategory] = useState<string>('image_ad');
 
   // Content State
@@ -51,6 +54,7 @@ export default function AdminStudio() {
   const [workSections, setWorkSections] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
   const [clients, setClients] = useState<ClientItem[]>(DEFAULT_CLIENTS);
   const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
+  const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
 
   // Modal for creating a new Category
   const [isNewCategoryModalOpen, setIsNewCategoryModalOpen] = useState(false);
@@ -113,6 +117,13 @@ export default function AdminStudio() {
           if (parsed) setSettings(parsed);
         } catch {}
       }
+      const savedFaqs = localStorage.getItem('custom_faqs');
+      if (savedFaqs) {
+        try {
+          const parsed = JSON.parse(savedFaqs);
+          if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
+        } catch {}
+      }
 
       try {
         const res = await fetch('/api/content', { cache: 'no-store' });
@@ -129,6 +140,9 @@ export default function AdminStudio() {
           }
           if (data.settings) {
             setSettings(data.settings);
+          }
+          if (Array.isArray(data.faqs) && data.faqs.length > 0) {
+            setFaqs(data.faqs);
           }
         }
       } catch {}
@@ -165,6 +179,7 @@ export default function AdminStudio() {
     localStorage.setItem('custom_work_sections', JSON.stringify(workSections));
     localStorage.setItem('custom_clients', JSON.stringify(clients));
     localStorage.setItem('custom_settings', JSON.stringify(settings));
+    localStorage.setItem('custom_faqs', JSON.stringify(faqs));
     window.dispatchEvent(new Event('storage'));
 
     try {
@@ -176,6 +191,7 @@ export default function AdminStudio() {
           workSections,
           clients,
           settings,
+          faqs,
         }),
       });
     } catch {}
@@ -381,6 +397,34 @@ export default function AdminStudio() {
     showToast('Клиент удален');
   };
 
+  // FAQ editing helpers
+  const addFaq = () => {
+    const newFaq: FaqItem = {
+      id: 'faq_' + Date.now(),
+      question_ru: 'новый вопрос?',
+      question_en: 'new question?',
+      answer_left_ru: 'ОТВЕТ В ЛЕВОЙ КОЛОНКЕ',
+      answer_left_en: 'LEFT COLUMN ANSWER',
+      answer_right_ru: 'ОТВЕТ В ПРАВОЙ КОЛОНКЕ',
+      answer_right_en: 'RIGHT COLUMN ANSWER',
+    };
+    setFaqs((prev) => [...prev, newFaq]);
+    showToast('Вопрос добавлен');
+  };
+
+  const updateFaq = (id: string, field: keyof FaqItem, value: any) => {
+    setFaqs((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, [field]: value } : f))
+    );
+  };
+
+  const deleteFaq = (id: string) => {
+    if (window.confirm('Вы уверены, что хотите удалить этот вопрос?')) {
+      setFaqs((prev) => prev.filter((f) => f.id !== id));
+      showToast('Вопрос удален');
+    }
+  };
+
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -448,7 +492,7 @@ export default function AdminStudio() {
       {/* ── LEFT CARD (Sidebar: Rectangle 76 — 298px, bg-[#141416] matching cards) ── */}
       <aside className="w-[298px] min-w-[298px] max-w-[298px] h-full bg-[#141416] rounded-[24px] flex flex-col justify-between overflow-hidden shrink-0 border-none select-none">
         <div className="flex flex-col w-full">
-          {/* Top Profile Block — EXACTLY 24px padding on ALL 4 sides (top, right, bottom, left) */}
+          {/* Top Profile Block */}
           <div
             style={{ padding: '24px' }}
             className="flex items-center gap-[21px] w-full"
@@ -461,12 +505,12 @@ export default function AdminStudio() {
                 ВЛАД САПУНОВ
               </h2>
               <span className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] text-white opacity-40 lowercase whitespace-nowrap">
-                управление видео
+                управление сайтом
               </span>
             </div>
           </div>
 
-          {/* Main Navigation Menu (h-[33px], paddingLeft: 24px, hover:bg-[#1458E6]) */}
+          {/* Main Navigation Menu */}
           <nav className="flex flex-col w-full gap-0">
             <button
               onClick={() => setActiveMenu('hero')}
@@ -523,6 +567,24 @@ export default function AdminStudio() {
             </button>
 
             <button
+              onClick={() => setActiveMenu('faq')}
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+                activeMenu === 'faq'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
+              }`}
+            >
+              F.A.Q.
+            </button>
+
+            <button
               onClick={() => setActiveMenu('settings')}
               style={{
                 paddingLeft: '24px',
@@ -542,7 +604,7 @@ export default function AdminStudio() {
           </nav>
         </div>
 
-        {/* Bottom Footer Block (Frame 177: hover:bg-white hover:text-black, with only margin-bottom 24px) */}
+        {/* Bottom Footer Block */}
         <div style={{ marginBottom: '24px' }} className="flex flex-col w-full gap-0">
           <Link
             href="/"
@@ -577,9 +639,9 @@ export default function AdminStudio() {
         </div>
       </aside>
 
-      {/* ── RIGHT CARD (Content Zone: Completely transparent, floating with 12px padding) ── */}
+      {/* ── RIGHT CARD (Content Zone: Transparent, floating with 12px padding) ── */}
       <main className="flex-1 h-full bg-transparent overflow-y-auto flex flex-col border-none relative pr-[12px]">
-        {/* Header Bar — EXACTLY 24px padding on top, left, bottom, right */}
+        {/* Header Bar */}
         <header
           style={{ padding: '24px' }}
           className="flex items-center justify-between shrink-0 w-full"
@@ -588,6 +650,7 @@ export default function AdminStudio() {
             {activeMenu === 'hero' && 'ГЛАВНЫЕ 5 РОЛИКОВ (HERO-ЛЕНТА)'}
             {activeMenu === 'works' && 'ВСЕ РАБОТЫ (СЕТКИ ПОРТФОЛИО)'}
             {activeMenu === 'clients' && 'КЛИЕНТЫ & ЛОГОТИПЫ (54×54)'}
+            {activeMenu === 'faq' && 'F.A.Q. (ВОПРОСЫ И ОТВЕТЫ)'}
             {activeMenu === 'settings' && 'НАСТРОЙКИ & ДЕПЛОЙ'}
           </h1>
         </header>
@@ -630,7 +693,7 @@ export default function AdminStudio() {
                                       : 'bg-[#141416] border-none'
                                   }`}
                                 >
-                                  {/* Drag Grip Handle — vivid visual grab feedback */}
+                                  {/* Drag Grip Handle */}
                                   <div
                                     {...providedDraggable.dragHandleProps}
                                     className={`py-[8px] px-1 rounded transition-colors shrink-0 flex items-center justify-center ${
@@ -643,7 +706,7 @@ export default function AdminStudio() {
                                     <GripVertical className="w-5 h-5 stroke-[2.5]" />
                                   </div>
 
-                                  {/* Left: Thumbnail Preview Frame (borderless) */}
+                                  {/* Thumbnail Preview Frame */}
                                   <div className="w-full lg:w-48 shrink-0 flex flex-col gap-2">
                                     <div className="relative aspect-video rounded-md bg-black overflow-hidden border-none group">
                                       <img
@@ -670,11 +733,9 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Center: Input Fields with bright legible headers and 12px padding */}
+                                  {/* Input Fields */}
                                   <div className="flex-1 flex flex-col gap-3 w-full">
-                                    {/* Line 1: Name RU and Name EN (2 columns) */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                      {/* название ролика (ru) */}
                                       <div className="flex flex-col gap-2">
                                         <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                           название ролика (ru)
@@ -691,7 +752,6 @@ export default function AdminStudio() {
                                         />
                                       </div>
 
-                                      {/* название ролика (en) */}
                                       <div className="flex flex-col gap-2">
                                         <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                           название ролика (en)
@@ -709,7 +769,7 @@ export default function AdminStudio() {
                                       </div>
                                     </div>
 
-                                    {/* Line 2: превью (ссылка или файл с компьютера) */}
+                                    {/* Preview */}
                                     <div className="flex flex-col gap-2">
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         превью
@@ -755,7 +815,7 @@ export default function AdminStudio() {
                                       </div>
                                     </div>
 
-                                    {/* Line 3: видео (ссылка или файл с компьютера) */}
+                                    {/* Video */}
                                     <div className="flex flex-col gap-2">
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         видео
@@ -796,7 +856,7 @@ export default function AdminStudio() {
                                       </div>
                                     </div>
 
-                                    {/* Line 4: размер (L, M, S Dropdown with right-padded arrow) */}
+                                    {/* Size */}
                                     <div className="flex flex-col gap-2">
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         размер
@@ -819,7 +879,7 @@ export default function AdminStudio() {
                                     </div>
                                   </div>
 
-                                  {/* Right: Delete Action with confirmation prompt */}
+                                  {/* Delete Action */}
                                   <div className="pt-2 shrink-0">
                                     <button
                                       onClick={() => {
@@ -845,7 +905,6 @@ export default function AdminStudio() {
                 </DragDropContext>
               )}
 
-              {/* Moderate symmetrical bottom spacer */}
               <div className="h-[24px] w-full shrink-0" />
             </div>
           )}
@@ -853,7 +912,7 @@ export default function AdminStudio() {
           {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
           {activeMenu === 'works' && (
             <div className="flex flex-col gap-6 w-full">
-              {/* Category Pills Header + [+] Button to add new section */}
+              {/* Category Pills Header */}
               <div className="flex items-center gap-3 p-1.5 bg-[#141416] rounded-2xl overflow-x-auto w-full">
                 {workSections.map((group) => (
                   <button
@@ -869,7 +928,6 @@ export default function AdminStudio() {
                   </button>
                 ))}
 
-                {/* Add Section Button */}
                 <button
                   onClick={() => setIsNewCategoryModalOpen(true)}
                   title="Добавить новый раздел"
@@ -880,12 +938,11 @@ export default function AdminStudio() {
                 </button>
               </div>
 
-              {/* Category Content & Video Items */}
+              {/* Category Content */}
               {workSections
                 .filter((g) => g.id === selectedCategory)
                 .map((group) => (
                   <div key={group.id} className="flex flex-col gap-5 w-full">
-                    {/* Section Top Controls Bar */}
                     <div className="bg-[#141416] rounded-[16px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                       <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-3">
@@ -912,7 +969,6 @@ export default function AdminStudio() {
                       </div>
                     </div>
 
-                    {/* Works Cards List matching Hero Area */}
                     <div className="flex flex-col gap-4 w-full">
                       {group.items.map((item) => (
                         <div
@@ -920,7 +976,6 @@ export default function AdminStudio() {
                           style={{ padding: '24px' }}
                           className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start gap-4 border-none w-full"
                         >
-                          {/* Thumbnail Frame */}
                           <div className={`w-full ${group.isVertical ? 'lg:w-36 aspect-[9/16]' : 'lg:w-48 aspect-video'} shrink-0 flex flex-col gap-2`}>
                             <div className="relative w-full h-full rounded-md bg-black overflow-hidden border-none group">
                               <img
@@ -946,7 +1001,6 @@ export default function AdminStudio() {
                             </div>
                           </div>
 
-                          {/* Inputs */}
                           <div className="flex-1 flex flex-col gap-3 w-full">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-2">
@@ -982,7 +1036,6 @@ export default function AdminStudio() {
                               </div>
                             </div>
 
-                            {/* Preview URL/Upload */}
                             <div className="flex flex-col gap-2">
                               <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                 превью
@@ -1023,7 +1076,6 @@ export default function AdminStudio() {
                               </div>
                             </div>
 
-                            {/* Video URL/Upload */}
                             <div className="flex flex-col gap-2">
                               <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                 видео
@@ -1065,7 +1117,6 @@ export default function AdminStudio() {
                             </div>
                           </div>
 
-                          {/* Delete Action */}
                           <div className="pt-2 shrink-0">
                             <button
                               onClick={() => {
@@ -1098,7 +1149,6 @@ export default function AdminStudio() {
                   style={{ padding: '24px' }}
                   className="bg-[#141416] rounded-[16px] transition-all flex flex-col lg:flex-row items-start lg:items-center gap-6 border-none w-full"
                 >
-                  {/* 54x54 Logo Preview Circle */}
                   <div className="flex flex-col items-center gap-2 shrink-0">
                     <div
                       className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full overflow-hidden flex items-center justify-center p-1 bg-white shadow-md"
@@ -1119,9 +1169,7 @@ export default function AdminStudio() {
                     <span className="text-[11px] text-[#5E5E5E] font-mono">54×54</span>
                   </div>
 
-                  {/* Client Inputs */}
                   <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                    {/* Name RU */}
                     <div className="flex flex-col gap-2">
                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                         название клиента (ru)
@@ -1136,7 +1184,6 @@ export default function AdminStudio() {
                       />
                     </div>
 
-                    {/* Name EN */}
                     <div className="flex flex-col gap-2">
                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                         название клиента (en)
@@ -1151,7 +1198,6 @@ export default function AdminStudio() {
                       />
                     </div>
 
-                    {/* Logo URL / File upload */}
                     <div className="flex flex-col gap-2 md:col-span-2">
                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                         логотип (ссылка или файл с компьютера)
@@ -1191,7 +1237,6 @@ export default function AdminStudio() {
                     </div>
                   </div>
 
-                  {/* Delete Action */}
                   <div className="pt-2 shrink-0">
                     <button
                       onClick={() => {
@@ -1212,7 +1257,132 @@ export default function AdminStudio() {
             </div>
           )}
 
-          {/* ════ SECTION 4: SETTINGS & DEPLOY ════ */}
+          {/* ════ SECTION 4: FAQ (ВОПРОСЫ И ОТВЕТЫ) ════ */}
+          {activeMenu === 'faq' && (
+            <div className="flex flex-col gap-4 w-full">
+              {faqs.map((faq) => (
+                <div
+                  key={faq.id}
+                  style={{ padding: '24px' }}
+                  className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
+                >
+                  <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                    <div className="flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4 text-[#1458E6]" />
+                      <span className="font-mono text-xs font-bold text-white uppercase">
+                        Вопрос & Двухколоночный ответ
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => deleteFaq(faq.id)}
+                      title="Удалить вопрос"
+                      className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Question row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        текст вопроса (ru)
+                      </label>
+                      <input
+                        type="text"
+                        value={faq.question_ru}
+                        onChange={(e) => updateFaq(faq.id, 'question_ru', e.target.value)}
+                        placeholder="сколько стоит съёмка?"
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        текст вопроса (en)
+                      </label>
+                      <input
+                        type="text"
+                        value={faq.question_en}
+                        onChange={(e) => updateFaq(faq.id, 'question_en', e.target.value)}
+                        placeholder="how much does shooting cost?"
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Left column answer */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        левая колонка ответа с синей линией (ru)
+                      </label>
+                      <input
+                        type="text"
+                        value={faq.answer_left_ru}
+                        onChange={(e) => updateFaq(faq.id, 'answer_left_ru', e.target.value)}
+                        placeholder="СНИМАЮ НА SONY G-MASTER С КИНО-СВЕТОМ."
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        левая колонка ответа (en)
+                      </label>
+                      <input
+                        type="text"
+                        value={faq.answer_left_en}
+                        onChange={(e) => updateFaq(faq.id, 'answer_left_en', e.target.value)}
+                        placeholder="SHOOTING ON SONY G-MASTER..."
+                        style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                        className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Right column answer */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        правая колонка подробного ответа (ru)
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={faq.answer_right_ru}
+                        onChange={(e) => updateFaq(faq.id, 'answer_right_ru', e.target.value)}
+                        placeholder="КАРТИНКА ВЫГЛЯДИТ ДОРОГО..."
+                        style={{ padding: '12px' }}
+                        className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                        правая колонка подробного ответа (en)
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={faq.answer_right_en}
+                        onChange={(e) => updateFaq(faq.id, 'answer_right_en', e.target.value)}
+                        placeholder="THE PICTURE LOOKS EXPENSIVE..."
+                        style={{ padding: '12px' }}
+                        className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ════ SECTION 5: SETTINGS & DEPLOY ════ */}
           {activeMenu === 'settings' && (
             <div className="flex flex-col gap-6 w-full">
               {/* Contacts & Social Card */}
@@ -1396,7 +1566,22 @@ export default function AdminStudio() {
               </button>
             )}
 
-            {/* Blue Save Button (Present across all tabs) */}
+            {activeMenu === 'faq' && (
+              <button
+                onClick={addFaq}
+                title="Добавить вопрос в F.A.Q."
+                style={{
+                  width: '65px',
+                  height: '65px',
+                  borderRadius: '56px',
+                }}
+                className="bg-white hover:bg-neutral-200 text-black flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 border-none outline-none shadow-none"
+              >
+                <Plus className="w-8 h-8 text-black stroke-[1.25]" />
+              </button>
+            )}
+
+            {/* Blue Save Button */}
             <button
               onClick={handleSave}
               disabled={isSaving}

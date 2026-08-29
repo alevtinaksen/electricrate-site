@@ -1,22 +1,24 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
 import WorksSection from '@/components/WorksSection';
 import ProcessSection from '@/components/ProcessSection';
 import AboutSection from '@/components/AboutSection';
+import FaqSection from '@/components/FaqSection';
 import Preloader from '@/components/Preloader';
 import VideoModal from '@/components/VideoModal';
-import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup } from '@/lib/supabase';
+import { HERO_REELS, WORK_SECTIONS, DEFAULT_FAQS, HeroReel, WorkCategoryGroup, FaqItem } from '@/lib/supabase';
 import { Language } from '@/types';
 
 export default function Home() {
   const [lang, setLang] = useState<Language>('ru');
   const [reels, setReels] = useState<HeroReel[]>(HERO_REELS);
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
+  const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
   const [isLoaded, setIsLoaded] = useState(false);
   const rightPanelRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +40,13 @@ export default function Home() {
           if (Array.isArray(parsed) && parsed.length > 0) setWorks(parsed);
         } catch {}
       }
+      const savedFaqs = localStorage.getItem('custom_faqs');
+      if (savedFaqs) {
+        try {
+          const parsed = JSON.parse(savedFaqs);
+          if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
+        } catch {}
+      }
 
       // 2. Fetch fresh published content from server API
       try {
@@ -49,6 +58,9 @@ export default function Home() {
           }
           if (Array.isArray(data.workSections) && data.workSections.length > 0) {
             setWorks(data.workSections);
+          }
+          if (Array.isArray(data.faqs) && data.faqs.length > 0) {
+            setFaqs(data.faqs);
           }
         }
       } catch (e) {
@@ -103,6 +115,8 @@ export default function Home() {
         ? 'clients'
         : section === 'about' || section === 'обо мне'
         ? 'about'
+        : section === 'faq' || section === 'f.a.q.'
+        ? 'faq'
         : 'works';
     const el = document.getElementById(targetId);
     if (el && rightPanelRef.current) {
@@ -177,6 +191,15 @@ export default function Home() {
             {/* Section 5: About Section with Masked Typography Reveal & Portrait */}
             <AboutSection
               lang={lang}
+            />
+
+            {/* 150px exact spacing between About Section and FAQ Section */}
+            <div className="h-[150px] w-full shrink-0" />
+
+            {/* Section 6: FAQ Section with Interactive Two-Column Accordion */}
+            <FaqSection
+              lang={lang}
+              faqs={faqs}
             />
           </div>
 

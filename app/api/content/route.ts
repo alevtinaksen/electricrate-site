@@ -4,10 +4,12 @@ import {
   WORK_SECTIONS,
   DEFAULT_CLIENTS,
   DEFAULT_SETTINGS,
+  DEFAULT_FAQS,
   HeroReel,
   WorkCategoryGroup,
   ClientItem,
   SiteSettings,
+  FaqItem,
 } from '@/lib/supabase';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -22,6 +24,7 @@ let memoryStore = {
   workSections: WORK_SECTIONS,
   clients: DEFAULT_CLIENTS,
   settings: DEFAULT_SETTINGS,
+  faqs: DEFAULT_FAQS,
 };
 
 async function readStoredContent() {
@@ -32,6 +35,7 @@ async function readStoredContent() {
     if (parsed.workSections) memoryStore.workSections = parsed.workSections;
     if (parsed.clients) memoryStore.clients = parsed.clients;
     if (parsed.settings) memoryStore.settings = parsed.settings;
+    if (parsed.faqs) memoryStore.faqs = parsed.faqs;
     return parsed;
   } catch {
     return memoryStore;
@@ -60,13 +64,14 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { heroReels, workSections, clients, settings } = body;
+    const { heroReels, workSections, clients, settings, faqs } = body;
 
     const toSave = {
       heroReels: heroReels || memoryStore.heroReels,
       workSections: workSections || memoryStore.workSections,
       clients: clients || memoryStore.clients,
       settings: settings || memoryStore.settings,
+      faqs: faqs || memoryStore.faqs,
       updatedAt: new Date().toISOString(),
     };
 

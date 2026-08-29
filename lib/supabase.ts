@@ -197,3 +197,82 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   adminPin: '2026',
 };
 
+// ─── FAQ Items ───────────────────────────────────────────────────────────────
+
+export interface FaqItem {
+  id: string;
+  question_ru: string;
+  question_en: string;
+  answer_left_ru: string;
+  answer_left_en: string;
+  answer_right_ru: string;
+  answer_right_en: string;
+}
+
+export const DEFAULT_FAQS: FaqItem[] = [
+  {
+    id: 'faq1',
+    question_ru: 'сколько стоит съёмка или монтаж?',
+    question_en: 'how much does shooting or editing cost?',
+    answer_left_ru: 'СНИМАЮ НА SONY G-MASTER С КИНО-СВЕТОМ.',
+    answer_left_en: 'SHOOTING ON SONY G-MASTER WITH CINEMA LIGHTING.',
+    answer_right_ru: 'КАРТИНКА ВЫГЛЯДИТ ДОРОГО — ХОТЬ В СТУДИИ, ХОТЬ В РЕПОРТАЖЕ, ХОТЬ В ГРЯЗИ ПО КОЛЕНО.',
+    answer_right_en: 'THE PICTURE LOOKS EXPENSIVE — IN THE STUDIO, IN REPORTAGE, OR IN KNEE-DEEP MUD.',
+  },
+  {
+    id: 'faq2',
+    question_ru: 'в каких городах работаете?',
+    question_en: 'which cities do you work in?',
+    answer_left_ru: 'БАЗИРУЮСЬ В САНКТ-ПЕТЕРБУРГЕ И МОСКВЕ.',
+    answer_left_en: 'BASED IN ST. PETERSBURG AND MOSCOW.',
+    answer_right_ru: 'ВЫЕЗЖАЮ НА ПРОЕКТЫ ПО ВСЕЙ РОССИИ И МИРУ С ПОЛНЫМ КОМПЛЕКТОМ ОБОРУДОВАНИЯ.',
+    answer_right_en: 'TRAVELING FOR PROJECTS ACROSS RUSSIA AND WORLDWIDE WITH FULL GEAR.',
+  },
+  {
+    id: 'faq3',
+    question_ru: 'сколько времени занимает монтаж?',
+    question_en: 'how long does editing take?',
+    answer_left_ru: 'ОТ 3 ДО 10 РАБОЧИХ ДНЕЙ.',
+    answer_left_en: 'FROM 3 TO 10 BUSINESS DAYS.',
+    answer_right_ru: 'СРОКИ ЗАВИСЯТ ОТ МАСШТАБА: РИЛСЫ — 24 ЧАСА, ПОЛНОЦЕННЫЕ РОЛИКИ И РЕКЛАМА — ПО СОГЛАСОВАННОМУ ГРАФИКУ.',
+    answer_right_en: 'TIMELINES DEPEND ON SCOPE: REELS IN 24H, FULL PROMO AND COMMERCIALS ON AGREED SCHEDULE.',
+  },
+  {
+    id: 'faq4',
+    question_ru: 'работаете с частными лицами или только с компаниями?',
+    question_en: 'do you work with individuals or only companies?',
+    answer_left_ru: 'РАБОТАЮ КАК С ЮРЛИЦАМИ, ТАК И С ЧАСТНЫМИ КЛИЕНТАМИ.',
+    answer_left_en: 'WORKING WITH BOTH CORPORATE AND PRIVATE CLIENTS.',
+    answer_right_ru: 'ОФОРМЛЕНИЕ ПО ДОГОВОРУ, ОПЛАТА ПО БЕЗНАЛИЧНОМУ РАСЧЕТУ ИЛИ САМОЗАНЯТОСТИ С ЧЕКОМ.',
+    answer_right_en: 'OFFICIAL CONTRACTS, INVOICE PAYMENTS OR SELF-EMPLOYED RECEIPTS.',
+  },
+  {
+    id: 'faq5',
+    question_ru: 'можете взять большой проект с командой?',
+    question_en: 'can you take on a large project with a team?',
+    answer_left_ru: 'ПОЛНЫЙ ПРОДАКШН ПОД КЛЮЧ.',
+    answer_left_en: 'FULL TURNKEY PRODUCTION.',
+    answer_right_ru: 'СОБИРАЮ КОМАНДУ: ВТОРОЙ ОПЕРАТОР, ЗВУКОРЕЖИССЕР, ОСВЕТИТЕЛИ, ГРИМЕР И АССИСТЕНТЫ.',
+    answer_right_en: 'ASSEMBLING TEAMS: SECOND CAMERA, SOUND ENGINEER, GAFFERS, MAKEUP AND ASSISTANTS.',
+  },
+  {
+    id: 'faq6',
+    question_ru: 'как происходит оплата?',
+    question_en: 'how does payment work?',
+    answer_left_ru: 'ПРЕДОПЛАТА 50% ПЕРЕД СЪЕМКАМИ.',
+    answer_left_en: '50% DEPOSIT BEFORE PRODUCTION.',
+    answer_right_ru: 'ОСТАЛЬНЫЕ 50% ПОСЛЕ ПРИЕМКИ ФИНАЛЬНОГО МОНТАЖА И ЦВЕТОКОРРЕКЦИИ.',
+    answer_right_en: 'REMAINING 50% UPON FINAL EDIT APPROVAL AND COLOR GRADING.',
+  },
+  {
+    id: 'faq7',
+    question_ru: 'остаётся ли исходный материал у меня?',
+    question_en: 'do i get the raw footage?',
+    answer_left_ru: 'ДА, ВСЕ ИСХОДНИКИ ПЕРЕДАЮТСЯ ПО ЗАПРОСУ.',
+    answer_left_en: 'YES, ALL RAW FOOTAGE IS DELIVERED UPON REQUEST.',
+    answer_right_ru: 'ОТПРАВЛЯЮ В ОБЛАКО ИЛИ ПЕРЕДАЮ НА ВАШЕМ ЖЕСТКОМ ДИСКЕ В МАКСИМАЛЬНОМ КАЧЕСТВЕ.',
+    answer_right_en: 'UPLOADED TO CLOUD STORAGE OR TRANSFERRED ON YOUR HARD DRIVE IN MAXIMUM QUALITY.',
+  },
+];
+
+
