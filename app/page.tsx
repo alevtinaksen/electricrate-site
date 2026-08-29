@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
 import WorksSection from '@/components/WorksSection';
+import ProcessSection from '@/components/ProcessSection';
 import VideoModal from '@/components/VideoModal';
 import { HERO_REELS, WORK_SECTIONS, HeroReel, WorkCategoryGroup } from '@/lib/supabase';
 import { Language } from '@/types';
@@ -144,6 +145,14 @@ export default function Home() {
             sections={works}
             lang={lang}
             onVideoSelect={openVideoModal}
+          />
+
+          {/* 150px exact spacing between Works and Process Section */}
+          <div className="h-[150px] w-full shrink-0" />
+
+          {/* Section 4: Process / Cinema Quality from idea to release */}
+          <ProcessSection
+            lang={lang}
           />
         </div>
 
