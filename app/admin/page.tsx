@@ -26,12 +26,17 @@ import {
   DEFAULT_CLIENTS,
   DEFAULT_SETTINGS,
   DEFAULT_FAQS,
+  DEFAULT_SERVICES,
+  DEFAULT_ABOUT,
   HeroReel,
   WorkCategoryGroup,
   WorkItem,
   ClientItem,
   SiteSettings,
   FaqItem,
+  ServicesContent,
+  ServiceCard,
+  AboutContent,
 } from '@/lib/supabase';
 
 // Preset size configurations (L, M, S)
@@ -46,13 +51,15 @@ export default function AdminStudio() {
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState(false);
 
-  // Active Menu Section (Figma Frame 177)
-  const [activeMenu, setActiveMenu] = useState<'hero' | 'works' | 'clients' | 'faq' | 'settings'>('hero');
+  // Active Menu Section
+  const [activeMenu, setActiveMenu] = useState<'hero' | 'works' | 'services' | 'about' | 'clients' | 'faq' | 'settings'>('hero');
   const [selectedCategory, setSelectedCategory] = useState<string>('image_ad');
 
   // Content State
   const [heroReels, setHeroReels] = useState<HeroReel[]>(HERO_REELS);
   const [workSections, setWorkSections] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
+  const [services, setServices] = useState<ServicesContent>(DEFAULT_SERVICES);
+  const [about, setAbout] = useState<AboutContent>(DEFAULT_ABOUT);
   const [clients, setClients] = useState<ClientItem[]>(DEFAULT_CLIENTS);
   const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
   const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
@@ -125,6 +132,20 @@ export default function AdminStudio() {
           if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
         } catch {}
       }
+      const savedServices = localStorage.getItem('custom_services');
+      if (savedServices) {
+        try {
+          const parsed = JSON.parse(savedServices);
+          if (parsed?.cards) setServices(parsed);
+        } catch {}
+      }
+      const savedAbout = localStorage.getItem('custom_about');
+      if (savedAbout) {
+        try {
+          const parsed = JSON.parse(savedAbout);
+          if (parsed?.photo_url) setAbout(parsed);
+        } catch {}
+      }
 
       try {
         const res = await fetch('/api/content', { cache: 'no-store' });
@@ -144,6 +165,12 @@ export default function AdminStudio() {
           }
           if (Array.isArray(data.faqs) && data.faqs.length > 0) {
             setFaqs(data.faqs);
+          }
+          if (data.services?.cards) {
+            setServices(data.services);
+          }
+          if (data.about?.photo_url) {
+            setAbout(data.about);
           }
         }
       } catch {}
@@ -181,6 +208,8 @@ export default function AdminStudio() {
     localStorage.setItem('custom_clients', JSON.stringify(clients));
     localStorage.setItem('custom_settings', JSON.stringify(settings));
     localStorage.setItem('custom_faqs', JSON.stringify(faqs));
+    localStorage.setItem('custom_services', JSON.stringify(services));
+    localStorage.setItem('custom_about', JSON.stringify(about));
     window.dispatchEvent(new Event('storage'));
 
     try {
@@ -193,6 +222,8 @@ export default function AdminStudio() {
           clients,
           settings,
           faqs,
+          services,
+          about,
         }),
       });
     } catch {}
@@ -442,6 +473,23 @@ export default function AdminStudio() {
     }
   };
 
+  // Services editing helpers
+  const updateServicesHeadline = (field: 'headline_ru' | 'headline_en', value: string) => {
+    setServices((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateServiceCard = (cardId: string, field: keyof ServiceCard, value: string) => {
+    setServices((prev) => ({
+      ...prev,
+      cards: prev.cards.map((c) => (c.id === cardId ? { ...c, [field]: value } : c)),
+    }));
+  };
+
+  // About editing helper
+  const updateAbout = (field: keyof AboutContent, value: string) => {
+    setAbout((prev) => ({ ...prev, [field]: value }));
+  };
+
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -565,6 +613,42 @@ export default function AdminStudio() {
               }`}
             >
               ВСЕ РАБОТЫ
+            </button>
+
+            <button
+              onClick={() => setActiveMenu('services')}
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+                activeMenu === 'services'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
+              }`}
+            >
+              УСЛУГИ
+            </button>
+
+            <button
+              onClick={() => setActiveMenu('about')}
+              style={{
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                paddingTop: '4px',
+                paddingBottom: '4px',
+                height: '33px',
+              }}
+              className={`flex items-center gap-[10px] self-stretch font-mono text-[20px] font-bold leading-[25px] tracking-[-0.2px] uppercase whitespace-nowrap cursor-pointer transition-colors text-left w-full ${
+                activeMenu === 'about'
+                  ? 'bg-[#1458E6] text-white'
+                  : 'bg-transparent text-white hover:bg-[#1458E6] hover:text-white'
+              }`}
+            >
+              ОБО МНЕ
             </button>
 
             <button
@@ -1222,6 +1306,306 @@ export default function AdminStudio() {
                     )}
                   </div>
                 ))}
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ════ SECTION: SERVICES / PROCESS (КАРТИНКА УРОВНЯ КИНО) ════ */}
+          {activeMenu === 'services' && (
+            <div className="flex flex-col gap-6 w-full">
+              {/* Notice & Headline Card */}
+              <div
+                style={{ padding: '24px' }}
+                className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
+              >
+                <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                  <span className="font-mono text-xs font-bold text-white uppercase">
+                    Заголовок секции (на фоне карточек)
+                  </span>
+                  <span className="text-[11px] text-[#8C8E96] font-mono">
+                    Позиционирование карточек зафиксировано по кино-макету
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      заголовок на фоне (ru)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={services.headline_ru}
+                      onChange={(e) => updateServicesHeadline('headline_ru', e.target.value)}
+                      placeholder="КАРТИНКА УРОВНЯ КИНО : ОТ ИДЕИ ДО РЕЛИЗА"
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      заголовок на фоне (en)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={services.headline_en}
+                      onChange={(e) => updateServicesHeadline('headline_en', e.target.value)}
+                      placeholder="CINEMATIC QUALITY : FROM IDEA TO RELEASE"
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 4 Cards */}
+              <div className="flex flex-col gap-4 w-full">
+                {services.cards.map((card, idx) => (
+                  <div
+                    key={card.id}
+                    style={{ padding: '24px' }}
+                    className="bg-[#141416] rounded-[16px] transition-all flex flex-col gap-4 border-none w-full"
+                  >
+                    <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                      <div className="flex items-center gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#1458E6] text-white font-mono font-bold text-xs flex items-center justify-center">
+                          {idx + 1}
+                        </span>
+                        <span className="font-mono text-sm font-bold text-white uppercase">
+                          Карточка #{idx + 1}: {card.title_ru.replace('\n', ' ')}
+                        </span>
+                      </div>
+
+                      {/* Position Tag Note */}
+                      <span className="text-[11px] px-2.5 py-1 rounded bg-[#222] text-[#8C8E96] font-mono uppercase">
+                        {idx === 0 && 'Прижата к верху экрана'}
+                        {idx === 1 && 'Прижата к правому краю'}
+                        {idx === 2 && 'Центральный слой'}
+                        {idx === 3 && 'Прижата к низу и правому краю'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Top Text RU / EN */}
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          верхний текст (ru)
+                        </label>
+                        <input
+                          type="text"
+                          value={card.top_text_ru}
+                          onChange={(e) => updateServiceCard(card.id, 'top_text_ru', e.target.value)}
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          верхний текст (en)
+                        </label>
+                        <input
+                          type="text"
+                          value={card.top_text_en}
+                          onChange={(e) => updateServiceCard(card.id, 'top_text_en', e.target.value)}
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[15px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                        />
+                      </div>
+
+                      {/* Main Title RU / EN */}
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          главный заголовок карточки (ru)
+                        </label>
+                        <input
+                          type="text"
+                          value={card.title_ru}
+                          onChange={(e) => updateServiceCard(card.id, 'title_ru', e.target.value)}
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          главный заголовок карточки (en)
+                        </label>
+                        <input
+                          type="text"
+                          value={card.title_en}
+                          onChange={(e) => updateServiceCard(card.id, 'title_en', e.target.value)}
+                          style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6]"
+                        />
+                      </div>
+
+                      {/* Bottom Text RU / EN */}
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          нижний текст с описанием (ru)
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={card.bottom_text_ru}
+                          onChange={(e) => updateServiceCard(card.id, 'bottom_text_ru', e.target.value)}
+                          style={{ padding: '12px' }}
+                          className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                          нижний текст с описанием (en)
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={card.bottom_text_en}
+                          onChange={(e) => updateServiceCard(card.id, 'bottom_text_en', e.target.value)}
+                          style={{ padding: '12px' }}
+                          className="w-full bg-transparent border border-[#26282C] text-[14px] font-mono font-bold lowercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="h-[24px] w-full shrink-0" />
+            </div>
+          )}
+
+          {/* ════ SECTION: ABOUT (ОБО МНЕ) ════ */}
+          {activeMenu === 'about' && (
+            <div className="flex flex-col gap-6 w-full">
+              {/* Photo Card */}
+              <div
+                style={{ padding: '24px' }}
+                className="bg-[#141416] rounded-[24px] flex flex-col md:flex-row items-start md:items-center gap-6 w-full border-none"
+              >
+                <div className="w-[120px] h-[150px] min-w-[120px] rounded-xl overflow-hidden bg-black relative shrink-0 border border-white/10">
+                  <img
+                    src={about.photo_url || '/vlad-portrait.jpg'}
+                    alt="Влад Сапунов"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex-1 flex flex-col gap-2 w-full">
+                  <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                    портретная фотография (ссылка или файл с компьютера)
+                  </label>
+                  <div className="flex items-center w-full h-[40px] bg-transparent border border-[#26282C] focus-within:border-[#1458E6]">
+                    <input
+                      type="text"
+                      value={about.photo_url}
+                      onChange={(e) => updateAbout('photo_url', e.target.value)}
+                      placeholder="ССЫЛКА НА ФОТО ИЛИ ВЫБЕРИТЕ ФАЙЛ"
+                      style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                      className="flex-1 h-full bg-transparent text-[16px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none"
+                    />
+                    <label className="w-[40px] h-[40px] bg-[#1458E6] hover:bg-[#1147bd] text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors" title="Загрузить фото">
+                      {uploadingField === 'about_photo' ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Paperclip className="w-4 h-4" />
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleFileUpload(
+                              file,
+                              (url) => updateAbout('photo_url', url),
+                              'about_photo'
+                            );
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <span className="text-xs text-[#8C8E96] font-mono">
+                    Фотография растягивается на всю правую часть секции и имеет эффект параллакса при скролле.
+                  </span>
+                </div>
+              </div>
+
+              {/* Upper Text Block */}
+              <div
+                style={{ padding: '24px' }}
+                className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
+              >
+                <span className="font-mono text-xs font-bold text-white uppercase pb-2 border-b border-white/5">
+                  Верхний блок текста (слева сверху)
+                </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      текст (ru)
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={about.top_text_ru}
+                      onChange={(e) => updateAbout('top_text_ru', e.target.value)}
+                      placeholder="Я — ВИДЕОМЕЙКЕР ИЗ ПЕТЕРБУРГА. В ЭТОЙ СФЕРЕ БОЛЬШЕ 10 ЛЕТ."
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      текст (en)
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={about.top_text_en}
+                      onChange={(e) => updateAbout('top_text_en', e.target.value)}
+                      placeholder="I AM A FILMMAKER FROM ST. PETERSBURG..."
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Lower Text Block */}
+              <div
+                style={{ padding: '24px' }}
+                className="bg-[#141416] rounded-[24px] flex flex-col gap-4 w-full border-none"
+              >
+                <span className="font-mono text-xs font-bold text-white uppercase pb-2 border-b border-white/5">
+                  Нижний блок текста (справа снизу)
+                </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      текст (ru)
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={about.bottom_text_ru}
+                      onChange={(e) => updateAbout('bottom_text_ru', e.target.value)}
+                      placeholder="РАБОТАЮ В РАЗНЫХ СФЕРАХ : ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ."
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
+                      текст (en)
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={about.bottom_text_en}
+                      onChange={(e) => updateAbout('bottom_text_en', e.target.value)}
+                      placeholder="WORKING ACROSS DIVERSE INDUSTRIES..."
+                      style={{ padding: '12px' }}
+                      className="w-full bg-transparent border border-[#26282C] text-[15px] font-mono font-bold uppercase text-white placeholder:text-[#404040] focus:outline-none focus:border-[#1458E6] resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div className="h-[24px] w-full shrink-0" />
             </div>

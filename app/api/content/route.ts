@@ -5,11 +5,15 @@ import {
   DEFAULT_CLIENTS,
   DEFAULT_SETTINGS,
   DEFAULT_FAQS,
+  DEFAULT_SERVICES,
+  DEFAULT_ABOUT,
   HeroReel,
   WorkCategoryGroup,
   ClientItem,
   SiteSettings,
   FaqItem,
+  ServicesContent,
+  AboutContent,
 } from '@/lib/supabase';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -25,6 +29,8 @@ let memoryStore = {
   clients: DEFAULT_CLIENTS,
   settings: DEFAULT_SETTINGS,
   faqs: DEFAULT_FAQS,
+  services: DEFAULT_SERVICES,
+  about: DEFAULT_ABOUT,
 };
 
 async function readStoredContent() {
@@ -36,6 +42,8 @@ async function readStoredContent() {
     if (parsed.clients) memoryStore.clients = parsed.clients;
     if (parsed.settings) memoryStore.settings = parsed.settings;
     if (parsed.faqs) memoryStore.faqs = parsed.faqs;
+    if (parsed.services) memoryStore.services = parsed.services;
+    if (parsed.about) memoryStore.about = parsed.about;
     return parsed;
   } catch {
     return memoryStore;
@@ -64,7 +72,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { heroReels, workSections, clients, settings, faqs } = body;
+    const { heroReels, workSections, clients, settings, faqs, services, about } = body;
 
     const toSave = {
       heroReels: heroReels || memoryStore.heroReels,
@@ -72,6 +80,8 @@ export async function POST(req: NextRequest) {
       clients: clients || memoryStore.clients,
       settings: settings || memoryStore.settings,
       faqs: faqs || memoryStore.faqs,
+      services: services || memoryStore.services,
+      about: about || memoryStore.about,
       updatedAt: new Date().toISOString(),
     };
 

@@ -12,7 +12,18 @@ import AboutSection from '@/components/AboutSection';
 import FaqSection from '@/components/FaqSection';
 import Preloader from '@/components/Preloader';
 import VideoModal from '@/components/VideoModal';
-import { HERO_REELS, WORK_SECTIONS, DEFAULT_FAQS, HeroReel, WorkCategoryGroup, FaqItem } from '@/lib/supabase';
+import {
+  HERO_REELS,
+  WORK_SECTIONS,
+  DEFAULT_FAQS,
+  DEFAULT_SERVICES,
+  DEFAULT_ABOUT,
+  HeroReel,
+  WorkCategoryGroup,
+  FaqItem,
+  ServicesContent,
+  AboutContent,
+} from '@/lib/supabase';
 import { Language } from '@/types';
 
 export default function Home() {
@@ -20,6 +31,8 @@ export default function Home() {
   const [reels, setReels] = useState<HeroReel[]>(HERO_REELS);
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
   const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
+  const [services, setServices] = useState<ServicesContent>(DEFAULT_SERVICES);
+  const [about, setAbout] = useState<AboutContent>(DEFAULT_ABOUT);
   const [isLoaded, setIsLoaded] = useState(false);
   const rightPanelRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
@@ -80,6 +93,20 @@ export default function Home() {
           if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
         } catch {}
       }
+      const savedServices = localStorage.getItem('custom_services');
+      if (savedServices) {
+        try {
+          const parsed = JSON.parse(savedServices);
+          if (parsed && parsed.cards) setServices(parsed);
+        } catch {}
+      }
+      const savedAbout = localStorage.getItem('custom_about');
+      if (savedAbout) {
+        try {
+          const parsed = JSON.parse(savedAbout);
+          if (parsed && parsed.photo_url) setAbout(parsed);
+        } catch {}
+      }
 
       // 2. Fetch fresh published content from server API
       try {
@@ -94,6 +121,12 @@ export default function Home() {
           }
           if (Array.isArray(data.faqs) && data.faqs.length > 0) {
             setFaqs(data.faqs);
+          }
+          if (data.services && data.services.cards) {
+            setServices(data.services);
+          }
+          if (data.about && data.about.photo_url) {
+            setAbout(data.about);
           }
         }
       } catch (e) {
@@ -142,8 +175,10 @@ export default function Home() {
     const targetId =
       section === 'reels' || section === 'проекты'
         ? 'reels'
-        : section === 'works' || section === 'all' || section === 'услуги'
+        : section === 'works' || section === 'all'
         ? 'works'
+        : section === 'services' || section === 'услуги'
+        ? 'services'
         : section === 'clients' || section === 'клиенты'
         ? 'clients'
         : section === 'about' || section === 'обо мне'
@@ -216,18 +251,20 @@ export default function Home() {
             {/* 150px exact spacing between Works and Process Section */}
             <div className="h-[150px] w-full shrink-0" />
 
-            {/* Section 4: Process / Cinema Quality from idea to release (Scroll Pinning & Stacking Deck) */}
+            {/* Section 4: Process / Services «КАРТИНКА УРОВНЯ КИНО» (Scroll Pinning & Stacking Deck) */}
             <ProcessSection
               lang={lang}
               containerRef={rightPanelRef}
+              services={services}
             />
 
             {/* 150px exact spacing between Process Section and About Section */}
             <div className="h-[150px] w-full shrink-0" />
 
-            {/* Section 5: About Section with Masked Typography Reveal & Portrait */}
+            {/* Section 5: About Section with Masked Typography Reveal & Full-Right Portrait */}
             <AboutSection
               lang={lang}
+              about={about}
             />
 
             {/* 150px exact spacing between About Section and FAQ Section */}
@@ -254,7 +291,7 @@ export default function Home() {
                 fontFamily: '"Geist Mono", monospace',
                 fontSize: '20px',
                 fontWeight: 700,
-                lineHeight: '125%', // 25px
+                lineHeight: '125%',
                 letterSpacing: '-0.2px',
                 textTransform: 'uppercase',
               }}

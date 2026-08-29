@@ -3,13 +3,19 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Language } from '@/types';
+import { ServicesContent, DEFAULT_SERVICES } from '@/lib/supabase';
 
 interface ProcessSectionProps {
   lang: Language;
   containerRef?: React.RefObject<HTMLElement | null>;
+  services?: ServicesContent;
 }
 
-export default function ProcessSection({ lang, containerRef }: ProcessSectionProps) {
+export default function ProcessSection({
+  lang,
+  containerRef,
+  services = DEFAULT_SERVICES,
+}: ProcessSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Bind scroll to the parent container
@@ -20,17 +26,21 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
   });
 
   // ─── 4 Solid Cards Pure Slide-in (100% Opaque, No Transparency) ───
-  // Card 1: slides into final position (0.05 -> 0.25)
   const card1Y = useTransform(scrollYProgress, [0.02, 0.24], [900, 0]);
-
-  // Card 2: slides over Card 1 (0.24 -> 0.48)
   const card2Y = useTransform(scrollYProgress, [0.24, 0.48], [900, 0]);
-
-  // Card 3: slides over Card 1 & 2 (0.48 -> 0.72)
   const card3Y = useTransform(scrollYProgress, [0.48, 0.72], [900, 0]);
-
-  // Card 4: slides over Card 2 & 3 to complete the deck (0.72 -> 0.96)
   const card4Y = useTransform(scrollYProgress, [0.72, 0.96], [900, 0]);
+
+  const cards = services.cards || DEFAULT_SERVICES.cards;
+  const card1 = cards[0] || DEFAULT_SERVICES.cards[0];
+  const card2 = cards[1] || DEFAULT_SERVICES.cards[1];
+  const card3 = cards[2] || DEFAULT_SERVICES.cards[2];
+  const card4 = cards[3] || DEFAULT_SERVICES.cards[3];
+
+  const headline =
+    lang === 'ru'
+      ? services.headline_ru || DEFAULT_SERVICES.headline_ru
+      : services.headline_en || DEFAULT_SERVICES.headline_en;
 
   return (
     <div
@@ -43,267 +53,151 @@ export default function ProcessSection({ lang, containerRef }: ProcessSectionPro
         {/* ── Background Giant H1 (Pinned behind the cards, left aligned / center) ── */}
         <div className="absolute inset-0 flex items-center justify-center text-center z-0 pointer-events-none p-4">
           <h1
-            className="font-mono uppercase font-semibold text-center select-none text-white tracking-[-2.56px]"
+            className="font-mono uppercase font-semibold text-center select-none text-white tracking-[-2.56px] whitespace-pre-line"
             style={{
               fontFamily: '"Geist Mono", monospace',
               fontSize: 'clamp(44px, 7.5vw, 128px)',
               fontWeight: 600,
-              lineHeight: '90%', // 115.2px
+              lineHeight: '90%',
               letterSpacing: '-2.56px',
               color: '#FFFFFF',
             }}
           >
-            {lang === 'ru' ? (
-              <>
-                КАРТИНКА
-                <br />
-                УРОВНЯ КИНО :
-                <br />
-                ОТ ИДЕИ ДО
-                <br />
-                РЕЛИЗА
-              </>
-            ) : (
-              <>
-                CINEMATIC
-                <br />
-                QUALITY :
-                <br />
-                FROM IDEA TO
-                <br />
-                RELEASE
-              </>
-            )}
+            {headline}
           </h1>
         </div>
 
         {/* ── Cards Interactive Stacking Deck Layer (Fullscreen bounds) ── */}
         <div className="relative w-full max-w-[964px] h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
-          {/* ── Card 1: СЪЕМКА (Pinned to Top-0, z-10, #1458E6, Solid Opacity) ── */}
+          {/* ── Card 1: Pinned to Top-0, z-10 ── */}
           <motion.div
             style={{
               y: card1Y,
               zIndex: 10,
               padding: '24px',
+              backgroundColor: card1.bg_color || '#1458E6',
+              color: card1.text_color || '#FFFFFF',
             }}
-            className="absolute left-[40px] sm:left-[90px] lg:left-[140px] top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] bg-[#1458E6] flex flex-col justify-between items-start rounded-none shadow-none"
+            className="absolute left-[40px] sm:left-[90px] lg:left-[140px] top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
-              {lang === 'ru' ? (
-                <>
-                  <p>снимаю на sony g-master</p>
-                  <p>с кино-светом.</p>
-                </>
-              ) : (
-                <>
-                  <p>shooting on sony g-master</p>
-                  <p>with cinema lighting.</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
             </div>
 
-            {/* Center title (128px Geist Mono) */}
+            {/* Center title */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
               style={{
                 fontSize: 'clamp(56px, 9vw, 128px)',
                 lineHeight: '90%',
               }}
             >
-              {lang === 'ru' ? 'СЪЕМКА' : 'SHOOTING'}
+              {lang === 'ru' ? card1.title_ru : card1.title_en}
             </h2>
 
             {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase max-w-[326px]">
-              {lang === 'ru' ? (
-                <>
-                  <p>картинка выглядит дорого —</p>
-                  <p>хоть в студии, хоть в репортаже,</p>
-                  <p>хоть в грязи по колено.</p>
-                </>
-              ) : (
-                <>
-                  <p>looks premium everywhere —</p>
-                  <p>studio, reportage,</p>
-                  <p>or knee-deep in mud.</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              {lang === 'ru' ? card1.bottom_text_ru : card1.bottom_text_en}
             </div>
           </motion.div>
 
-          {/* ── Card 2: МОНТАЖ И ЦВЕТ (Pinned to Right-0, z-20, #FFFFFF, Solid Opacity) ── */}
+          {/* ── Card 2: Pinned to Right-0, z-20 ── */}
           <motion.div
             style={{
               y: card2Y,
               zIndex: 20,
               padding: '24px',
+              backgroundColor: card2.bg_color || '#FFFFFF',
+              color: card2.text_color || '#1458E6',
             }}
-            className="absolute right-0 top-[60px] sm:top-[80px] w-[446px] max-w-[85vw] h-[480px] sm:h-[506px] bg-[#FFFFFF] flex flex-col justify-between items-start rounded-none shadow-none"
+            className="absolute right-0 top-[60px] sm:top-[80px] w-[446px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#1458E6] lowercase">
-              {lang === 'ru' ? (
-                <p>монтирую и крашу в davinci.</p>
-              ) : (
-                <p>editing & grading in davinci.</p>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
             </div>
 
-            {/* Center title (64px Geist Mono) */}
+            {/* Center title */}
             <h2
-              className="font-mono font-semibold uppercase text-[#1458E6] text-center w-full my-2 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
               style={{
                 fontSize: 'clamp(44px, 6.5vw, 64px)',
                 lineHeight: '90%',
               }}
             >
-              {lang === 'ru' ? (
-                <>
-                  МОНТАЖ И
-                  <br />
-                  ЦВЕТ
-                </>
-              ) : (
-                <>
-                  EDITING &
-                  <br />
-                  COLOR
-                </>
-              )}
+              {lang === 'ru' ? card2.title_ru : card2.title_en}
             </h2>
 
             {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-[#1458E6] lowercase max-w-[326px]">
-              {lang === 'ru' ? (
-                <>
-                  <p>авторская цветокоррекция — то,</p>
-                  <p>что отличает «снято на телефон»</p>
-                  <p>от «снято как кино».</p>
-                </>
-              ) : (
-                <>
-                  <p>signature color grading —</p>
-                  <p>what separates phone videos</p>
-                  <p>from cinematic art.</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              {lang === 'ru' ? card2.bottom_text_ru : card2.bottom_text_en}
             </div>
           </motion.div>
 
-          {/* ── Card 3: ПОЛНЫЙ ЦИКЛ ПОД КЛЮЧ (Center, z-30, #1E1E22, Solid Opacity) ── */}
+          {/* ── Card 3: Center, z-30 ── */}
           <motion.div
             style={{
               y: card3Y,
               zIndex: 30,
               padding: '24px',
+              backgroundColor: card3.bg_color || '#1E1E22',
+              color: card3.text_color || '#FFFFFF',
             }}
-            className="absolute left-[80px] sm:left-[140px] lg:left-[200px] top-[140px] sm:top-[170px] w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] bg-[#1E1E22] flex flex-col justify-between items-start rounded-none shadow-none"
+            className="absolute left-[80px] sm:left-[140px] lg:left-[200px] top-[140px] sm:top-[170px] w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
-              {lang === 'ru' ? (
-                <>
-                  <p>от идеи до мастеринга</p>
-                  <p>веду сам</p>
-                </>
-              ) : (
-                <>
-                  <p>from idea to mastering</p>
-                  <p>led personally</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
             </div>
 
-            {/* Center title (64px Geist Mono) */}
+            {/* Center title */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
               style={{
                 fontSize: 'clamp(42px, 6.5vw, 64px)',
                 lineHeight: '90%',
               }}
             >
-              {lang === 'ru' ? (
-                <>
-                  ПОЛНЫЙ ЦИКЛ
-                  <br />
-                  ПОД КЛЮЧ
-                </>
-              ) : (
-                <>
-                  FULL CYCLE
-                  <br />
-                  TURNKEY
-                </>
-              )}
+              {lang === 'ru' ? card3.title_ru : card3.title_en}
             </h2>
 
             {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase max-w-[326px]">
-              {lang === 'ru' ? (
-                <>
-                  <p>без испорченного телефона между</p>
-                  <p>оператором, монтажёром и колористом.</p>
-                </>
-              ) : (
-                <>
-                  <p>seamless workflow without lost in translation</p>
-                  <p>between camera, editor, and colorist.</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              {lang === 'ru' ? card3.bottom_text_ru : card3.bottom_text_en}
             </div>
           </motion.div>
 
-          {/* ── Card 4: КОМАНДА (Pinned to Bottom-0 and Right-0, z-40, #1458E6, Solid Opacity) ── */}
+          {/* ── Card 4: Pinned to Bottom-0 and Right-0, z-40 ── */}
           <motion.div
             style={{
               y: card4Y,
               zIndex: 40,
               padding: '24px',
+              backgroundColor: card4.bg_color || '#1458E6',
+              color: card4.text_color || '#FFFFFF',
             }}
-            className="absolute right-0 bottom-0 w-[640px] max-w-[92vw] h-[480px] sm:h-[506px] bg-[#1458E6] flex flex-col justify-between items-start rounded-none shadow-none"
+            className="absolute right-0 bottom-0 w-[640px] max-w-[92vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
           >
             {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase">
-              {lang === 'ru' ? (
-                <>
-                  <p>для больших проектов</p>
-                  <p>привлекаю проверенных</p>
-                  <p>профи</p>
-                </>
-              ) : (
-                <>
-                  <p>for large-scale projects</p>
-                  <p>bringing trusted</p>
-                  <p>pros</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
             </div>
 
-            {/* Center title (128px Geist Mono) */}
+            {/* Center title */}
             <h2
-              className="font-mono font-semibold uppercase text-white text-center w-full my-2 tracking-[-2.56px]"
+              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
               style={{
                 fontSize: 'clamp(56px, 9vw, 128px)',
                 lineHeight: '90%',
               }}
             >
-              {lang === 'ru' ? 'КОМАНДА' : 'TEAM'}
+              {lang === 'ru' ? card4.title_ru : card4.title_en}
             </h2>
 
             {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] text-white lowercase max-w-[326px]">
-              {lang === 'ru' ? (
-                <>
-                  <p>вы общаетесь только со мной,</p>
-                  <p>а я ручаюсь за результат всей команды.</p>
-                </>
-              ) : (
-                <>
-                  <p>you only communicate with me,</p>
-                  <p>and i vouch for the team result.</p>
-                </>
-              )}
+            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              {lang === 'ru' ? card4.bottom_text_ru : card4.bottom_text_en}
             </div>
           </motion.div>
         </div>

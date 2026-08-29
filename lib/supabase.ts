@@ -275,4 +275,93 @@ export const DEFAULT_FAQS: FaqItem[] = [
   },
 ];
 
+// ─── Services / Process Section Content ──────────────────────────────────────
+
+export interface ServiceCard {
+  id: string;
+  top_text_ru: string;
+  top_text_en: string;
+  title_ru: string;
+  title_en: string;
+  bottom_text_ru: string;
+  bottom_text_en: string;
+  bg_color: string;
+  text_color: string;
+}
+
+export interface ServicesContent {
+  headline_ru: string;
+  headline_en: string;
+  cards: ServiceCard[];
+}
+
+export const DEFAULT_SERVICES: ServicesContent = {
+  headline_ru: 'КАРТИНКА\nУРОВНЯ КИНО :\nОТ ИДЕИ ДО\nРЕЛИЗА',
+  headline_en: 'CINEMATIC\nQUALITY :\nFROM IDEA TO\nRELEASE',
+  cards: [
+    {
+      id: 'card1',
+      top_text_ru: 'снимаю на sony g-master\nс кино-светом.',
+      top_text_en: 'shooting on sony g-master\nwith cinema lighting.',
+      title_ru: 'СЪЕМКА',
+      title_en: 'SHOOTING',
+      bottom_text_ru: 'картинка выглядит дорого —\nхоть в студии, хоть в репортаже,\nхоть в грязи по колено.',
+      bottom_text_en: 'looks premium everywhere —\nstudio, reportage,\nor knee-deep in mud.',
+      bg_color: '#1458E6',
+      text_color: '#FFFFFF',
+    },
+    {
+      id: 'card2',
+      top_text_ru: 'монтирую и крашу в davinci.',
+      top_text_en: 'editing & grading in davinci.',
+      title_ru: 'МОНТАЖ И\nЦВЕТ',
+      title_en: 'EDITING &\nCOLOR',
+      bottom_text_ru: 'авторская цветокоррекция — то,\nчто отличает «снято на телефон»\nот «снято как кино».',
+      bottom_text_en: 'signature color grading —\nwhat separates phone videos\nfrom cinematic art.',
+      bg_color: '#FFFFFF',
+      text_color: '#1458E6',
+    },
+    {
+      id: 'card3',
+      top_text_ru: 'от идеи до мастеринга\nведу сам',
+      top_text_en: 'from idea to mastering\nled personally',
+      title_ru: 'ПОЛНЫЙ ЦИКЛ\nПОД КЛЮЧ',
+      title_en: 'FULL CYCLE\nTURNKEY',
+      bottom_text_ru: 'без испорченного телефона между\nоператором, монтажёром и колористом.',
+      bottom_text_en: 'seamless workflow without lost in translation\nbetween camera, editor, and colorist.',
+      bg_color: '#1E1E22',
+      text_color: '#FFFFFF',
+    },
+    {
+      id: 'card4',
+      top_text_ru: 'для больших проектов\nпривлекаю проверенных\nпрофи',
+      top_text_en: 'for large-scale projects\nbringing trusted\npros',
+      title_ru: 'КОМАНДА',
+      title_en: 'TEAM',
+      bottom_text_ru: 'вы общаетесь только со мной,\nа я ручаюсь за результат всей команды.',
+      bottom_text_en: 'you only communicate with me,\nand i vouch for the team result.',
+      bg_color: '#1458E6',
+      text_color: '#FFFFFF',
+    },
+  ],
+};
+
+// ─── About Section Content ───────────────────────────────────────────────────
+
+export interface AboutContent {
+  photo_url: string;
+  top_text_ru: string;
+  top_text_en: string;
+  bottom_text_ru: string;
+  bottom_text_en: string;
+}
+
+export const DEFAULT_ABOUT: AboutContent = {
+  photo_url: '/vlad-portrait.jpg',
+  top_text_ru: 'Я — ВИДЕОМЕЙКЕР ИЗ ПЕТЕРБУРГА. В ЭТОЙ СФЕРЕ БОЛЬШЕ 10 ЛЕТ.',
+  top_text_en: 'I AM A FILMMAKER FROM ST. PETERSBURG. OVER 10 YEARS IN THE INDUSTRY.',
+  bottom_text_ru: 'РАБОТАЮ В РАЗНЫХ СФЕРАХ : ПРОМЫШЛЕННОСТЬ, ЮРИСТЫ, НЕДВИЖИМОСТЬ, HORECA, СПОРТ.',
+  bottom_text_en: 'WORKING ACROSS DIVERSE INDUSTRIES: INDUSTRIAL, LEGAL, REAL ESTATE, HORECA, SPORT.',
+};
+
 
