@@ -229,7 +229,7 @@ export default function AdminStudio() {
     } catch {}
 
     setIsSaving(false);
-    showToast('✓ Изменения сохранены и опубликованы');
+    showToast('ИЗМЕНЕНИЯ СОХРАНЕНЫ И ОПУБЛИКОВАНЫ');
   };
 
   // Upload handler from computer file
@@ -251,13 +251,13 @@ export default function AdminStudio() {
       const data = await res.json();
       if (res.ok && data.url) {
         onSuccess(data.url);
-        showToast('✓ Файл загружен');
+        showToast('ФАЙЛ ЗАГРУЖЕН');
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target?.result) {
             onSuccess(e.target.result as string);
-            showToast('✓ Файл загружен');
+            showToast('ФАЙЛ ЗАГРУЖЕН');
           }
         };
         reader.readAsDataURL(file);
@@ -267,7 +267,7 @@ export default function AdminStudio() {
       reader.onload = (e) => {
         if (e.target?.result) {
           onSuccess(e.target.result as string);
-          showToast('✓ Файл загружен');
+          showToast('ФАЙЛ ЗАГРУЖЕН');
         }
       };
       reader.readAsDataURL(file);
@@ -959,42 +959,42 @@ export default function AdminStudio() {
                                       </div>
                                     </div>
 
-                                    {/* Size */}
-                                    <div className="flex flex-col gap-2">
+                                    {/* Size & Delete Row */}
+                                    <div className="flex flex-col gap-2 w-full">
                                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
                                         размер
                                       </label>
-                                      <div className="relative inline-block w-full max-w-[240px]">
-                                        <select
-                                          value={currentSizePreset}
-                                          onChange={(e) => handleSizeChange(reel.id, e.target.value)}
-                                          style={{ paddingLeft: '12px', paddingRight: '36px' }}
-                                          className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white appearance-none focus:outline-none focus:border-[#1458E6] cursor-pointer"
+                                      <div className="flex items-center justify-between gap-4 w-full">
+                                        <div className="relative inline-block w-full max-w-[240px]">
+                                          <select
+                                            value={currentSizePreset}
+                                            onChange={(e) => handleSizeChange(reel.id, e.target.value)}
+                                            style={{ paddingLeft: '12px', paddingRight: '36px' }}
+                                            className="w-full h-[40px] bg-transparent border border-[#26282C] text-[16px] font-mono font-bold uppercase text-white appearance-none focus:outline-none focus:border-[#1458E6] cursor-pointer"
+                                          >
+                                            {SIZE_PRESETS.map((preset) => (
+                                              <option key={preset.label} value={preset.label} className="bg-[#141416] text-white">
+                                                {preset.label}
+                                              </option>
+                                            ))}
+                                          </select>
+                                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none" />
+                                        </div>
+
+                                        {/* Delete Button at the bottom right */}
+                                        <button
+                                          onClick={() => {
+                                            if (window.confirm('Вы уверены, что хотите удалить?')) {
+                                              deleteHeroReel(reel.id);
+                                            }
+                                          }}
+                                          style={{ borderRadius: '56px' }}
+                                          className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                                         >
-                                          {SIZE_PRESETS.map((preset) => (
-                                            <option key={preset.label} value={preset.label} className="bg-[#141416] text-white">
-                                              {preset.label}
-                                            </option>
-                                          ))}
-                                        </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none" />
+                                          УДАЛИТЬ
+                                        </button>
                                       </div>
                                     </div>
-                                  </div>
-
-                                  {/* Delete Action */}
-                                  <div className="pt-2 shrink-0">
-                                    <button
-                                      onClick={() => {
-                                        if (window.confirm('Вы уверены, что хотите удалить?')) {
-                                          deleteHeroReel(reel.id);
-                                        }
-                                      }}
-                                      title="Удалить"
-                                      className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
-                                    >
-                                      <Trash2 className="w-4 h-4" />
-                                    </button>
                                   </div>
                                 </div>
                               )}
@@ -1014,19 +1014,20 @@ export default function AdminStudio() {
 
           {/* ════ SECTION 2: WORKS CATEGORIES ════ */}
           {activeMenu === 'works' && (
-            <div className="flex flex-col gap-6 w-full">
-              {/* Category Pills Header strictly matching screenshot */}
-              <div className="flex items-center gap-2 overflow-x-auto w-full py-1">
+            <div className="flex flex-col gap-[12px] w-full">
+              {/* Category Pills Header strictly matching Figma screenshot (8px 16px, 56px radius, #2957DE) */}
+              <div className="flex items-center gap-[10px] overflow-x-auto w-full py-1">
                 {workSections.map((group) => {
                   const isSelected = selectedCategory === group.id;
                   return (
                     <button
                       key={group.id}
                       onClick={() => setSelectedCategory(group.id)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
+                      style={{ padding: '8px 16px', borderRadius: '56px' }}
+                      className={`text-xs font-mono font-bold uppercase transition-all cursor-pointer whitespace-nowrap ${
                         isSelected
-                          ? 'bg-[#1458E6] text-white shadow-md'
-                          : 'bg-[#1E1E22] text-white/90 hover:text-white hover:bg-[#28282D]'
+                          ? 'bg-[#2957DE] text-white shadow-md'
+                          : 'bg-[#232326] text-white/90 hover:text-white hover:bg-[#2e2e33]'
                       }`}
                     >
                       {group.title_ru} ({group.items.length})
@@ -1038,7 +1039,8 @@ export default function AdminStudio() {
                 <button
                   onClick={() => setIsNewCategoryModalOpen(true)}
                   title="Добавить новый раздел"
-                  className="px-5 py-2.5 rounded-full bg-white text-[#1458E6] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                  style={{ padding: '8px 16px', borderRadius: '56px' }}
+                  className="bg-white text-[#2957DE] hover:bg-neutral-200 text-xs font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                 >
                   <Plus className="w-4 h-4 stroke-[2.5]" />
                   <span>НОВЫЙ РАЗДЕЛ</span>
@@ -1049,7 +1051,7 @@ export default function AdminStudio() {
               {workSections
                 .filter((g) => g.id === selectedCategory)
                 .map((group) => (
-                  <div key={group.id} className="flex flex-col gap-6 w-full">
+                  <div key={group.id} className="flex flex-col gap-[12px] w-full">
                     {/* Category Title & Delete Row strictly matching screenshot */}
                     <div
                       style={{ padding: '24px' }}
@@ -1084,10 +1086,11 @@ export default function AdminStudio() {
                           </button>
                         </div>
 
-                        {/* Delete Section Button in Red */}
+                        {/* Delete Section Button in Gray pill with white text, red on hover */}
                         <button
                           onClick={() => deleteCategory(group.id)}
-                          className="text-red-500 hover:text-red-400 font-mono font-bold text-[14px] uppercase cursor-pointer transition-colors px-2 shrink-0"
+                          style={{ borderRadius: '56px' }}
+                          className="h-[44px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                         >
                           УДАЛИТЬ
                         </button>
@@ -1278,21 +1281,21 @@ export default function AdminStudio() {
                                             </label>
                                           </div>
                                         </div>
-                                      </div>
 
-                                      {/* Delete Action */}
-                                      <div className="pt-2 shrink-0">
-                                        <button
-                                          onClick={() => {
-                                            if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
-                                              deleteWorkItem(group.id, item.id);
-                                            }
-                                          }}
-                                          title="Удалить"
-                                          className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
-                                        >
-                                          <Trash2 className="w-4 h-4" />
-                                        </button>
+                                        {/* Delete Action in Bottom Right */}
+                                        <div className="flex items-center justify-end w-full pt-1">
+                                          <button
+                                            onClick={() => {
+                                              if (window.confirm('Вы уверены, что хотите удалить этот проект?')) {
+                                                deleteWorkItem(group.id, item.id);
+                                              }
+                                            }}
+                                            style={{ borderRadius: '56px' }}
+                                            className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
+                                          >
+                                            УДАЛИТЬ
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
                                   )}
@@ -1313,7 +1316,7 @@ export default function AdminStudio() {
 
           {/* ════ SECTION: SERVICES / PROCESS (КАРТИНКА УРОВНЯ КИНО) ════ */}
           {activeMenu === 'services' && (
-            <div className="flex flex-col gap-6 w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {/* Notice & Headline Card */}
               <div
                 style={{ padding: '24px' }}
@@ -1360,7 +1363,7 @@ export default function AdminStudio() {
               </div>
 
               {/* 4 Cards */}
-              <div className="flex flex-col gap-4 w-full">
+              <div className="flex flex-col gap-[12px] w-full">
                 {services.cards.map((card, idx) => (
                   <div
                     key={card.id}
@@ -1475,7 +1478,7 @@ export default function AdminStudio() {
 
           {/* ════ SECTION: ABOUT (ОБО МНЕ) ════ */}
           {activeMenu === 'about' && (
-            <div className="flex flex-col gap-6 w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {/* Photo Card */}
               <div
                 style={{ padding: '24px' }}
@@ -1613,7 +1616,7 @@ export default function AdminStudio() {
 
           {/* ════ SECTION 3: CLIENTS & LOGOS ════ */}
           {activeMenu === 'clients' && (
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {clients.map((client) => (
                 <div
                   key={client.id}
@@ -1715,10 +1718,10 @@ export default function AdminStudio() {
                           deleteClient(client.id);
                         }
                       }}
-                      title="Удалить"
-                      className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                      style={{ borderRadius: '56px' }}
+                      className="h-[40px] px-6 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-[14px] uppercase transition-colors cursor-pointer shrink-0"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      УДАЛИТЬ
                     </button>
                   </div>
                 </div>
@@ -1730,7 +1733,7 @@ export default function AdminStudio() {
 
           {/* ════ SECTION 4: FAQ (ВОПРОСЫ И ОТВЕТЫ) ════ */}
           {activeMenu === 'faq' && (
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {faqs.map((faq) => (
                 <div
                   key={faq.id}
@@ -1747,10 +1750,10 @@ export default function AdminStudio() {
 
                     <button
                       onClick={() => deleteFaq(faq.id)}
-                      title="Удалить вопрос"
-                      className="w-8 h-8 rounded-md hover:bg-red-500/20 hover:text-red-400 text-[#666] flex items-center justify-center transition-colors cursor-pointer"
+                      style={{ borderRadius: '56px' }}
+                      className="h-[36px] px-5 bg-[#232326] hover:bg-red-600 text-white font-mono font-bold text-xs uppercase transition-colors cursor-pointer shrink-0"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      УДАЛИТЬ
                     </button>
                   </div>
 
@@ -1789,7 +1792,7 @@ export default function AdminStudio() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-2">
                       <label className="font-mono text-[14px] font-bold leading-[17.5px] tracking-[-0.14px] lowercase text-[#5E5E5E]">
-                        левая колонка ответа с синей линией (ru)
+                        левая колонка ответа (ru)
                       </label>
                       <input
                         type="text"
@@ -1855,7 +1858,7 @@ export default function AdminStudio() {
 
           {/* ════ SECTION 5: SETTINGS & DEPLOY ════ */}
           {activeMenu === 'settings' && (
-            <div className="flex flex-col gap-6 w-full">
+            <div className="flex flex-col gap-[12px] w-full">
               {/* Contacts & Social Card */}
               <div style={{ padding: '24px' }} className="bg-[#141416] rounded-[16px] flex flex-col gap-5 border-none w-full">
                 <div className="flex items-center gap-3">
