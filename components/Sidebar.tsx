@@ -20,7 +20,7 @@ export default function Sidebar({
       style={{
         backgroundColor: '#141416',
       }}
-      className="sticky top-0 h-auto md:h-screen w-full md:w-[360px] md:min-w-[360px] lg:w-[440px] lg:min-w-[440px] xl:w-[538px] xl:min-w-[538px] rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-4 md:pb-0"
+      className="sticky top-0 h-auto md:h-screen w-full md:flex-1 md:min-w-[360px] rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-4 md:pb-0"
     >
       {/* ── Top-Left: RU / EN Language Toggle Pill ── */}
       <div className="absolute top-0 left-0 z-20 flex items-center overflow-hidden shrink-0">
