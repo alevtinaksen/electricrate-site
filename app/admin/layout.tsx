@@ -6,7 +6,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black flex overflow-hidden box-border z-[999] select-none text-white font-mono">
+    <div className="fixed inset-0 w-screen h-screen bg-black flex overflow-hidden box-border z-[999] text-white font-mono">
       {children}
     </div>
   );

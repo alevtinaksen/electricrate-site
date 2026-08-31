@@ -86,10 +86,46 @@ export default function ClientsSection({
     onVideoSelect?.(title, video);
   };
 
+  const visibleClients = (clients || []).filter((c) => !c.hidden);
+  if (visibleClients.length === 0) return null;
+
+  const renderLogo = (client: ClientItem, index: number) => {
+    if (client.hide_logo) {
+      return null;
+    }
+    if (client.logo_url) {
+      return (
+        <img
+          src={client.logo_url}
+          alt={isRu ? client.name_ru : client.name_en}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/placeholder.png';
+          }}
+          className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full object-contain bg-white shrink-0 p-1"
+        />
+      );
+    }
+    if (index === 0) return <PntLogo />;
+    if (index === 1) return <FinntrailLogo />;
+    if (index === 2) return <SberLogo />;
+    if (index === 3) return <SpiefLogo />;
+    return <KtkLogo />;
+  };
+
+  const getClientName = (client: ClientItem) => {
+    return isRu ? (client.name_ru || client.name_en) : (client.name_en || client.name_ru);
+  };
+
+  const c0 = visibleClients[0];
+  const c1 = visibleClients[1];
+  const c2 = visibleClients[2];
+  const c3 = visibleClients[3];
+  const c4 = visibleClients[4];
+
   return (
     <section
       id="clients"
-      className="w-full max-w-[964px] font-mono flex flex-col items-center select-none"
+      className="w-full max-w-[964px] font-mono flex flex-col items-center"
     >
       {/* Subtitle "КЛИЕНТЫ" */}
       <h3
@@ -127,80 +163,87 @@ export default function ClientsSection({
           textTransform: 'uppercase',
         }}
       >
-        {/* Line 1: ПЕТЕРБУРГСКИЙ НЕФТЯНОЙ ТЕРМИНАЛ · (2 lines to fit right panel) */}
-        <div className="flex items-center justify-center gap-[12px] w-fit max-w-full mx-auto">
-          <PntLogo />
-          <span
-            onClick={() => handleClientClick(clients[0] || DEFAULT_CLIENTS[0])}
-            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 inline-block text-center leading-[1.05]"
-          >
-            {isRu ? (
-              <>
-                ПЕТЕРБУРГСКИЙ<br />НЕФТЯНОЙ ТЕРМИНАЛ
-              </>
-            ) : (
-              <>
-                PETERSBURG<br />OIL TERMINAL
-              </>
-            )}
-          </span>
-          <span className="text-white font-bold ml-1 select-none">·</span>
-        </div>
-
-        {/* Line 2: FINNTRAIL · */}
-        <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
-          <FinntrailLogo />
-          <span
-            onClick={() => handleClientClick(clients[1] || DEFAULT_CLIENTS[1])}
-            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
-          >
-            {clients[1]?.name_ru && clients[1].name_ru !== 'FINNTRAIL' ? (isRu ? clients[1].name_ru : clients[1].name_en) : 'FINNTRAIL'}
-          </span>
-          <span className="text-white font-bold ml-1 select-none">·</span>
-        </div>
-
-        {/* Line 3: СБЕРСТРАХОВАНИЕ · */}
-        <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
-          <SberLogo />
-          <span
-            onClick={() => handleClientClick(clients[2] || DEFAULT_CLIENTS[2])}
-            className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
-          >
-            {isRu ? 'СБЕРСТРАХОВАНИЕ' : 'SBERINSURANCE'}
-          </span>
-          <span className="text-white font-bold ml-1 select-none">·</span>
-        </div>
-
-        {/* Line 4: SPIEF + KTK */}
-        <div className="flex flex-wrap items-center justify-center gap-4 w-fit mx-auto">
-          <div className="flex items-center justify-center gap-[12px]">
-            <SpiefLogo />
+        {/* Line 1: Client 0 (Directly renders whatever is typed in admin) */}
+        {c0 && (
+          <div className="flex items-center justify-center gap-[12px] w-fit max-w-full mx-auto">
+            {renderLogo(c0, 0)}
             <span
-              onClick={() => handleClientClick(clients[3] || DEFAULT_CLIENTS[3])}
-              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+              onClick={() => handleClientClick(c0)}
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 inline-block text-center leading-[1.05] whitespace-pre-line"
             >
-              {isRu ? 'ПМЭФ' : 'SPIEF'}
+              {getClientName(c0)}
             </span>
             <span className="text-white font-bold ml-1 select-none">·</span>
           </div>
+        )}
 
-          <div className="flex items-center justify-center gap-[12px]">
-            {clients[4]?.logo_url ? (
-              <img
-                src={clients[4].logo_url}
-                alt="КТК"
-                className="w-[54px] h-[54px] min-w-[54px] min-h-[54px] rounded-full object-contain shrink-0"
-              />
-            ) : (
-              <KtkLogo />
-            )}
+        {/* Line 2: Client 1 */}
+        {c1 && (
+          <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
+            {renderLogo(c1, 1)}
             <span
-              onClick={() => handleClientClick(clients[4] || DEFAULT_CLIENTS[4])}
+              onClick={() => handleClientClick(c1)}
               className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
             >
-              {isRu ? 'КТК' : 'KTK'}
+              {getClientName(c1)}
             </span>
+            <span className="text-white font-bold ml-1 select-none">·</span>
           </div>
+        )}
+
+        {/* Line 3: Client 2 */}
+        {c2 && (
+          <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
+            {renderLogo(c2, 2)}
+            <span
+              onClick={() => handleClientClick(c2)}
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+            >
+              {getClientName(c2)}
+            </span>
+            <span className="text-white font-bold ml-1 select-none">·</span>
+          </div>
+        )}
+
+        {/* Line 4: Client 3 & Client 4 (+ any extra clients) */}
+        <div className="flex flex-wrap items-center justify-center gap-4 w-fit mx-auto">
+          {c3 && (
+            <div className="flex items-center justify-center gap-[12px]">
+              {renderLogo(c3, 3)}
+              <span
+                onClick={() => handleClientClick(c3)}
+                className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+              >
+                {getClientName(c3)}
+              </span>
+              <span className="text-white font-bold ml-1 select-none">·</span>
+            </div>
+          )}
+
+          {c4 && (
+            <div className="flex items-center justify-center gap-[12px]">
+              {renderLogo(c4, 4)}
+              <span
+                onClick={() => handleClientClick(c4)}
+                className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+              >
+                {getClientName(c4)}
+              </span>
+            </div>
+          )}
+
+          {visibleClients.slice(5).map((extraClient, i) => (
+            <div key={extraClient.id || i} className="flex items-center justify-center gap-[12px]">
+              <span className="text-white font-bold select-none">·</span>
+              {renderLogo(extraClient, i + 5)}
+              <span
+                onClick={() => handleClientClick(extraClient)}
+                className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
+              >
+                {getClientName(extraClient)}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

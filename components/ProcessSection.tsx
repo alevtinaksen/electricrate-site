@@ -43,163 +43,226 @@ export default function ProcessSection({
       : services.headline_en || DEFAULT_SERVICES.headline_en;
 
   return (
-    <div
-      ref={sectionRef}
-      id="services"
-      className="relative w-full h-[400vh] font-mono select-none bg-transparent"
-    >
-      {/* ── Fixed Fullscreen Stage (Transparent background matching site #0d0d0d) ── */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-transparent">
-        {/* ── Background Giant H1 (Pinned behind the cards, left aligned / center) ── */}
-        <div className="absolute inset-0 flex items-center justify-center text-center z-0 pointer-events-none p-4">
-          <h1
-            className="font-mono uppercase font-semibold text-center select-none text-white tracking-[-2.56px] whitespace-pre-line"
-            style={{
-              fontFamily: '"Geist Mono", monospace',
-              fontSize: 'clamp(44px, 7.5vw, 128px)',
-              fontWeight: 600,
-              lineHeight: '90%',
-              letterSpacing: '-2.56px',
-              color: '#FFFFFF',
-            }}
-          >
-            {headline}
-          </h1>
+    <div id="services" className="w-full">
+      {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
+      <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
+        {/* Mobile Header Headline */}
+        <h2
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 pb-8 leading-[95%] whitespace-pre-line"
+          style={{
+            fontFamily: '"Geist Mono", monospace',
+            fontSize: 'clamp(32px, 8.5vw, 44px)',
+            fontWeight: 600,
+            color: '#FFFFFF',
+          }}
+        >
+          {headline}
+        </h2>
+
+        {/* 4 Full-Width Cards Stacked with gap-0 */}
+        <div className="w-full flex flex-col gap-0">
+          {cards.map((card, idx) => {
+            const topText = lang === 'ru' ? card.top_text_ru : card.top_text_en;
+            const cardTitle = lang === 'ru' ? card.title_ru : card.title_en;
+            const bottomText = lang === 'ru' ? card.bottom_text_ru : card.bottom_text_en;
+
+            return (
+              <div
+                key={card.id || `mob-card-${idx}`}
+                style={{
+                  padding: '28px 20px',
+                  backgroundColor: card.bg_color || (idx === 0 || idx === 3 ? '#1458E6' : idx === 1 ? '#FFFFFF' : '#1E1E22'),
+                  color: card.text_color || (idx === 1 ? '#1458E6' : '#FFFFFF'),
+                  minHeight: '380px',
+                }}
+                className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
+              >
+                {/* Top text */}
+                <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+                  {topText}
+                </div>
+
+                {/* Card Title — Identical font size on all cards */}
+                <h3
+                  className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2px] whitespace-pre-line py-8"
+                  style={{
+                    fontFamily: '"Geist Mono", monospace',
+                    fontSize: 'clamp(38px, 11vw, 54px)',
+                    lineHeight: '90%',
+                    fontWeight: 600,
+                  }}
+                >
+                  {cardTitle}
+                </h3>
+
+                {/* Bottom text */}
+                <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+                  {bottomText}
+                </div>
+              </div>
+            );
+          })}
         </div>
+      </div>
 
-        {/* ── Cards Interactive Stacking Deck Layer (Fullscreen bounds) ── */}
-        <div className="relative w-full max-w-[964px] h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
-          {/* ── Card 1: Pinned strictly to Left-0 Top-0, z-10 ── */}
-          <motion.div
-            style={{
-              y: card1Y,
-              zIndex: 10,
-              padding: '24px',
-              backgroundColor: card1.bg_color || '#1458E6',
-              color: card1.text_color || '#FFFFFF',
-            }}
-            className="absolute left-0 top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
-          >
-            {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
-              {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
-            </div>
-
-            {/* Center title */}
-            <h2
-              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
+      {/* ── DESKTOP VERSION (>= 768px): Preserved exact stacking deck with scroll pinning ── */}
+      <div
+        ref={sectionRef}
+        className="hidden md:block relative w-full h-[400vh] font-mono bg-transparent isolate"
+      >
+        {/* ── Fixed Fullscreen Stage (Transparent background matching site #0d0d0d) ── */}
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-transparent">
+          {/* ── Background Giant H1 (Pinned behind the cards, left aligned / center) ── */}
+          <div className="absolute inset-0 flex items-center justify-center text-center z-0 pointer-events-none p-4">
+            <h1
+              className="font-mono uppercase font-semibold text-center text-white tracking-[-2.56px] whitespace-pre-line"
               style={{
-                fontSize: 'clamp(56px, 9vw, 128px)',
+                fontFamily: '"Geist Mono", monospace',
+                fontSize: 'clamp(44px, 7.5vw, 128px)',
+                fontWeight: 600,
                 lineHeight: '90%',
+                letterSpacing: '-2.56px',
+                color: '#FFFFFF',
               }}
             >
-              {lang === 'ru' ? card1.title_ru : card1.title_en}
-            </h2>
+              {headline}
+            </h1>
+          </div>
 
-            {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
-              {lang === 'ru' ? card1.bottom_text_ru : card1.bottom_text_en}
-            </div>
-          </motion.div>
-
-          {/* ── Card 2: Pinned to Right-0, z-20 ── */}
-          <motion.div
-            style={{
-              y: card2Y,
-              zIndex: 20,
-              padding: '24px',
-              backgroundColor: card2.bg_color || '#FFFFFF',
-              color: card2.text_color || '#1458E6',
-            }}
-            className="absolute right-0 top-[60px] sm:top-[80px] w-[446px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
-          >
-            {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
-              {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
-            </div>
-
-            {/* Center title */}
-            <h2
-              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
+          {/* ── Cards Interactive Stacking Deck Layer (Fullscreen bounds) ── */}
+          <div className="relative w-full max-w-[964px] h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
+            {/* ── Card 1: Pinned strictly to Left-0 Top-0, z-10 ── */}
+            <motion.div
               style={{
-                fontSize: 'clamp(44px, 6.5vw, 64px)',
-                lineHeight: '90%',
+                y: card1Y,
+                zIndex: 10,
+                padding: '24px',
+                backgroundColor: card1.bg_color || '#1458E6',
+                color: card1.text_color || '#FFFFFF',
               }}
+              className="absolute left-0 top-0 w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              {lang === 'ru' ? card2.title_ru : card2.title_en}
-            </h2>
+              {/* Top text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+                {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
+              </div>
 
-            {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
-              {lang === 'ru' ? card2.bottom_text_ru : card2.bottom_text_en}
-            </div>
-          </motion.div>
+              {/* Center title */}
+              <h2
+                className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
+                style={{
+                  fontSize: 'clamp(56px, 9vw, 128px)',
+                  lineHeight: '90%',
+                }}
+              >
+                {lang === 'ru' ? card1.title_ru : card1.title_en}
+              </h2>
 
-          {/* ── Card 3: Center, z-30 ── */}
-          <motion.div
-            style={{
-              y: card3Y,
-              zIndex: 30,
-              padding: '24px',
-              backgroundColor: card3.bg_color || '#1E1E22',
-              color: card3.text_color || '#FFFFFF',
-            }}
-            className="absolute left-[80px] sm:left-[140px] lg:left-[200px] top-[140px] sm:top-[170px] w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
-          >
-            {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
-              {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
-            </div>
+              {/* Bottom text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+                {lang === 'ru' ? card1.bottom_text_ru : card1.bottom_text_en}
+              </div>
+            </motion.div>
 
-            {/* Center title */}
-            <h2
-              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
+            {/* ── Card 2: Left-aligned at boundary of СЪЕМКА, z-20 (White Card) ── */}
+            <motion.div
               style={{
-                fontSize: 'clamp(42px, 6.5vw, 64px)',
-                lineHeight: '90%',
+                y: card2Y,
+                zIndex: 20,
+                padding: '24px',
+                backgroundColor: card2.bg_color || '#FFFFFF',
+                color: card2.text_color || '#1458E6',
               }}
+              className="absolute left-[130px] sm:left-[165px] top-[110px] sm:top-[130px] w-[500px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              {lang === 'ru' ? card3.title_ru : card3.title_en}
-            </h2>
+              {/* Top text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+                {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
+              </div>
 
-            {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
-              {lang === 'ru' ? card3.bottom_text_ru : card3.bottom_text_en}
-            </div>
-          </motion.div>
+              {/* Center title (Centered horizontally and vertically) */}
+              <h2
+                className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
+                style={{
+                  fontSize: 'clamp(44px, 6.5vw, 64px)',
+                  lineHeight: '90%',
+                }}
+              >
+                {lang === 'ru' ? card2.title_ru : card2.title_en}
+              </h2>
 
-          {/* ── Card 4: Pinned to Bottom-0 and Right-0, z-40 ── */}
-          <motion.div
-            style={{
-              y: card4Y,
-              zIndex: 40,
-              padding: '24px',
-              backgroundColor: card4.bg_color || '#1458E6',
-              color: card4.text_color || '#FFFFFF',
-            }}
-            className="absolute right-0 bottom-0 w-[640px] max-w-[92vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
-          >
-            {/* Top text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
-              {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
-            </div>
+              {/* Bottom text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+                {lang === 'ru' ? card2.bottom_text_ru : card2.bottom_text_en}
+              </div>
+            </motion.div>
 
-            {/* Center title */}
-            <h2
-              className="font-mono font-semibold uppercase text-center w-full my-2 tracking-[-2.56px] whitespace-pre-line"
+            {/* ── Card 3: Pinned strictly to Right-0, showing ПОЛНЫЙ, z-30 (Black Card) ── */}
+            <motion.div
               style={{
-                fontSize: 'clamp(56px, 9vw, 128px)',
-                lineHeight: '90%',
+                y: card3Y,
+                zIndex: 30,
+                padding: '24px',
+                backgroundColor: card3.bg_color || '#1E1E22',
+                color: card3.text_color || '#FFFFFF',
               }}
+              className="absolute right-0 top-[150px] sm:top-[170px] w-[539px] max-w-[85vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              {lang === 'ru' ? card4.title_ru : card4.title_en}
-            </h2>
+              {/* Top text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+                {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
+              </div>
 
-            {/* Bottom text */}
-            <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
-              {lang === 'ru' ? card4.bottom_text_ru : card4.bottom_text_en}
-            </div>
-          </motion.div>
+              {/* Center title (Centered horizontally and vertically) */}
+              <h2
+                className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
+                style={{
+                  fontSize: 'clamp(44px, 6.5vw, 68px)',
+                  lineHeight: '90%',
+                }}
+              >
+                {lang === 'ru' ? card3.title_ru : card3.title_en}
+              </h2>
+
+              {/* Bottom text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+                {lang === 'ru' ? card3.bottom_text_ru : card3.bottom_text_en}
+              </div>
+            </motion.div>
+
+            {/* ── Card 4: Pinned to Bottom-0 and Right-0, z-40 ── */}
+            <motion.div
+              style={{
+                y: card4Y,
+                zIndex: 40,
+                padding: '24px',
+                backgroundColor: card4.bg_color || '#1458E6',
+                color: card4.text_color || '#FFFFFF',
+              }}
+              className="absolute right-0 bottom-0 w-[640px] max-w-[92vw] h-[480px] sm:h-[506px] flex flex-col justify-between items-start rounded-none shadow-none"
+            >
+              {/* Top text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+                {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
+              </div>
+
+              {/* Center title */}
+              <h2
+                className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
+                style={{
+                  fontSize: 'clamp(56px, 9vw, 128px)',
+                  lineHeight: '90%',
+                }}
+              >
+                {lang === 'ru' ? card4.title_ru : card4.title_en}
+              </h2>
+
+              {/* Bottom text */}
+              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+                {lang === 'ru' ? card4.bottom_text_ru : card4.bottom_text_en}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>

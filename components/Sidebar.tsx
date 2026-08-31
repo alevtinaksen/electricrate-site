@@ -1,121 +1,193 @@
 'use client';
 
-import { useState } from 'react';
 import { Language } from '@/types';
 
 interface SidebarProps {
   lang: Language;
   onLangChange: (lang: Language) => void;
-  onSectionClick: (section: string) => void;
+  phone?: string;
+  email?: string;
 }
 
-const MENU_ITEMS = [
-  { key: 'clients',  label: { ru: 'клиенты',   en: 'clients' } },
-  { key: 'reels',    label: { ru: 'проекты',   en: 'projects' } },
-  { key: 'services', label: { ru: 'услуги',    en: 'services' } },
-  { key: 'about',    label: { ru: 'обо мне',   en: 'about me' } },
-  { key: 'faq',      label: { ru: 'f.a.q.',    en: 'f.a.q.' } },
-  { key: 'contact',  label: { ru: 'контакты',  en: 'contacts' } },
-];
-
-export default function Sidebar({ lang, onLangChange, onSectionClick }: SidebarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+export default function Sidebar({
+  lang,
+  onLangChange,
+  phone,
+  email,
+}: SidebarProps) {
   return (
     <aside
       style={{
-        marginTop: '12px',
-        marginBottom: '12px',
-        marginLeft: '12px',
-        height: 'calc(100vh - 24px)',
+        backgroundColor: '#141416',
       }}
-      className="sticky top-[12px] w-[320px] min-w-[320px] lg:w-[380px] lg:min-w-[380px] shrink-0 z-50 flex flex-col justify-between bg-transparent p-5 lg:p-7 relative select-none"
+      className="sticky top-0 h-auto md:h-screen w-full md:w-[360px] md:min-w-[360px] lg:w-[440px] lg:min-w-[440px] xl:w-[538px] xl:min-w-[538px] rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-4 md:pb-0"
     >
-      {/* Top: Name + Subtitle — ВЛАД and САПУНОВ aligned to the left of each other */}
-      <div className="flex flex-col relative z-50 w-full items-start pl-1 sm:pl-2">
-        <div className="relative z-50 w-fit pointer-events-none flex flex-col items-start">
+      {/* ── Top-Left: RU / EN Language Toggle Pill ── */}
+      <div className="absolute top-0 left-0 z-20 flex items-center overflow-hidden shrink-0">
+        <button
+          onClick={() => onLangChange('ru')}
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: '125%',
+            letterSpacing: '-0.16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+          }}
+          className={`transition-colors cursor-pointer uppercase ${
+            lang === 'ru'
+              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+          }`}
+        >
+          RU
+        </button>
+        <button
+          onClick={() => onLangChange('en')}
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: '125%',
+            letterSpacing: '-0.16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+          }}
+          className={`transition-colors cursor-pointer uppercase ${
+            lang === 'en'
+              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+          }`}
+        >
+          EN
+        </button>
+      </div>
+
+      {/* ── Top Title: «ВЛАД САПУНОВ» ── */}
+      <div className="w-full flex flex-col items-end relative z-10 pt-12 md:pt-0">
+        <div
+          style={{
+            paddingTop: '12px',
+            paddingRight: '20px',
+            paddingBottom: '0px',
+            paddingLeft: '0px',
+          }}
+          className="w-full flex flex-col items-end text-right"
+        >
           <h1
-            className="font-mono uppercase font-semibold text-white whitespace-nowrap text-left flex flex-col items-start w-fit"
+            className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
             style={{
-              fontSize: 'clamp(56px, 7.5vw, 128.49px)',
-              lineHeight: '93%',
-              letterSpacing: '-1.285px',
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              fontSize: 'clamp(44px, 14vw, 120px)',
+              lineHeight: '90%',
+              letterSpacing: '-1.5px',
+              fontWeight: 600,
               color: '#FFFFFF',
             }}
           >
-            <span className="text-left block w-full">ВЛАД</span>
-            <span className="text-left block w-full">САПУНОВ</span>
+            <span className="text-right block w-full">
+              {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
+            </span>
+            <span className="text-right block w-full whitespace-nowrap">
+              {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
+            </span>
           </h1>
         </div>
-      </div>
 
-      {/* Center: White Menu Button (Burger) + White Rectangular Badges — z-50 ON TOP of PNG masks */}
-      <div
-        className="absolute top-1/2 -translate-y-1/2 left-[24px] z-50"
-        onMouseEnter={() => setIsMenuOpen(true)}
-        onMouseLeave={() => setIsMenuOpen(false)}
-      >
-        <div className="relative flex items-center z-50">
-          {/* Main 65x65 White Circle Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Меню навигации"
-            className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-none border-none outline-none z-50 group"
-          >
-            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
-            <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
-          </button>
+        {/* ── Contact Info Row ── */}
+        <div
+          style={{
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            paddingTop: '4px',
+            paddingBottom: '0px',
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '18px',
+            fontWeight: 700,
+            lineHeight: '115%',
+            letterSpacing: '-0.2px',
+          }}
+          className="w-full flex items-start justify-between uppercase mt-1 md:mt-0"
+        >
+          {/* Left Labels */}
+          <div className="flex flex-col text-[#8C8E96] text-left leading-[115%]">
+            <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+            <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+          </div>
 
-          {/* White Rectangular Menu Badges Stack with 2px gap, items-start to adapt to text length, and px-8 py-4 paddings */}
-          <div
-            className={`absolute left-[74px] top-1/2 -translate-y-1/2 flex flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
-              isMenuOpen ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-3 scale-95 pointer-events-none'
-            }`}
-          >
-            {/* Language Switcher Button at top of menu */}
-            <button
+          {/* Right Values */}
+          <div className="flex flex-col items-end text-right leading-[115%]">
+            <a
+              href={`tel:${(phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
               onClick={() => {
-                onLangChange(lang === 'ru' ? 'en' : 'ru');
+                fetch('/api/analytics', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ contactName: 'Телефон (Сайдбар)' }),
+                }).catch(() => {});
               }}
-              className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase"
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-1.5 py-0.5 inline-block whitespace-nowrap"
             >
-              {lang === 'ru' ? 'EN' : 'RU'}
-            </button>
-
-            {MENU_ITEMS.map((item) => (
-              <button
-                key={item.key}
-                onClick={() => {
-                  onSectionClick(item.key);
-                  setIsMenuOpen(false);
-                }}
-                className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold text-[16px] px-[8px] py-[4px] leading-tight transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none"
-              >
-                {item.label[lang]}
-              </button>
-            ))}
+              {phone || '+7(950)016-17-51'}
+            </a>
+            <a
+              href={`mailto:${email || 'ELECTICRATE@GMAIL.COM'}`}
+              onClick={() => {
+                fetch('/api/analytics', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ contactName: 'Email (Сайдбар)' }),
+                }).catch(() => {});
+              }}
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-1.5 py-0.5 inline-block whitespace-nowrap"
+            >
+              {email || 'ELECTICRATE@GMAIL.COM'}
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom Left Corner: 65x65 White Social Buttons (TG and @) with gap-0, blue hover */}
-      <div className="absolute left-[24px] bottom-[20px] flex flex-col gap-0 z-50">
-        <a
-          href="https://t.me/sapunov_vlad"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Telegram"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[20px] leading-[25px] tracking-[-0.2px] uppercase shadow-none border-none outline-none focus:outline-none cursor-pointer"
+      {/* ── Bottom Subtitle: Bio Text ── */}
+      <div
+        style={{
+          paddingTop: '16px',
+          paddingRight: '20px',
+          paddingBottom: '24px',
+          paddingLeft: '20px',
+        }}
+        className="w-full flex flex-col items-start text-left relative z-10"
+      >
+        <p
+          className="font-mono font-bold uppercase text-white max-w-[426px] m-0 text-[14px] sm:text-[16px]"
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            lineHeight: '125%',
+            letterSpacing: '-0.16px',
+          }}
         >
-          TG
-        </a>
-        <a
-          href="mailto:vlad@sapunov.ru"
-          title="Email"
-          className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex items-center justify-center text-[#0B0B0B] font-mono font-bold text-[22px] leading-none shadow-none border-none outline-none focus:outline-none cursor-pointer"
-        >
-          @
-        </a>
+          {lang === 'ru' ? (
+            <>
+              ВИДЕОМЕЙКЕР ПОЛНОГО ЦИКЛА.
+              <br />
+              КАРТИНКА УРОВНЯ КИНО — ОТ ИДЕИ
+              <br />
+              ДО МАСТЕРИНГА
+            </>
+          ) : (
+            <>
+              FULL CYCLE FILMMAKER.
+              <br />
+              CINEMA QUALITY VISUALS — FROM CONCEPT
+              <br />
+              TO MASTERING
+            </>
+          )}
+        </p>
       </div>
     </aside>
   );

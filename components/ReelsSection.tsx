@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useSpring } from 'framer-motion';
 import { HeroReel } from '@/lib/supabase';
+import { isVideoMedia } from '@/lib/media';
 import { Language } from '@/types';
 
 interface ReelsSectionProps {
@@ -70,7 +71,8 @@ function ReelCard({
         });
       },
       {
-        threshold: 0.2,
+        threshold: 0.15,
+        rootMargin: '100px 0px',
       }
     );
 
@@ -84,6 +86,7 @@ function ReelCard({
   const title = lang === 'ru' ? reel.title_ru : reel.title_en;
   // Use preview_video_url for looping in the feed, fallback to video_url
   const feedVideoSrc = reel.preview_video_url || reel.video_url;
+  const isThumbVideo = isVideoMedia(reel.thumbnail_url);
 
   return (
     <div ref={containerRef} className="flex flex-col items-center w-full">
@@ -98,18 +101,32 @@ function ReelCard({
         style={{
           width: `${reel.width}px`,
           maxWidth: '100%',
-          height: `${reel.height}px`,
+          aspectRatio: `${reel.width} / ${reel.height}`,
+          height: 'auto',
+          maxHeight: `${reel.height}px`,
         }}
       >
-        {/* Background Poster Image (always displayed first until video is fully ready) */}
-        <Image
-          src={reel.thumbnail_url}
-          alt={title}
-          fill
-          unoptimized
-          priority={priority}
-          className="object-cover"
-        />
+        {/* Background Poster: Image if image file, or Video poster frame if video file */}
+        {reel.thumbnail_url && (
+          !isThumbVideo ? (
+            <Image
+              src={reel.thumbnail_url}
+              alt={title}
+              fill
+              unoptimized
+              priority={priority}
+              className="object-cover"
+            />
+          ) : (
+            <video
+              src={reel.thumbnail_url.includes('#t=') ? reel.thumbnail_url : `${reel.thumbnail_url}#t=0.1`}
+              preload="metadata"
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            />
+          )
+        )}
 
         {/* Loop Preview Video Element (smoothly fades in once loaded, loop muted) */}
         {feedVideoSrc && (
@@ -119,7 +136,7 @@ function ReelCard({
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             onLoadedData={() => setIsVideoLoaded(true)}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
               isVideoLoaded ? 'opacity-100' : 'opacity-0'
@@ -194,27 +211,45 @@ function ReelCard({
   );
 }
 
+const HERO_GRID_PATTERN = [
+  { label: 'L', width: 964, height: 542 },
+  { label: 'S', width: 557, height: 313 },
+  { label: 'M', width: 818, height: 460 },
+  { label: 'S', width: 557, height: 313 },
+];
+
 export default function ReelsSection({ reels, lang, onVideoSelect }: ReelsSectionProps) {
+  const visibleReels = reels.filter((r) => !r.hidden);
+
   return (
     <section
       id="reels"
-      className="w-[964px] max-w-[964px] mx-auto flex flex-col items-center pt-2"
+      className="w-full max-w-[964px] mx-auto flex flex-col items-center pt-2"
     >
-      {reels.map((reel, index) => (
-        <ReelCard
-          key={reel.id}
-          reel={reel}
-          lang={lang}
-          priority={index === 0}
-          onSelect={() =>
-            onVideoSelect(
-              lang === 'ru' ? reel.title_ru : reel.title_en,
-              reel.video_url || reel.preview_video_url,
-              reel.thumbnail_url
-            )
-          }
-        />
-      ))}
+      {visibleReels.map((reel, index) => {
+        const preset = HERO_GRID_PATTERN[index % HERO_GRID_PATTERN.length];
+        const normalizedReel: HeroReel = {
+          ...reel,
+          width: preset.width,
+          height: preset.height,
+        };
+
+        return (
+          <ReelCard
+            key={reel.id}
+            reel={normalizedReel}
+            lang={lang}
+            priority={index === 0}
+            onSelect={() =>
+              onVideoSelect(
+                lang === 'ru' ? reel.title_ru : reel.title_en,
+                reel.video_url || reel.preview_video_url,
+                reel.thumbnail_url
+              )
+            }
+          />
+        );
+      })}
     </section>
   );
 }

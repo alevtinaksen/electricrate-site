@@ -1,7 +1,8 @@
 'use client';
 
-import Image from 'next/image';
+import React from 'react';
 import { WorkCategoryGroup } from '@/lib/supabase';
+import { isVideoMedia } from '@/lib/media';
 import { Language } from '@/types';
 
 interface WorksSectionProps {
@@ -14,11 +15,11 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
   return (
     <section
       id="works"
-      className="w-full max-w-[964px] font-mono flex flex-col items-center select-none"
+      className="w-full max-w-[964px] font-mono flex flex-col items-center"
     >
       {/* Main Header "ВСЕ РАБОТЫ" strictly matching Screenshot 5 */}
       <h2
-        className="font-mono font-semibold uppercase tracking-[-2.56px] text-white select-none text-center"
+        className="font-mono font-semibold uppercase tracking-[-2.56px] text-white text-center"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
@@ -75,6 +76,8 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                 <div className="w-full flex flex-wrap justify-center gap-1.5 sm:gap-2">
                   {group.items.map((item) => {
                     const itemTitle = lang === 'ru' ? item.title_ru : item.title_en;
+                    const coverMedia = item.thumbnail_url || item.video_url;
+                    const isVideoCover = isVideoMedia(coverMedia);
 
                     return (
                       <div
@@ -88,15 +91,28 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                           isVertical ? 'aspect-[9/16]' : 'aspect-[16/10]'
                         }`}
                       >
-                        {/* Thumbnail Image with zoom effect */}
-                        <Image
-                          src={item.thumbnail_url}
-                          alt={itemTitle}
-                          fill
-                          unoptimized
-                          className="object-cover transition-transform duration-500 group-hover:scale-108"
-                          sizes="240px"
-                        />
+                        {/* Thumbnail Image / Video Frame with zoom effect */}
+                        {coverMedia ? (
+                          isVideoCover ? (
+                            <video
+                              src={coverMedia.includes('#t=') ? coverMedia : `${coverMedia}#t=1.8`}
+                              preload="metadata"
+                              muted
+                              playsInline
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"
+                            />
+                          ) : (
+                            <img
+                              src={coverMedia}
+                              alt={itemTitle}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          )
+                        ) : (
+                          <div className="w-full h-full bg-[#1e1e24] flex items-center justify-center text-xs text-[#5e5e5e] font-mono">
+                            НЕТ ВИДЕО
+                          </div>
+                        )}
 
                         {/* Title overlay — visible ONLY on hover (opacity-0 -> group-hover:opacity-100) */}
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3 text-center">

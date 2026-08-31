@@ -10,19 +10,26 @@ import WorksSection from '@/components/WorksSection';
 import ProcessSection from '@/components/ProcessSection';
 import AboutSection from '@/components/AboutSection';
 import FaqSection from '@/components/FaqSection';
+import ContactSection from '@/components/ContactSection';
 import Preloader from '@/components/Preloader';
 import VideoModal from '@/components/VideoModal';
+import TrueGlitchFilter from '@/components/TrueGlitchFilter';
 import {
   HERO_REELS,
   WORK_SECTIONS,
+  DEFAULT_CLIENTS,
+  DEFAULT_SETTINGS,
   DEFAULT_FAQS,
   DEFAULT_SERVICES,
   DEFAULT_ABOUT,
   HeroReel,
   WorkCategoryGroup,
+  ClientItem,
+  SiteSettings,
   FaqItem,
   ServicesContent,
   AboutContent,
+  formatExternalUrl,
 } from '@/lib/supabase';
 import { Language } from '@/types';
 
@@ -30,11 +37,14 @@ export default function Home() {
   const [lang, setLang] = useState<Language>('ru');
   const [reels, setReels] = useState<HeroReel[]>(HERO_REELS);
   const [works, setWorks] = useState<WorkCategoryGroup[]>(WORK_SECTIONS);
+  const [clients, setClients] = useState<ClientItem[]>(DEFAULT_CLIENTS);
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
   const [faqs, setFaqs] = useState<FaqItem[]>(DEFAULT_FAQS);
   const [services, setServices] = useState<ServicesContent>(DEFAULT_SERVICES);
   const [about, setAbout] = useState<AboutContent>(DEFAULT_ABOUT);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const rightPanelRef = useRef<HTMLDivElement>(null);
+  const mainWrapperRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
   // Initialize Lenis Smooth Scroll (identical to hobro.digital)
@@ -43,10 +53,11 @@ export default function Home() {
 
     const lenis = new Lenis({
       wrapper: rightPanelRef.current,
-      content: rightPanelRef.current.firstElementChild as HTMLElement,
+      content: rightPanelRef.current,
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth inertia curve
       orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
@@ -54,12 +65,13 @@ export default function Home() {
 
     lenisRef.current = lenis;
 
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    const rafId = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
       cancelAnimationFrame(rafId);
@@ -68,9 +80,16 @@ export default function Home() {
     };
   }, []);
 
-  // Load custom data from /api/content + localStorage
+  // Load custom data from /api/content + localStorage with throttle on focus
   useEffect(() => {
-    const loadContent = async () => {
+    let lastLoadedAt = 0;
+
+    const loadContent = async (isFocusEvent = false) => {
+      const now = Date.now();
+      // Throttle window focus events to once every 15 seconds
+      if (isFocusEvent && now - lastLoadedAt < 15000) return;
+      lastLoadedAt = now;
+
       // 1. Instant local cache
       const savedHero = localStorage.getItem('custom_hero_reels');
       if (savedHero) {
@@ -84,6 +103,20 @@ export default function Home() {
         try {
           const parsed = JSON.parse(savedWorks);
           if (Array.isArray(parsed) && parsed.length > 0) setWorks(parsed);
+        } catch {}
+      }
+      const savedClients = localStorage.getItem('custom_clients');
+      if (savedClients) {
+        try {
+          const parsed = JSON.parse(savedClients);
+          if (Array.isArray(parsed) && parsed.length > 0) setClients(parsed);
+        } catch {}
+      }
+      const savedSettings = localStorage.getItem('custom_settings');
+      if (savedSettings) {
+        try {
+          const parsed = JSON.parse(savedSettings);
+          if (parsed) setSettings(parsed);
         } catch {}
       }
       const savedFaqs = localStorage.getItem('custom_faqs');
@@ -119,6 +152,12 @@ export default function Home() {
           if (Array.isArray(data.workSections) && data.workSections.length > 0) {
             setWorks(data.workSections);
           }
+          if (Array.isArray(data.clients) && data.clients.length > 0) {
+            setClients(data.clients);
+          }
+          if (data.settings) {
+            setSettings(data.settings);
+          }
           if (Array.isArray(data.faqs) && data.faqs.length > 0) {
             setFaqs(data.faqs);
           }
@@ -136,12 +175,14 @@ export default function Home() {
 
     loadContent();
 
-    // Listen for storage events and window focus
-    window.addEventListener('storage', loadContent);
-    window.addEventListener('focus', loadContent);
+    const handleFocus = () => loadContent(true);
+    const handleStorage = () => loadContent(false);
+
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('focus', handleFocus);
     return () => {
-      window.removeEventListener('storage', loadContent);
-      window.removeEventListener('focus', loadContent);
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('focus', handleFocus);
     };
   }, []);
 
@@ -151,20 +192,93 @@ export default function Home() {
     title: string;
     videoUrl: string;
     posterUrl?: string;
+    playlist: { title: string; videoUrl: string; posterUrl?: string; isVertical?: boolean }[];
+    currentIndex: number;
   }>({
     isOpen: false,
     title: '',
     videoUrl: '',
     posterUrl: '',
+    playlist: [],
+    currentIndex: -1,
   });
 
-  const openVideoModal = (title: string, videoUrl: string, posterUrl?: string) => {
+  const openVideoModal = (
+    title: string,
+    videoUrl: string,
+    posterUrl?: string,
+    explicitPlaylist?: { title: string; videoUrl: string; posterUrl?: string; isVertical?: boolean }[],
+    explicitIndex?: number
+  ) => {
+    let playlist = explicitPlaylist;
+    let idx = explicitIndex ?? -1;
+
+    if (!playlist || playlist.length === 0) {
+      const heroList = reels
+        .filter((r) => !r.hidden && (r.video_url || r.preview_video_url))
+        .map((r) => ({
+          title: lang === 'ru' ? r.title_ru : r.title_en,
+          videoUrl: r.video_url || r.preview_video_url,
+          posterUrl: r.thumbnail_url,
+          isVertical: false,
+        }));
+
+      const worksList = works.flatMap((g) =>
+        g.items
+          .filter((i) => !i.hidden && i.video_url)
+          .map((i) => ({
+            title: lang === 'ru' ? i.title_ru : i.title_en,
+            videoUrl: i.video_url,
+            posterUrl: i.thumbnail_url,
+            isVertical: g.isVertical,
+          }))
+      );
+
+      playlist = [...heroList, ...worksList];
+      idx = playlist.findIndex((item) => item.videoUrl === videoUrl);
+      if (idx === -1) idx = 0;
+    }
+
     setModalState({
       isOpen: true,
       title,
       videoUrl,
       posterUrl,
+      playlist,
+      currentIndex: idx,
     });
+
+    if (title || videoUrl) {
+      fetch('/api/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoTitle: title || 'Без названия', videoUrl }),
+      }).catch(() => {});
+    }
+  };
+
+  const navigateModalVideo = (newIndex: number) => {
+    const nextItem = modalState.playlist[newIndex];
+    if (!nextItem) return;
+
+    setModalState((prev) => ({
+      ...prev,
+      title: nextItem.title,
+      videoUrl: nextItem.videoUrl,
+      posterUrl: nextItem.posterUrl,
+      currentIndex: newIndex,
+    }));
+
+    if (nextItem.title || nextItem.videoUrl) {
+      fetch('/api/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoTitle: nextItem.title || 'Без названия',
+          videoUrl: nextItem.videoUrl,
+        }),
+      }).catch(() => {});
+    }
   };
 
   const closeVideoModal = () => {
@@ -173,10 +287,10 @@ export default function Home() {
 
   const scrollToSection = (section: string) => {
     const targetId =
-      section === 'reels' || section === 'проекты'
-        ? 'reels'
-        : section === 'works' || section === 'all'
+      section === 'works' || section === 'all' || section === 'projects' || section === 'проекты'
         ? 'works'
+        : section === 'reels'
+        ? 'reels'
         : section === 'services' || section === 'услуги'
         ? 'services'
         : section === 'clients' || section === 'клиенты'
@@ -185,6 +299,8 @@ export default function Home() {
         ? 'about'
         : section === 'faq' || section === 'f.a.q.'
         ? 'faq'
+        : section === 'contacts' || section === 'контакты' || section === 'связаться'
+        ? 'contacts'
         : 'works';
     const el = document.getElementById(targetId);
     if (el) {
@@ -199,33 +315,62 @@ export default function Home() {
     }
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuContainerRef.current && !menuContainerRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
+
+  const MENU_ITEMS = [
+    { key: 'works',    label: { ru: 'проекты',   en: 'projects' } },
+    { key: 'clients',  label: { ru: 'клиенты',   en: 'clients' } },
+    { key: 'services', label: { ru: 'услуги',    en: 'services' } },
+    { key: 'contacts', label: { ru: 'контакты',  en: 'contacts' } },
+  ];
+
   return (
     <>
       {/* ── Minimal Hobro-style Preloader with % counter and cycling dots ── */}
       <Preloader onComplete={() => setIsLoaded(true)} />
 
+      {/* ── True Geometric Displacement & RGB Chromatic Glitch Filter (Full Website, No Overlay Strips) ── */}
+      <TrueGlitchFilter
+        targetContainerRef={mainWrapperRef}
+        scrollContainerRef={rightPanelRef}
+      />
+
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isLoaded ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="flex h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative"
+        ref={mainWrapperRef}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        className="flex flex-col md:flex-row min-h-screen md:h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative will-change-transform transform-gpu"
       >
         {/* ── Left column: Frame 154 fixed Sidebar ── */}
         <Sidebar
           lang={lang}
           onLangChange={setLang}
-          onSectionClick={scrollToSection}
+          phone={settings.phone}
+          email={settings.email}
         />
 
         {/* ── Right column: Lenis smooth scroll container, max-w-[964px] content ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel flex-1 h-screen overflow-y-auto overflow-x-hidden relative flex flex-col items-end"
+          className="right-panel flex-1 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-center md:items-end w-full"
         >
-          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 mr-0 pb-36">
+          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 mr-0 pb-0">
             {/* Section 1: 5 Hero Reels */}
             <ReelsSection
-              reels={reels}
+              reels={reels.filter((r) => !r.hidden)}
               lang={lang}
               onVideoSelect={openVideoModal}
             />
@@ -236,6 +381,7 @@ export default function Home() {
             {/* Section 2: Clients with 54x54 logos, 12px gap, and white dots */}
             <ClientsSection
               lang={lang}
+              clients={clients.filter((c) => !c.hidden)}
               onVideoSelect={openVideoModal}
             />
 
@@ -244,7 +390,10 @@ export default function Home() {
 
             {/* Section 3: All Works */}
             <WorksSection
-              sections={works}
+              sections={works.map((g) => ({
+                ...g,
+                items: g.items.filter((i) => !i.hidden),
+              }))}
               lang={lang}
               onVideoSelect={openVideoModal}
             />
@@ -259,16 +408,7 @@ export default function Home() {
               services={services}
             />
 
-            {/* 150px exact spacing between Process Section and About Section */}
-            <div className="h-[150px] w-full shrink-0" />
-
-            {/* Section 5: About Section with Masked Typography Reveal & Full-Right Portrait */}
-            <AboutSection
-              lang={lang}
-              about={about}
-            />
-
-            {/* 150px exact spacing between About Section and FAQ Section */}
+            {/* 150px exact spacing between Process Section and FAQ Section */}
             <div className="h-[150px] w-full shrink-0" />
 
             {/* Section 6: FAQ Section with Interactive Two-Column Accordion */}
@@ -276,28 +416,108 @@ export default function Home() {
               lang={lang}
               faqs={faqs}
             />
+
+            {/* 150px exact spacing between FAQ Section and Contacts Section */}
+            <div className="h-[150px] w-full shrink-0" />
+
+            {/* Section 7: Contacts Section with interactive expanding pills (TG, BE, YT, IN*) */}
+            <ContactSection
+              lang={lang}
+              settings={settings}
+            />
+
+            {/* 150px exact spacing at the very end of the site */}
+            <div className="h-[150px] w-full shrink-0" />
           </div>
 
-          {/* ── Fixed Bottom CTA Button «СВЯЗАТЬСЯ» (Turns blue #1458E6 on hover, links to Telegram) ── */}
-          <div className="fixed bottom-[24px] z-50 right-4 sm:right-8 md:right-[calc((min(100vw-380px,964px)-187px)/2)] pointer-events-auto">
-            <button
-              onClick={() => window.open('https://t.me/sapunov_vlad', '_blank')}
-              aria-label="Связаться в Telegram"
+          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
+          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[380px] lg:left-[460px] xl:left-[558px] z-50 flex items-center pointer-events-none">
+            <div
               style={{
-                width: '187px',
-                height: '65px',
-                borderRadius: '56px',
-                fontFamily: '"Geist Mono", monospace',
-                fontSize: '20px',
-                fontWeight: 700,
-                lineHeight: '125%',
-                letterSpacing: '-0.2px',
-                textTransform: 'uppercase',
+                paddingTop: '0px',
+                paddingRight: '0px',
+                paddingBottom: '0px',
+                paddingLeft: '0px',
               }}
-              className="flex items-center justify-center bg-white hover:bg-[#1458E6] text-[#0B0B0B] hover:text-white active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none focus:outline-none"
+              className="relative flex items-center gap-0 pointer-events-auto"
             >
-              {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
-            </button>
+              {/* Menu Popup Container (Opens on hover and on click, persists until mouse leaves or item clicked) */}
+              <div
+                ref={menuContainerRef}
+                onMouseEnter={() => setIsMenuOpen(true)}
+                onMouseLeave={() => setIsMenuOpen(false)}
+                className="relative group/menu"
+              >
+                {/* 65x65 White Burger Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsMenuOpen((prev) => !prev)}
+                  aria-label="Меню навигации"
+                  className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-none border-none outline-none z-50 group shrink-0"
+                >
+                  <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
+                  <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
+                </button>
+
+                {/* Badges Stack appearing above the burger (exact 20px gap between bottom item and burger button) */}
+                <div
+                  style={{ paddingBottom: '20px' }}
+                  className={`absolute left-0 bottom-[65px] flex flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                    isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                  }`}
+                >
+                  {MENU_ITEMS.map((item) => (
+                    <button
+                      key={item.key}
+                      type="button"
+                      onClick={() => {
+                        scrollToSection(item.key);
+                        setIsMenuOpen(false);
+                      }}
+                      style={{
+                        padding: '6px',
+                        fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                        fontSize: '16px',
+                        fontWeight: 700,
+                        lineHeight: '125%',
+                        letterSpacing: '-0.16px',
+                      }}
+                      className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
+                    >
+                      {item.label[lang]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Blue Contact Pill Button (Opens custom link from Settings -> Contacts) */}
+              <a
+                href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  fetch('/api/analytics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contactName: 'Кнопка СВЯЗАТЬСЯ' }),
+                  }).catch(() => {});
+                }}
+                aria-label="Связаться"
+                style={{
+                  width: '187px',
+                  height: '65px',
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontSize: '20px',
+                  fontWeight: 700,
+                  lineHeight: '125%',
+                  letterSpacing: '-0.2px',
+                  textTransform: 'uppercase',
+                }}
+                className="flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none focus:outline-none shrink-0 no-underline"
+              >
+                {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
+              </a>
+            </div>
           </div>
         </main>
 
@@ -308,6 +528,9 @@ export default function Home() {
           title={modalState.title}
           videoUrl={modalState.videoUrl}
           posterUrl={modalState.posterUrl}
+          playlist={modalState.playlist}
+          currentIndex={modalState.currentIndex}
+          onNavigate={navigateModalVideo}
         />
       </motion.div>
     </>

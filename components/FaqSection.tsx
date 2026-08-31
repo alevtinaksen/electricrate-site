@@ -21,24 +21,28 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
   return (
     <section
       id="faq"
-      className="w-full max-w-[964px] min-h-[90vh] py-16 lg:py-24 font-mono text-white flex flex-col items-center select-none"
+      className="w-full max-w-[964px] pt-0 pb-24 font-mono text-white flex flex-col items-start"
     >
-      {/* ── Giant Header "F.A.Q." 254px matching Figma screenshot ── */}
+      {/* ── Header "ВОПРОСЫ" (64px, 90% leading, -2.56px, weight 600, paddingLeft 20px, paddingBottom 20px) ── */}
       <h2
-        className="font-mono font-semibold uppercase text-white select-none text-center w-full"
+        className="font-mono font-semibold uppercase text-white text-left w-full"
         style={{
-          fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(96px, 20vw, 254px)',
+          fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+          fontSize: 'clamp(44px, 6vw, 64px)',
           lineHeight: '90%',
-          letterSpacing: '-5.08px',
+          letterSpacing: '-2.56px',
+          fontWeight: 600,
+          color: '#FFFFFF',
+          paddingLeft: '20px',
+          paddingBottom: '20px',
         }}
       >
-        F.A.Q.
+        {isRu ? 'ВОПРОСЫ' : 'QUESTIONS'}
       </h2>
 
-      {/* ── Questions List Container (Width strictly 553px - 570px matching Figma layout) ── */}
-      <div className="w-full max-w-[553px] mx-auto flex flex-col gap-2 mt-10 sm:mt-16">
-        {faqs.map((faq) => {
+      {/* ── Questions List Container with 20px paddings and thin borders ── */}
+      <div className="w-full flex flex-col border-t border-b border-white/20 mt-0">
+        {faqs.map((faq, index) => {
           const isOpen = openId === faq.id;
           const questionText = isRu ? faq.question_ru : faq.question_en;
           const leftAnswer = isRu ? faq.answer_left_ru : faq.answer_left_en;
@@ -47,40 +51,42 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
           return (
             <div
               key={faq.id}
-              className="w-full flex flex-col transition-colors"
+              className={`w-full flex flex-col transition-colors ${
+                index !== 0 ? 'border-t border-white/20' : ''
+              }`}
             >
               {isOpen ? (
-                /* ── Opened Accordion Item: Solid White Box with exact padding 8px 8px 30px 8px and gap 8px ── */
+                /* ── Opened Accordion Item: Solid White Box with exact Figma paddings (top 8, bottom 30, left/right 20, col gap 20) ── */
                 <div
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
                     paddingTop: '8px',
-                    paddingLeft: '8px',
-                    paddingRight: '8px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
                     paddingBottom: '30px',
                     backgroundColor: '#FFFFFF',
                   }}
-                  className="w-full flex flex-col gap-[8px] text-black cursor-pointer select-none rounded-none"
+                  className="w-full flex flex-col gap-[8px] text-black cursor-pointer rounded-none transition-all"
                 >
-                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ pinned to top */}
-                  <div className="w-full flex items-start justify-between gap-4 text-left">
-                    <span className="lowercase font-mono text-[15px] sm:text-[17px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[125%]">
+                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ pinned to right */}
+                  <div className="w-full flex items-center justify-between gap-4 text-left">
+                    <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[125%]">
                       {questionText}
                     </span>
-                    <span className="shrink-0 text-[10px] sm:text-[12px] text-[#8C8E96] leading-none pt-[3px]">
+                    <span className="shrink-0 text-[10px] sm:text-[12px] text-[#8C8E96] leading-none">
                       ▲
                     </span>
                   </div>
 
-                  {/* 2-Column Bold Black Answers */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start w-full">
+                  {/* 2-Column Bold Black Answers with exact 20px gap */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-[20px] items-start w-full pt-1">
                     {/* Left Column */}
                     <div className="flex-1 flex flex-col">
                       <p
                         className="font-mono font-bold uppercase text-black tracking-[-0.2px] m-0"
                         style={{
                           fontSize: '18px',
-                          lineHeight: '115%',
+                          lineHeight: '120%',
                         }}
                       >
                         {leftAnswer}
@@ -93,7 +99,7 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                         className="font-mono font-bold uppercase text-black tracking-[-0.2px] m-0"
                         style={{
                           fontSize: '18px',
-                          lineHeight: '115%',
+                          lineHeight: '120%',
                         }}
                       >
                         {rightAnswer}
@@ -102,21 +108,23 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   </div>
                 </div>
               ) : (
-                /* ── Closed Question Row: Text white, hover:bg-white hover:text-black, arrow pinned to top ── */
+                /* ── Closed Question Row: Exact height 34px, 20px padding left/right ── */
                 <button
+                  type="button"
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
-                    paddingLeft: '8px',
-                    paddingRight: '8px',
-                    paddingTop: '8px',
-                    paddingBottom: '8px',
+                    height: '34px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    paddingTop: '0px',
+                    paddingBottom: '0px',
                   }}
-                  className="w-full flex items-start justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
+                  className="w-full h-[34px] flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
                 >
-                  <span className="lowercase font-mono text-[15px] sm:text-[17px] font-bold tracking-[-0.2px] transition-colors leading-[125%]">
+                  <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-none truncate">
                     {questionText}
                   </span>
-                  <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none pt-[3px]">
+                  <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none">
                     ▼
                   </span>
                 </button>

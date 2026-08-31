@@ -1,0 +1,156 @@
+{
+  "totalViews": 76,
+  "totalContactClicks": 5,
+  "videoViews": {
+    "CPO-GROUP": {
+      "title": "CPO-GROUP",
+      "count": 18,
+      "lastViewedAt": "2026-08-30T22:15:00.000Z"
+    },
+    "VFX SHOWREEL 2026": {
+      "title": "VFX SHOWREEL 2026",
+      "count": 14,
+      "lastViewedAt": "2026-08-30T21:40:00.000Z"
+    },
+    "FITNESS / SPORT REEL": {
+      "title": "FITNESS / SPORT REEL",
+      "count": 10,
+      "lastViewedAt": "2026-08-30T20:10:00.000Z"
+    },
+    "Гребля": {
+      "title": "Гребля",
+      "count": 1,
+      "lastViewedAt": "2026-08-30T20:33:58.566Z"
+    },
+    "КТК": {
+      "title": "КТК",
+      "count": 3,
+      "lastViewedAt": "2026-08-31T22:18:57.837Z"
+    },
+    "finntrail": {
+      "title": "finntrail",
+      "count": 3,
+      "lastViewedAt": "2026-08-31T11:10:06.646Z"
+    },
+    "Баскетбол": {
+      "title": "Баскетбол",
+      "count": 1,
+      "lastViewedAt": "2026-08-30T20:36:49.903Z"
+    },
+    "FINNTRAIL": {
+      "title": "FINNTRAIL",
+      "count": 1,
+      "lastViewedAt": "2026-08-30T20:42:31.049Z"
+    },
+    "CPO-group": {
+      "title": "CPO-group",
+      "count": 1,
+      "lastViewedAt": "2026-08-30T20:42:37.401Z"
+    },
+    "Finntrail": {
+      "title": "Finntrail",
+      "count": 3,
+      "lastViewedAt": "2026-08-31T11:34:41.406Z"
+    },
+    "gaga games": {
+      "title": "gaga games",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:09:45.763Z"
+    },
+    "догма": {
+      "title": "догма",
+      "count": 2,
+      "lastViewedAt": "2026-08-31T11:34:23.930Z"
+    },
+    "ЖК BEREG": {
+      "title": "ЖК BEREG",
+      "count": 2,
+      "lastViewedAt": "2026-08-31T11:10:09.595Z"
+    },
+    "Lucky Team": {
+      "title": "Lucky Team",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:09:56.756Z"
+    },
+    "Морская вечеринка": {
+      "title": "Морская вечеринка",
+      "count": 2,
+      "lastViewedAt": "2026-08-31T11:31:36.680Z"
+    },
+    "бар разбитых сердец": {
+      "title": "бар разбитых сердец",
+      "count": 3,
+      "lastViewedAt": "2026-08-31T11:34:29.772Z"
+    },
+    "FINNTRAIL HR": {
+      "title": "FINNTRAIL HR",
+      "count": 2,
+      "lastViewedAt": "2026-08-31T11:34:17.216Z"
+    },
+    "ктк group": {
+      "title": "ктк group",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:27.640Z"
+    },
+    "Аркаим": {
+      "title": "Аркаим",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:28.126Z"
+    },
+    "chez serge": {
+      "title": "chez serge",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:28.760Z"
+    },
+    "ПНТ": {
+      "title": "ПНТ",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:29.236Z"
+    },
+    "морская вечеринка": {
+      "title": "морская вечеринка",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:30.291Z"
+    },
+    "АВТОграф": {
+      "title": "АВТОграф",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T11:34:31.584Z"
+    },
+    "НЕФТЯНОЙ ТЕРМИНАЛ": {
+      "title": "НЕФТЯНОЙ ТЕРМИНАЛ",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T22:18:50.336Z"
+    },
+    "СБЕРСТРАХОВАНИЕ": {
+      "title": "СБЕРСТРАХОВАНИЕ",
+      "count": 1,
+      "lastViewedAt": "2026-08-31T22:18:53.629Z"
+    }
+  },
+  "contactClicks": {
+    "Кнопка СВЯЗАТЬСЯ (Telegram)": {
+      "title": "Кнопка СВЯЗАТЬСЯ (Telegram)",
+      "count": 1,
+      "lastClickedAt": "2026-08-30T20:40:02.271Z"
+    },
+    "Кнопка СВЯЗАТЬСЯ": {
+      "title": "Кнопка СВЯЗАТЬСЯ",
+      "count": 3,
+      "lastClickedAt": "2026-08-31T10:53:17.701Z"
+    },
+    "Email (Сайдбар)": {
+      "title": "Email (Сайдбар)",
+      "count": 1,
+      "lastClickedAt": "2026-08-31T22:22:47.522Z"
+    }
+  },
+  "dailyViews": {
+    "2026-08-30": 48,
+    "2026-08-31": 28
+  },
+  "dailyClicks": {
+    "2026-08-30": 2,
+    "2026-08-31": 3
+  }
+}

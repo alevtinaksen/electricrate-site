@@ -19,6 +19,7 @@ export interface HeroReel {
   thumbnail_url: string;      // Обложка / постер
   preview_video_url: string;  // 1. Мини-видео (превью), которое автоматически всегда крутится в ленте
   video_url: string;          // 2. Полноразмерный видеопоток (открывается в попапе по клику)
+  hidden?: boolean;           // Скрыть ролик с сайта
 }
 
 export const HERO_REELS: HeroReel[] = [
@@ -83,6 +84,7 @@ export interface WorkItem {
   thumbnail_url: string;
   video_url: string;
   isVertical?: boolean;
+  hidden?: boolean;
 }
 
 export interface WorkCategoryGroup {
@@ -170,6 +172,8 @@ export interface ClientItem {
   logo_url?: string;
   video_url?: string;
   color?: string;
+  hide_logo?: boolean;
+  hidden?: boolean;
 }
 
 export const DEFAULT_CLIENTS: ClientItem[] = [
@@ -180,23 +184,91 @@ export const DEFAULT_CLIENTS: ClientItem[] = [
   { id: 'c5', name_ru: 'КТК (Каспийский трубопровод)', name_en: 'KTK', logo_url: '', video_url: 'https://assets.mixkit.co/videos/42289/42289-720.mp4', color: '#001435' },
 ];
 
+// ─── Admin Users & Editors ──────────────────────────────────────────────────
+
+export interface AdminUser {
+  id: string;
+  login: string;
+  name: string;
+  role: 'dev' | 'editor';
+  pin: string;
+  avatar_url?: string;
+}
+
+export const DEFAULT_ADMIN_USERS: AdminUser[] = [
+  {
+    id: 'user_alevtina',
+    login: 'alevtina',
+    name: 'АЛЕВТИНА',
+    role: 'dev',
+    pin: 'alevtina',
+    avatar_url: '',
+  },
+  {
+    id: 'user_vlad',
+    login: 'vlad',
+    name: 'ВЛАД САПУНОВ',
+    role: 'editor',
+    pin: '2026',
+    avatar_url: '',
+  },
+];
+
 // ─── Site Settings ───────────────────────────────────────────────────────────
 
 export interface SiteSettings {
   telegram: string;
+  behance?: string;
+  youtube?: string;
+  instagram?: string;
   email: string;
-  vk: string;
+  vk?: string;
   phone: string;
   adminPin: string;
+  contacts_title_ru?: string;
+  contacts_title_en?: string;
+  contact_button_url?: string;
+  admin_users?: AdminUser[];
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  telegram: 'https://t.me/',
-  email: 'vlad@sapunov.ru',
-  vk: 'https://vk.com/',
-  phone: '+7 (999) 000-00-00',
+  telegram: 'https://t.me/sapunov_vlad',
+  behance: 'https://behance.net/vladsapunov',
+  youtube: 'https://youtube.com/@vladsapunov',
+  instagram: 'https://instagram.com/sapunov_vlad',
+  email: 'ELECTICRATE@GMAIL.COM',
+  vk: '',
+  phone: '+7(950)016-17-51',
   adminPin: '2026',
+  contacts_title_ru: 'ЕСТЬ ИДЕЯ? НАПИШИ МНЕ\nПРЯМО СЕЙЧАС',
+  contacts_title_en: 'GOT AN IDEA? WRITE TO ME\nRIGHT NOW',
+  contact_button_url: 'https://t.me/sapunov_vlad',
+  admin_users: DEFAULT_ADMIN_USERS,
 };
+
+export function formatExternalUrl(url?: string, defaultFallback: string = ''): string {
+  if (!url) return defaultFallback;
+  let clean = url.trim();
+  if (!clean) return defaultFallback;
+
+  // Fix Telegram link formatting if '@' is in the URL path (which makes telegram.org reject it)
+  if (clean.startsWith('@')) {
+    return `https://t.me/${clean.slice(1)}`;
+  }
+  if (clean.includes('t.me/@')) {
+    clean = clean.replace('t.me/@', 't.me/');
+  }
+  if (clean.includes('telegram.me/@')) {
+    clean = clean.replace('telegram.me/@', 't.me/');
+  }
+
+  // Ensure protocol exists
+  if (!/^https?:\/\//i.test(clean) && !/^mailto:/i.test(clean) && !/^tel:/i.test(clean)) {
+    clean = `https://${clean}`;
+  }
+
+  return clean;
+}
 
 // ─── FAQ Items ───────────────────────────────────────────────────────────────
 
@@ -326,7 +398,7 @@ export const DEFAULT_SERVICES: ServicesContent = {
       id: 'card3',
       top_text_ru: 'от идеи до мастеринга\nведу сам',
       top_text_en: 'from idea to mastering\nled personally',
-      title_ru: 'ПОЛНЫЙ ЦИКЛ\nПОД КЛЮЧ',
+      title_ru: 'ПОЛНЫЙ\nЦИКЛ ПОД КЛЮЧ',
       title_en: 'FULL CYCLE\nTURNKEY',
       bottom_text_ru: 'без испорченного телефона между\nоператором, монтажёром и колористом.',
       bottom_text_en: 'seamless workflow without lost in translation\nbetween camera, editor, and colorist.',
@@ -349,8 +421,17 @@ export const DEFAULT_SERVICES: ServicesContent = {
 
 // ─── About Section Content ───────────────────────────────────────────────────
 
+export const DEFAULT_SHOOTING_PHOTOS = [
+  'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=85',
+  'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=85',
+  'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&q=85',
+  'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=85',
+  'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=85',
+];
+
 export interface AboutContent {
   photo_url: string;
+  shooting_photos?: string[];
   top_text_ru: string;
   top_text_en: string;
   bottom_text_ru: string;
@@ -359,6 +440,7 @@ export interface AboutContent {
 
 export const DEFAULT_ABOUT: AboutContent = {
   photo_url: '/vlad-portrait.jpg',
+  shooting_photos: DEFAULT_SHOOTING_PHOTOS,
   top_text_ru: 'Я —\nВИДЕОМЕЙКЕР\nИЗ\nПЕТЕРБУРГА.\nВ ЭТОЙ\nСФЕРЕ\nБОЛЬШЕ 10\nЛЕТ.',
   top_text_en: 'I AM A\nFILMMAKER\nFROM\nST. PETERSBURG.\nIN THIS\nINDUSTRY\nOVER 10\nYEARS.',
   bottom_text_ru: 'РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ :\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.',

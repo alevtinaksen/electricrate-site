@@ -22,8 +22,19 @@ import path from 'path';
 const dataDir = path.join(process.cwd(), 'data');
 const dataFilePath = path.join(dataDir, 'content.json');
 
+interface StoredContentData {
+  heroReels?: HeroReel[];
+  workSections?: WorkCategoryGroup[];
+  clients?: ClientItem[];
+  settings?: SiteSettings;
+  faqs?: FaqItem[];
+  services?: ServicesContent;
+  about?: AboutContent;
+  updatedAt?: string;
+}
+
 // In-memory fallback if filesystem is read-only
-let memoryStore = {
+let memoryStore: StoredContentData = {
   heroReels: HERO_REELS,
   workSections: WORK_SECTIONS,
   clients: DEFAULT_CLIENTS,
@@ -33,24 +44,24 @@ let memoryStore = {
   about: DEFAULT_ABOUT,
 };
 
-async function readStoredContent() {
+async function readStoredContent(): Promise<StoredContentData> {
   try {
     const data = await fs.readFile(dataFilePath, 'utf8');
-    const parsed = JSON.parse(data);
-    if (parsed.heroReels) memoryStore.heroReels = parsed.heroReels;
-    if (parsed.workSections) memoryStore.workSections = parsed.workSections;
-    if (parsed.clients) memoryStore.clients = parsed.clients;
-    if (parsed.settings) memoryStore.settings = parsed.settings;
-    if (parsed.faqs) memoryStore.faqs = parsed.faqs;
-    if (parsed.services) memoryStore.services = parsed.services;
-    if (parsed.about) memoryStore.about = parsed.about;
+    const parsed: StoredContentData = JSON.parse(data);
+    if (Array.isArray(parsed.heroReels)) memoryStore.heroReels = parsed.heroReels;
+    if (Array.isArray(parsed.workSections)) memoryStore.workSections = parsed.workSections;
+    if (Array.isArray(parsed.clients)) memoryStore.clients = parsed.clients;
+    if (parsed.settings && typeof parsed.settings === 'object') memoryStore.settings = parsed.settings;
+    if (Array.isArray(parsed.faqs)) memoryStore.faqs = parsed.faqs;
+    if (parsed.services && typeof parsed.services === 'object') memoryStore.services = parsed.services;
+    if (parsed.about && typeof parsed.about === 'object') memoryStore.about = parsed.about;
     return parsed;
   } catch {
     return memoryStore;
   }
 }
 
-async function writeStoredContent(content: any) {
+async function writeStoredContent(content: StoredContentData): Promise<void> {
   memoryStore = { ...memoryStore, ...content };
   try {
     await fs.mkdir(dataDir, { recursive: true });
@@ -72,16 +83,20 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 });
+    }
+
     const { heroReels, workSections, clients, settings, faqs, services, about } = body;
 
-    const toSave = {
-      heroReels: heroReels || memoryStore.heroReels,
-      workSections: workSections || memoryStore.workSections,
-      clients: clients || memoryStore.clients,
-      settings: settings || memoryStore.settings,
-      faqs: faqs || memoryStore.faqs,
-      services: services || memoryStore.services,
-      about: about || memoryStore.about,
+    const toSave: StoredContentData = {
+      heroReels: Array.isArray(heroReels) ? heroReels : memoryStore.heroReels,
+      workSections: Array.isArray(workSections) ? workSections : memoryStore.workSections,
+      clients: Array.isArray(clients) ? clients : memoryStore.clients,
+      settings: settings && typeof settings === 'object' ? settings : memoryStore.settings,
+      faqs: Array.isArray(faqs) ? faqs : memoryStore.faqs,
+      services: services && typeof services === 'object' ? services : memoryStore.services,
+      about: about && typeof about === 'object' ? about : memoryStore.about,
       updatedAt: new Date().toISOString(),
     };
 

@@ -84,21 +84,17 @@ export default function AboutSection({
     <section
       ref={sectionRef}
       id="about"
-      className="relative w-full max-w-[964px] min-h-[850px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col justify-between p-8 sm:p-12 select-none font-mono text-white"
+      className="relative w-full max-w-[964px] min-h-[850px] mx-auto bg-[#0D0D0E] overflow-hidden flex flex-col justify-between p-8 sm:p-12 font-mono text-white"
       style={{ fontFamily: '"Geist Mono", monospace' }}
     >
-      {/* ── Background Vlad Portrait (Right half, stretched to full width of right section) ── */}
+      {/* ── Background Vlad Portrait (Stretched across full width and height of the section) ── */}
       <motion.div
         style={{ y: photoY }}
-        className="absolute right-0 top-0 bottom-0 w-full sm:w-1/2 h-full pointer-events-none z-0 select-none flex items-center justify-end overflow-hidden"
+        className="absolute inset-0 w-full h-full pointer-events-none z-0 select-none overflow-hidden"
       >
         <img
           src={about.photo_url || '/vlad-portrait.jpg'}
           alt="Влад Сапунов"
-          style={{
-            maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-          }}
           className="w-full h-full object-cover object-center"
         />
       </motion.div>
