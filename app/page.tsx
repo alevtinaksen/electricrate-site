@@ -362,12 +362,12 @@ export default function Home() {
           email={settings.email}
         />
 
-        {/* ── Right column: Lenis smooth scroll container, fixed 964px feed on desktop ── */}
+        {/* ── Right column: Lenis smooth scroll container, attached directly to sidebar ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel w-full md:w-[964px] md:min-w-[964px] md:max-w-[964px] min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-center shrink-0"
+          className="right-panel flex-1 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-center md:items-start w-full bg-[#0d0d0d]"
         >
-          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0">
+          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0 md:ml-0">
             {/* Section 1: 5 Hero Reels */}
             <ReelsSection
               reels={reels.filter((r) => !r.hidden)}
@@ -431,7 +431,7 @@ export default function Home() {
           </div>
 
           {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
-          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[calc(100vw-964px+20px)] z-50 flex items-center pointer-events-none">
+          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[380px] lg:left-[460px] xl:left-[558px] z-50 flex items-center pointer-events-none">
             <div
               style={{
                 paddingTop: '0px',
