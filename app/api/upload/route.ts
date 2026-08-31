@@ -7,7 +7,7 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-export const maxDuration = 600; // 10 minutes timeout for heavy 3GB transcode
+export const maxDuration = 60; // Vercel Hobby plan limit (60s max)
 
 // Find ffmpeg binary path
 const getFfmpegPath = async (): Promise<string | null> => {
