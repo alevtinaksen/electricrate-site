@@ -362,12 +362,12 @@ export default function Home() {
           email={settings.email}
         />
 
-        {/* ── Right column: Lenis smooth scroll container, attached directly to sidebar ── */}
+        {/* ── Right column: Lenis smooth scroll container, fixed 964px feed pinned to right ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel flex-1 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-center md:items-start w-full bg-[#0d0d0d]"
+          className="right-panel w-full md:w-[964px] md:min-w-[964px] md:max-w-[964px] min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-center shrink-0 bg-[#0d0d0d]"
         >
-          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0 md:ml-0">
+          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0">
             {/* Section 1: 5 Hero Reels */}
             <ReelsSection
               reels={reels.filter((r) => !r.hidden)}
@@ -375,43 +375,46 @@ export default function Home() {
               onVideoSelect={openVideoModal}
             />
 
-            {/* 150px exact spacing between Hero-reels and Clients */}
-            <div className="h-[150px] w-full shrink-0" />
-
-            {/* Section 2: Clients with 54x54 logos, 12px gap, and white dots */}
-            <ClientsSection
-              lang={lang}
-              clients={clients.filter((c) => !c.hidden)}
-              onVideoSelect={openVideoModal}
-            />
-
-            {/* 150px exact spacing between Clients and Works */}
-            <div className="h-[150px] w-full shrink-0" />
-
-            {/* Section 3: All Works */}
+            {/* Section 2: Works by Categories */}
             <WorksSection
-              sections={works.map((g) => ({
-                ...g,
-                items: g.items.filter((i) => !i.hidden),
-              }))}
+              sections={works}
               lang={lang}
               onVideoSelect={openVideoModal}
             />
 
-            {/* Reduced 60px spacing between Works and Process Section */}
-            <div className="h-[60px] w-full shrink-0" />
+            {/* 150px exact spacing between Works Section and Process/Services Section */}
+            <div className="h-[150px] w-full shrink-0" />
 
-            {/* Section 4: Process / Services «КАРТИНКА УРОВНЯ КИНО» (Scroll Pinning & Stacking Deck) */}
+            {/* Section 3: Process Section */}
             <ProcessSection
               lang={lang}
               containerRef={rightPanelRef}
               services={services}
             />
 
-            {/* 150px exact spacing between Process Section and FAQ Section */}
+            {/* 150px exact spacing between Process Section and Clients Section */}
             <div className="h-[150px] w-full shrink-0" />
 
-            {/* Section 6: FAQ Section with Interactive Two-Column Accordion */}
+            {/* Section 4: Clients Grid Section */}
+            <ClientsSection
+              lang={lang}
+              clients={clients}
+              onVideoSelect={openVideoModal}
+            />
+
+            {/* 150px exact spacing between Clients Section and About Vlad Section */}
+            <div className="h-[150px] w-full shrink-0" />
+
+            {/* Section 5: About Vlad Section */}
+            <AboutSection
+              lang={lang}
+              about={about}
+            />
+
+            {/* 150px exact spacing between About Vlad Section and FAQ Section */}
+            <div className="h-[150px] w-full shrink-0" />
+
+            {/* Section 6: FAQ Section with single open state */}
             <FaqSection
               lang={lang}
               faqs={faqs}
@@ -431,7 +434,7 @@ export default function Home() {
           </div>
 
           {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
-          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[380px] lg:left-[460px] xl:left-[558px] z-50 flex items-center pointer-events-none">
+          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[calc(100vw-964px+20px)] z-50 flex items-center pointer-events-none">
             <div
               style={{
                 paddingTop: '0px',
