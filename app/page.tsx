@@ -457,106 +457,38 @@ export default function Home() {
             {/* 150px exact spacing at the very end of the site */}
             <div className="h-[150px] w-full shrink-0" />
           </div>
+        </main>
 
-          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
-          <div className="fixed bottom-[16px] left-[16px] md:left-[max(360px,calc(100vw-964px)+16px)] z-50 flex items-center pointer-events-none">
+        {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Truly fixed across whole screen) ── */}
+        <div className="fixed bottom-[16px] left-[16px] md:left-[max(360px,calc(100vw-964px)+16px)] z-[80] flex items-center pointer-events-none">
+          <div className="relative flex items-center gap-0 pointer-events-auto">
+            {/* Menu Popup Container */}
             <div
-              style={{
-                paddingTop: '0px',
-                paddingRight: '0px',
-                paddingBottom: '0px',
-                paddingLeft: '0px',
-              }}
-              className="relative flex items-center gap-0 pointer-events-auto"
+              ref={menuContainerRef}
+              onMouseEnter={() => setIsMenuOpen(true)}
+              onMouseLeave={() => setIsMenuOpen(false)}
+              className="relative group/menu"
             >
-              {/* Menu Popup Container (Opens on hover and on click, persists until mouse leaves or item clicked) */}
-              <div
-                ref={menuContainerRef}
-                onMouseEnter={() => setIsMenuOpen(true)}
-                onMouseLeave={() => setIsMenuOpen(false)}
-                className="relative group/menu"
+              {/* 65x65 White Burger Button */}
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                aria-label="Меню навигации"
+                className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
               >
-                {/* 65x65 White Burger Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsMenuOpen((prev) => !prev)}
-                  aria-label="Меню навигации"
-                  className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-none border-none outline-none z-50 group shrink-0"
-                >
-                  <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
-                  <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
-                </button>
+                <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
+                <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
+              </button>
 
-                {/* MOBILE popup matching Screenshot 1 */}
-                <div
-                  className={`md:hidden absolute left-0 bottom-[75px] w-[260px] bg-white flex flex-col transition-all duration-200 z-50 shadow-2xl ${
-                    isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
-                  }`}
-                  style={{ padding: '24px 20px 20px' }}
-                >
-                  {/* Nav links */}
-                  <div className="flex flex-col gap-1 mb-8">
-                    {MENU_ITEMS.map((item) => (
-                      <button
-                        key={item.key}
-                        type="button"
-                        onClick={() => {
-                          scrollToSection(item.key);
-                          setIsMenuOpen(false);
-                        }}
-                        style={{
-                          fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                          fontSize: '20px',
-                          fontWeight: 700,
-                          lineHeight: '135%',
-                          letterSpacing: '-0.2px',
-                        }}
-                        className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
-                      >
-                        {item.label[lang]}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Contact info at bottom of mobile popup */}
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      lineHeight: '130%',
-                      letterSpacing: '-0.12px',
-                    }}
-                    className="flex flex-col gap-0.5 uppercase"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#8C8E96]">ЗВОНИ :</span>
-                      <a
-                        href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
-                        className="text-[#0B0B0B] whitespace-nowrap"
-                      >
-                        {settings.phone || '+7(950)016-17-51'}
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#8C8E96]">ПИШИ :</span>
-                      <a
-                        href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
-                        className="text-[#0B0B0B] whitespace-nowrap text-[11px]"
-                      >
-                        {settings.email || 'ELECTICRATE@GMAIL.COM'}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* DESKTOP Badges Stack appearing above the burger (exact 20px gap between bottom item and burger button) */}
-                <div
-                  style={{ paddingBottom: '20px' }}
-                  className={`hidden md:flex absolute left-0 bottom-[65px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
-                    isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
-                  }`}
-                >
+              {/* MOBILE popup: full width from left 20px to right 20px, 2px gaps between links, matching hero typography */}
+              <div
+                className={`md:hidden fixed left-[20px] right-[20px] bottom-[90px] bg-white flex flex-col transition-all duration-200 z-[90] shadow-2xl ${
+                  isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                }`}
+                style={{ padding: '24px 20px 20px' }}
+              >
+                {/* Nav links: 2px gap between items */}
+                <div className="flex flex-col gap-[2px] mb-6">
                   {MENU_ITEMS.map((item) => (
                     <button
                       key={item.key}
@@ -566,51 +498,111 @@ export default function Home() {
                         setIsMenuOpen(false);
                       }}
                       style={{
-                        padding: '6px',
                         fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                        fontSize: '16px',
+                        fontSize: '20px',
                         fontWeight: 700,
-                        lineHeight: '125%',
-                        letterSpacing: '-0.16px',
+                        lineHeight: '130%',
+                        letterSpacing: '-0.2px',
                       }}
-                      className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
+                      className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
                     >
                       {item.label[lang]}
                     </button>
                   ))}
                 </div>
+
+                {/* Contact info at bottom of mobile popup: exact layout and font size (16px) matching hero screen */}
+                <div
+                  style={{
+                    fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                    fontSize: '16px',
+                    fontWeight: 700,
+                    lineHeight: '120%',
+                    letterSpacing: '-0.16px',
+                  }}
+                  className="flex w-full items-start justify-between uppercase pt-4 border-t border-[#E5E5E5]"
+                >
+                  <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
+                    <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+                    <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+                  </div>
+                  <div className="flex flex-col items-end text-right leading-[120%]">
+                    <a
+                      href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+                      className="text-[#0B0B0B] whitespace-nowrap"
+                    >
+                      {settings.phone || '+7(950)016-17-51'}
+                    </a>
+                    <a
+                      href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
+                      className="text-[#0B0B0B] whitespace-nowrap"
+                    >
+                      {settings.email || 'ELECTICRATE@GMAIL.COM'}
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              {/* Blue Contact Pill Button (Opens custom link from Settings -> Contacts) */}
-              <a
-                href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  fetch('/api/analytics', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contactName: 'Кнопка СВЯЗАТЬСЯ' }),
-                  }).catch(() => {});
-                }}
-                aria-label="Связаться"
-                style={{
-                  width: '187px',
-                  height: '65px',
-                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  lineHeight: '125%',
-                  letterSpacing: '-0.2px',
-                  textTransform: 'uppercase',
-                }}
-                className="flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-none border-none outline-none focus:outline-none shrink-0 no-underline"
+              {/* DESKTOP Badges Stack appearing above the burger */}
+              <div
+                style={{ paddingBottom: '20px' }}
+                className={`hidden md:flex absolute left-0 bottom-[65px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                  isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                }`}
               >
-                {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
-              </a>
+                {MENU_ITEMS.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    onClick={() => {
+                      scrollToSection(item.key);
+                      setIsMenuOpen(false);
+                    }}
+                    style={{
+                      padding: '6px',
+                      fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      lineHeight: '125%',
+                      letterSpacing: '-0.16px',
+                    }}
+                    className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
+                  >
+                    {item.label[lang]}
+                  </button>
+                ))}
+              </div>
             </div>
+
+            {/* Blue Contact Pill Button (Opens custom link from Settings -> Contacts) */}
+            <a
+              href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                fetch('/api/analytics', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ contactName: 'Кнопка СВЯЗАТЬСЯ' }),
+                }).catch(() => {});
+              }}
+              aria-label="Связаться"
+              style={{
+                width: '187px',
+                height: '65px',
+                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                fontSize: '20px',
+                fontWeight: 700,
+                lineHeight: '125%',
+                letterSpacing: '-0.2px',
+                textTransform: 'uppercase',
+              }}
+              className="flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline"
+            >
+              {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
+            </a>
           </div>
-        </main>
+        </div>
 
         {/* ── Video Lightbox Popup Modal ── */}
         <VideoModal

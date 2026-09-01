@@ -46,9 +46,9 @@ export default function ProcessSection({
     <div id="services" className="w-full">
       {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
       <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
-        {/* Mobile Header Headline */}
+        {/* Mobile Header Headline — exact 48px gap to cards below */}
         <h2
-          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 pb-8 leading-[95%] whitespace-pre-line"
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 mb-[48px] leading-[95%] whitespace-pre-line"
           style={{
             fontFamily: '"Geist Mono", monospace',
             fontSize: 'clamp(32px, 8.5vw, 44px)',
@@ -62,7 +62,6 @@ export default function ProcessSection({
         {/* 4 Full-Width Cards Stacked with gap-0 */}
         <div className="w-full flex flex-col gap-0">
           {cards.map((card, idx) => {
-            const topText = lang === 'ru' ? card.top_text_ru : card.top_text_en;
             const cardTitle = lang === 'ru' ? card.title_ru : card.title_en;
             const bottomText = lang === 'ru' ? card.bottom_text_ru : card.bottom_text_en;
 
@@ -73,21 +72,15 @@ export default function ProcessSection({
                   padding: '20px 20px',
                   backgroundColor: card.bg_color || (idx === 0 || idx === 3 ? '#1458E6' : idx === 1 ? '#FFFFFF' : '#1E1E22'),
                   color: card.text_color || (idx === 1 ? '#1458E6' : '#FFFFFF'),
-                  minHeight: '260px',
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
-                {/* Top text */}
-                <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
-                  {topText}
-                </div>
-
-                {/* Card Title — Identical font size on all cards */}
+                {/* Card Title at top */}
                 <h3
-                  className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2px] whitespace-pre-line py-4"
+                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1.5px] whitespace-pre-line mb-[52px]"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
-                    fontSize: 'clamp(38px, 11vw, 54px)',
+                    fontSize: 'clamp(36px, 10vw, 50px)',
                     lineHeight: '90%',
                     fontWeight: 600,
                   }}
@@ -95,7 +88,7 @@ export default function ProcessSection({
                   {cardTitle}
                 </h3>
 
-                {/* Bottom text */}
+                {/* Bottom text: 20px from bottom */}
                 <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
                   {bottomText}
                 </div>

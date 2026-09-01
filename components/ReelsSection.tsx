@@ -202,8 +202,8 @@ function ReelCard({
         {title}
       </h3>
 
-      {/* Gap below title: 8px on mobile, 20px on desktop */}
-      <div className="h-[8px] md:h-[20px] w-full shrink-0" />
+      {/* Gap below title: 12px on mobile, 20px on desktop */}
+      <div className="h-[12px] md:h-[20px] w-full shrink-0" />
     </div>
   );
 }

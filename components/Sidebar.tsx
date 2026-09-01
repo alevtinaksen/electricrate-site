@@ -67,20 +67,20 @@ export default function Sidebar({
         style={{
           backgroundColor: '#141416',
         }}
-        className="sticky top-0 h-auto md:h-screen w-full md:flex-1 md:min-w-[360px] @container rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-6 md:pb-0 min-h-[82dvh] md:min-h-0"
+        className="sticky top-0 h-[450px] min-h-[450px] max-h-[450px] md:h-screen md:min-h-0 md:max-h-none w-full md:flex-1 md:min-w-[360px] @container rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-4 md:pb-0"
       >
         {/* ══════════════════════════════════════════════════════════════════════
             DESKTOP LAYOUT (hidden on mobile, visible md:flex)
             Order: Name at top -> Contacts right below name -> Bio text at bottom
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="hidden md:flex w-full flex-col relative z-10 pt-0">
-          {/* ── Name: «ВЛАД САПУНОВ» (stretches to full width of left column via 23.5cqw) ── */}
+          {/* ── Name: «ВЛАД САПУНОВ» (always with 20px padding on left & right) ── */}
           <div
             style={{
               paddingTop: '12px',
               paddingRight: '20px',
               paddingBottom: '0px',
-              paddingLeft: '0px',
+              paddingLeft: '20px',
             }}
             className="w-full flex flex-col items-end text-right"
           >
@@ -88,7 +88,7 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(44px, 23.5cqw, 280px)',
+                fontSize: 'clamp(44px, 20.5cqw, 240px)',
                 lineHeight: '86%',
                 letterSpacing: '-1.5px',
                 fontWeight: 600,
@@ -195,15 +195,16 @@ export default function Sidebar({
         {/* ══════════════════════════════════════════════════════════════════════
             MOBILE LAYOUT (visible on mobile, hidden md:hidden)
             Order: Name at top -> Bio text immediately below -> Contacts at bottom
+            Exact 450px fixed container height matching specification
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="flex md:hidden w-full flex-col relative z-10 pt-12">
           {/* 1. Mobile Name */}
           <div
             style={{
-              paddingTop: '8px',
-              paddingRight: '16px',
+              paddingTop: '6px',
+              paddingRight: '20px',
               paddingBottom: '0px',
-              paddingLeft: '16px',
+              paddingLeft: '20px',
             }}
             className="w-full flex flex-col items-end text-right"
           >
@@ -211,7 +212,7 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(50px, 16vw, 84px)',
+                fontSize: 'clamp(46px, 14vw, 76px)',
                 lineHeight: '88%',
                 letterSpacing: '-1.5px',
                 fontWeight: 600,
@@ -227,21 +228,21 @@ export default function Sidebar({
             </h1>
           </div>
 
-          {/* 2. Mobile Bio text immediately below name */}
+          {/* 2. Mobile Bio text immediately below name (larger, bold, filling width) */}
           <div
             style={{
               paddingTop: '16px',
-              paddingRight: '16px',
+              paddingRight: '20px',
               paddingBottom: '16px',
-              paddingLeft: '16px',
+              paddingLeft: '20px',
             }}
             className="w-full flex flex-col items-start text-left"
           >
             <p
-              className="font-mono font-bold uppercase text-white max-w-[360px] m-0 text-[14px] sm:text-[15px]"
+              className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px]"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                lineHeight: '125%',
+                lineHeight: '122%',
                 letterSpacing: '-0.16px',
               }}
             >
@@ -266,13 +267,13 @@ export default function Sidebar({
           </div>
         </div>
 
-        {/* 3. Mobile Contacts at bottom of the hero block */}
+        {/* 3. Mobile Contacts at bottom of the 450px hero block */}
         <div
           style={{
-            paddingLeft: '16px',
-            paddingRight: '16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
             paddingTop: '8px',
-            paddingBottom: '16px',
+            paddingBottom: '20px',
             fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
             fontSize: '16px',
             fontWeight: 700,
@@ -282,8 +283,8 @@ export default function Sidebar({
           className="flex md:hidden w-full items-start justify-between uppercase mt-auto"
         >
           <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
-            <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
-            <span>{lang === 'ru' ? 'ПИШИ :' : 'WRITE :'}</span>
+            <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+            <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
           </div>
           <div className="flex flex-col items-end text-right leading-[120%]">
             <a

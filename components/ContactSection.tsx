@@ -110,7 +110,7 @@ export default function ContactSection({
 
           return (
             <div key={item.short} className="relative flex flex-col items-center w-full sm:w-auto">
-              {/* Mobile: Always expanded pill */}
+              {/* Mobile: Always expanded pill — width hugs content with exact 2px gap between buttons */}
               <a
                 href={item.url}
                 target="_blank"
@@ -126,7 +126,7 @@ export default function ContactSection({
                   paddingLeft: '28px',
                   paddingRight: '28px',
                 }}
-                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden mb-2 w-full max-w-[280px] no-underline"
+                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden mb-[2px] w-fit no-underline"
               >
                 <span className="whitespace-nowrap select-none font-bold">{item.full}</span>
               </a>
