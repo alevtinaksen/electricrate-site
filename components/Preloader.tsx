@@ -12,36 +12,46 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    // If mobile (< 768px) or already seen in this session, skip immediately
+    // If already seen in this session, skip immediately
     if (
       typeof window !== 'undefined' &&
-      (window.innerWidth < 768 || sessionStorage.getItem('electricrate_preloader_seen'))
+      sessionStorage.getItem('electricrate_preloader_seen')
     ) {
       setIsFinished(true);
       onComplete?.();
       return;
     }
 
-    // Smooth cinematic progress counter stopping at 99% to slide up
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 99) {
-          clearInterval(interval);
-          try {
-            sessionStorage.setItem('electricrate_preloader_seen', '1');
-          } catch {}
-          setTimeout(() => {
-            setIsFinished(true);
-            onComplete?.();
-          }, 120);
-          return 99;
-        }
-        const jump = prev < 70 ? Math.floor(Math.random() * 4) + 2 : Math.floor(Math.random() * 7) + 3;
-        return Math.min(prev + jump, 99);
-      });
-    }, 24);
+    const startTime = performance.now();
+    const duration = 1100; // 1.1s fluid cinematic loading count
 
-    return () => clearInterval(interval);
+    let rafId: number;
+    const update = (now: number) => {
+      const elapsed = now - startTime;
+      const rawProgress = Math.min(elapsed / duration, 1);
+      // Fluid ease-in-out power curve: rapid start, smooth finish at 100
+      const eased = rawProgress < 0.5
+        ? 2 * rawProgress * rawProgress
+        : 1 - Math.pow(-2 * rawProgress + 2, 2) / 2;
+
+      const currentNumber = Math.min(100, Math.floor(eased * 100));
+      setProgress(currentNumber);
+
+      if (rawProgress < 1) {
+        rafId = requestAnimationFrame(update);
+      } else {
+        try {
+          sessionStorage.setItem('electricrate_preloader_seen', '1');
+        } catch {}
+        setTimeout(() => {
+          setIsFinished(true);
+          onComplete?.();
+        }, 120);
+      }
+    };
+
+    rafId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(rafId);
   }, [onComplete]);
 
   return (
