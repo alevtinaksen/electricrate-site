@@ -193,95 +193,92 @@ export default function VideoModal({
 
   return (
     <div
-      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none"
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none overflow-hidden"
       onClick={onClose}
     >
+      {/* Floating Top Header: Snackbar style flush to top-left corner */}
+      {title && (
+        <div className="fixed top-4 left-4 sm:absolute sm:top-6 sm:left-6 z-50 flex items-center pointer-events-none">
+          <div
+            style={{
+              paddingTop: '8px',
+              paddingBottom: '8px',
+              paddingLeft: '12px',
+              paddingRight: '12px',
+            }}
+            className="bg-white flex items-center gap-3 shadow-2xl border-none"
+          >
+            {hasMultiple && activeIdx >= 0 && (
+              <span
+                style={{
+                  paddingTop: '4px',
+                  paddingBottom: '4px',
+                  paddingLeft: '8px',
+                  paddingRight: '8px',
+                  borderRadius: '56px',
+                  lineHeight: 1,
+                }}
+                className="bg-[#1458E6] text-white font-mono text-[12px] md:text-[13px] font-bold shrink-0 flex items-center justify-center"
+              >
+                {activeIdx + 1}/{playlist.length}
+              </span>
+            )}
+            <span className="font-mono text-[13px] md:text-[15px] font-bold text-black uppercase tracking-tight leading-none">
+              {title}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Square Close Cross Button (top-right, easily clickable on all devices) */}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Закрыть"
+        style={{
+          width: '44px',
+          height: '44px',
+        }}
+        className="fixed top-4 right-4 sm:absolute sm:top-6 sm:right-6 bg-[#141416] hover:bg-white text-white hover:text-black flex items-center justify-center cursor-pointer transition-colors border-none outline-none shadow-2xl shrink-0 z-50 rounded-none active:scale-95"
+        title="Закрыть"
+      >
+        <X className="w-5 h-5 stroke-[2.5]" />
+      </button>
+
+      {/* Main Video Frame: Automatically fits video aspect ratio within mobile viewport (82dvh) */}
       <div
         ref={containerRef}
-        className={`relative bg-black rounded-none overflow-hidden shadow-2xl flex flex-col items-center justify-center border-none transition-all duration-300 group ${
-          isVert
-            ? 'w-auto max-w-[94vw] h-[86vh] max-h-[90vh] aspect-[9/16]'
-            : 'w-[96vw] max-w-[1440px] max-h-[90vh] aspect-video'
-        }`}
+        className="relative bg-black rounded-none overflow-hidden shadow-2xl flex flex-col items-center justify-center border-none transition-all duration-300 w-full max-w-[100vw] sm:max-w-[90vw] md:max-w-[1440px] max-h-[100dvh] sm:max-h-[88dvh] p-2 sm:p-0"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Floating Top Header: Snackbar style flush to top-left corner */}
-        {title && (
-          <div className="absolute top-0 left-0 z-30 flex items-center pointer-events-none">
-            <div
-              style={{
-                paddingTop: '8px',
-                paddingBottom: '8px',
-                paddingLeft: '12px',
-                paddingRight: '12px',
-              }}
-              className="bg-white flex items-center gap-3 shadow-2xl border-none"
-            >
-              {hasMultiple && activeIdx >= 0 && (
-                <span
-                  style={{
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
-                    paddingLeft: '8px',
-                    paddingRight: '8px',
-                    borderRadius: '56px',
-                    lineHeight: 1,
-                  }}
-                  className="bg-[#1458E6] text-white font-mono text-[12px] md:text-[13px] font-bold shrink-0 flex items-center justify-center"
-                >
-                  {activeIdx + 1}/{playlist.length}
-                </span>
-              )}
-              <span className="font-mono text-[13px] md:text-[15px] font-bold text-black uppercase tracking-tight leading-none">
-                {title}
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Floating Square Close Cross Button (top-right on mobile, 4px offset outside on desktop) */}
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Закрыть"
-          style={{
-            width: '40px',
-            height: '40px',
-          }}
-          className="absolute top-2 right-2 md:top-0 md:left-[calc(100%+4px)] md:right-auto bg-[#141416] hover:bg-white text-white hover:text-black flex items-center justify-center cursor-pointer transition-colors border-none outline-none shadow-2xl shrink-0 z-50 rounded-none"
-          title="Закрыть"
-        >
-          <X className="w-5 h-5 stroke-[2.5]" />
-        </button>
-
-        {/* Floating Previous Video Arrow Button (Left, No border in default state, blue on hover) */}
+        {/* Floating Previous Video Arrow Button */}
         {hasMultiple && onNavigate && (
           <button
             type="button"
             onClick={handlePrev}
             aria-label="Предыдущее видео"
             title="Предыдущее видео (P или Shift+Left)"
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#1458E6] text-white flex items-center justify-center transition-all duration-200 cursor-pointer border-none outline-none backdrop-blur-md shadow-2xl active:scale-95 opacity-80 hover:opacity-100"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#1458E6] text-white flex items-center justify-center transition-all duration-200 cursor-pointer border-none outline-none backdrop-blur-md shadow-2xl active:scale-95 opacity-80 hover:opacity-100"
           >
-            <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
         )}
 
-        {/* Floating Next Video Arrow Button (Right, No border in default state, blue on hover) */}
+        {/* Floating Next Video Arrow Button */}
         {hasMultiple && onNavigate && (
           <button
             type="button"
             onClick={handleNext}
             aria-label="Следующее видео"
             title="Следующее видео (N или Shift+Right)"
-            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#1458E6] text-white flex items-center justify-center transition-all duration-200 cursor-pointer border-none outline-none backdrop-blur-md shadow-2xl active:scale-95 opacity-80 hover:opacity-100"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#1458E6] text-white flex items-center justify-center transition-all duration-200 cursor-pointer border-none outline-none backdrop-blur-md shadow-2xl active:scale-95 opacity-80 hover:opacity-100"
           >
-            <ChevronRight className="w-6 h-6 stroke-[2.5]" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
         )}
 
         {/* Video Player Area */}
-        <div className="relative w-full h-full bg-black flex items-center justify-center">
+        <div className="relative w-full max-h-[82dvh] sm:max-h-[88dvh] bg-black flex items-center justify-center">
           <video
             ref={videoRef}
             key={videoUrl}
@@ -297,7 +294,7 @@ export default function VideoModal({
                 setDetectedVertical(true);
               }
             }}
-            className="w-full h-full object-contain rounded-none cursor-pointer"
+            className="max-w-full max-h-[82dvh] sm:max-h-[88dvh] w-auto h-auto object-contain rounded-none cursor-pointer"
           />
         </div>
       </div>
