@@ -89,14 +89,14 @@ export default function Sidebar({
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 fontSize: 'clamp(44px, 20.5cqw, 240px)',
-                lineHeight: '90%',
+                lineHeight: lang === 'ru' ? '90%' : '86%',
                 letterSpacing: '-1.5px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}
             >
               <span
-                style={{ marginBottom: '8px' }}
+                style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
                 className="text-right block w-full"
               >
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
@@ -216,14 +216,14 @@ export default function Sidebar({
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 fontSize: 'clamp(74px, 23.5vw, 115px)',
-                lineHeight: '88%',
+                lineHeight: lang === 'ru' ? '88%' : '84%',
                 letterSpacing: '-3px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}
             >
               <span
-                style={{ marginBottom: '8px' }}
+                style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
                 className="text-right block w-full"
               >
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
