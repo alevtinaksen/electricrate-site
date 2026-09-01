@@ -57,14 +57,14 @@ export default function ContactSection({
       id="contacts"
       className="w-full max-w-[964px] font-mono text-white flex flex-col items-center pt-0 pb-0"
     >
-      {/* ── Title «ЕСТЬ ИДЕЯ? НАПИШИ МНЕ ПРЯМО СЕЙЧАС» ── */}
+      {/* ── Title «ЕСТЬ ИДЕЯ? ПРЕВРАТИМ ЕЕ В СИЛЬНОЕ КИНО» ── */}
       <h2
-        className="font-mono font-semibold uppercase text-white text-center w-full leading-[90%] px-4"
+        className="font-mono font-semibold uppercase text-white text-center w-full leading-[95%] px-4"
         style={{
           fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-          fontSize: 'clamp(32px, 6vw, 64px)',
+          fontSize: 'clamp(28px, 6.5vw, 64px)',
           lineHeight: '95%',
-          letterSpacing: '-2px',
+          letterSpacing: '-1.5px',
           fontWeight: 600,
           color: '#FFFFFF',
           paddingBottom: '40px',
@@ -75,14 +75,9 @@ export default function ContactSection({
             <span className="whitespace-pre-line">{settings.contacts_title_ru}</span>
           ) : (
             <>
-              <span className="hidden md:inline">
-                ЕСТЬ ИДЕЯ? НАПИШИ МНЕ
-                <br />
-                ПРЯМО СЕЙЧАС
-              </span>
-              <span className="inline md:hidden">
-                ЕСТЬ ИДЕЯ? НАПИШИ МНЕ ПРЯМО СЕЙЧАС
-              </span>
+              ЕСТЬ ИДЕЯ? ПРЕВРАТИМ
+              <br />
+              ЕЕ В СИЛЬНОЕ КИНО
             </>
           )
         ) : (
@@ -90,14 +85,9 @@ export default function ContactSection({
             <span className="whitespace-pre-line">{settings.contacts_title_en}</span>
           ) : (
             <>
-              <span className="hidden md:inline">
-                GOT AN IDEA? WRITE TO ME
-                <br />
-                RIGHT NOW
-              </span>
-              <span className="inline md:hidden">
-                GOT AN IDEA? WRITE TO ME RIGHT NOW
-              </span>
+              GOT AN IDEA? WRITE TO ME
+              <br />
+              RIGHT NOW
             </>
           )
         )}

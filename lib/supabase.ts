@@ -242,7 +242,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   vk: '',
   phone: '+7(950)016-17-51',
   adminPin: '2026',
-  contacts_title_ru: 'ЕСТЬ ИДЕЯ? НАПИШИ МНЕ\nПРЯМО СЕЙЧАС',
+  contacts_title_ru: 'ЕСТЬ ИДЕЯ? ПРЕВРАТИМ\nЕЕ В СИЛЬНОЕ КИНО',
   contacts_title_en: 'GOT AN IDEA? WRITE TO ME\nRIGHT NOW',
   contact_button_url: 'https://t.me/sapunov_vlad',
   admin_users: DEFAULT_ADMIN_USERS,
