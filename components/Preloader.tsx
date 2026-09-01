@@ -12,6 +12,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
+    // If on mobile device (< 768px), disable preloader immediately
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsFinished(true);
+      onComplete?.();
+      return;
+    }
+
     const startTime = performance.now();
     const duration = 1200; // 1.2s smooth energetic countdown up to 99%
 
@@ -49,7 +56,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             y: '-100%',
             transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white hidden md:flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
           style={{ fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace' }}
         >
           {/* Top Bar */}

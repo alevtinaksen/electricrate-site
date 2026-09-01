@@ -1,5 +1,5 @@
 {
-  "totalViews": 109,
+  "totalViews": 116,
   "totalContactClicks": 7,
   "videoViews": {
     "CPO-GROUP": {
@@ -29,8 +29,8 @@
     },
     "finntrail": {
       "title": "finntrail",
-      "count": 7,
-      "lastViewedAt": "2026-09-01T17:00:06.697Z"
+      "count": 9,
+      "lastViewedAt": "2026-09-01T17:24:45.346Z"
     },
     "Баскетбол": {
       "title": "Баскетбол",
@@ -59,13 +59,13 @@
     },
     "догма": {
       "title": "догма",
-      "count": 4,
-      "lastViewedAt": "2026-09-01T17:00:06.579Z"
+      "count": 5,
+      "lastViewedAt": "2026-09-01T17:24:34.159Z"
     },
     "ЖК BEREG": {
       "title": "ЖК BEREG",
-      "count": 3,
-      "lastViewedAt": "2026-09-01T17:00:06.887Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:24:43.395Z"
     },
     "Lucky Team": {
       "title": "Lucky Team",
@@ -84,8 +84,8 @@
     },
     "FINNTRAIL HR": {
       "title": "FINNTRAIL HR",
-      "count": 3,
-      "lastViewedAt": "2026-09-01T17:00:03.658Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:24:25.301Z"
     },
     "ктк group": {
       "title": "ктк group",
@@ -99,8 +99,8 @@
     },
     "chez serge": {
       "title": "chez serge",
-      "count": 3,
-      "lastViewedAt": "2026-09-01T17:00:08.782Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:24:47.873Z"
     },
     "ПНТ": {
       "title": "ПНТ",
@@ -146,6 +146,11 @@
       "title": "ФОНТАНКА САП",
       "count": 1,
       "lastViewedAt": "2026-09-01T17:00:11.319Z"
+    },
+    "ТЕХНОНИКОЛЬ": {
+      "title": "ТЕХНОНИКОЛЬ",
+      "count": 1,
+      "lastViewedAt": "2026-09-01T17:24:40.965Z"
     }
   },
   "contactClicks": {
@@ -168,7 +173,7 @@
   "dailyViews": {
     "2026-08-30": 48,
     "2026-08-31": 28,
-    "2026-09-01": 33
+    "2026-09-01": 40
   },
   "dailyClicks": {
     "2026-08-30": 2,
