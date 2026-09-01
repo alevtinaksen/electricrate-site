@@ -198,13 +198,13 @@ export default function Sidebar({
             Exact 450px fixed container height matching specification
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="flex md:hidden w-full flex-col relative z-10 pt-12">
-          {/* 1. Mobile Name */}
+          {/* 1. Mobile Name — full width impactful layout matching screenshot 1 */}
           <div
             style={{
               paddingTop: '6px',
-              paddingRight: '20px',
+              paddingRight: '16px',
               paddingBottom: '0px',
-              paddingLeft: '20px',
+              paddingLeft: '16px',
             }}
             className="w-full flex flex-col items-end text-right"
           >
@@ -212,8 +212,8 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(46px, 14vw, 76px)',
-                lineHeight: '88%',
+                fontSize: 'clamp(54px, 17vw, 88px)',
+                lineHeight: '84%',
                 letterSpacing: '-1.5px',
                 fontWeight: 600,
                 color: '#FFFFFF',
@@ -228,13 +228,13 @@ export default function Sidebar({
             </h1>
           </div>
 
-          {/* 2. Mobile Bio text immediately below name (larger, bold, filling width) */}
+          {/* 2. Mobile Bio text immediately below name (bold, full-width, clean wraps) */}
           <div
             style={{
               paddingTop: '16px',
-              paddingRight: '20px',
+              paddingRight: '16px',
               paddingBottom: '16px',
-              paddingLeft: '20px',
+              paddingLeft: '16px',
             }}
             className="w-full flex flex-col items-start text-left"
           >
@@ -242,7 +242,7 @@ export default function Sidebar({
               className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px]"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                lineHeight: '122%',
+                lineHeight: '118%',
                 letterSpacing: '-0.16px',
               }}
             >

@@ -46,9 +46,9 @@ export default function ProcessSection({
     <div id="services" className="w-full">
       {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
       <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
-        {/* Mobile Header Headline — exact 48px gap to cards below */}
+        {/* Mobile Header Headline */}
         <h2
-          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 mb-[48px] leading-[95%] whitespace-pre-line"
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[95%] whitespace-pre-line m-0"
           style={{
             fontFamily: '"Geist Mono", monospace',
             fontSize: 'clamp(32px, 8.5vw, 44px)',
@@ -59,9 +59,13 @@ export default function ProcessSection({
           {headline}
         </h2>
 
+        {/* Exact 48px gap between headline and first service card */}
+        <div className="h-[48px] w-full shrink-0" />
+
         {/* 4 Full-Width Cards Stacked with gap-0 */}
         <div className="w-full flex flex-col gap-0">
           {cards.map((card, idx) => {
+            const topText = lang === 'ru' ? card.top_text_ru : card.top_text_en;
             const cardTitle = lang === 'ru' ? card.title_ru : card.title_en;
             const bottomText = lang === 'ru' ? card.bottom_text_ru : card.bottom_text_en;
 
@@ -75,22 +79,33 @@ export default function ProcessSection({
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
-                {/* Card Title at top */}
+                {/* 1. Card Title: 32px font size */}
                 <h3
-                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1.5px] whitespace-pre-line mb-[52px]"
+                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] whitespace-pre-line text-[32px] leading-[90%]"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
-                    fontSize: 'clamp(36px, 10vw, 50px)',
-                    lineHeight: '90%',
                     fontWeight: 600,
+                    margin: 0,
+                    padding: 0,
                   }}
                 >
                   {cardTitle}
                 </h3>
 
-                {/* Bottom text: 20px from bottom */}
-                <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
-                  {bottomText}
+                {/* 2. Exact 52px gap between title and bottom texts */}
+                <div className="h-[52px] w-full shrink-0" />
+
+                {/* 3. Bottom Texts Container (two texts with 8px gap, stretched full width, bottom text has 40% opacity) */}
+                <div className="w-full flex flex-col gap-[8px]">
+                  {/* First text (top text from desktop card) */}
+                  <p className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase w-full m-0 whitespace-pre-line">
+                    {topText}
+                  </p>
+
+                  {/* Second text (bottom text with opacity-40) */}
+                  <p className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase w-full m-0 whitespace-pre-line opacity-40">
+                    {bottomText}
+                  </p>
                 </div>
               </div>
             );

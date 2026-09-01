@@ -127,9 +127,9 @@ export default function ClientsSection({
       id="clients"
       className="w-full max-w-[964px] font-mono flex flex-col items-center"
     >
-      {/* Subtitle "КЛИЕНТЫ" (14px on mobile, 20px on desktop) */}
+      {/* Subtitle "КЛИЕНТЫ" (16px on mobile, 20px on desktop) */}
       <h3
-        className="uppercase text-center shrink-0 text-[14px] md:text-[20px]"
+        className="uppercase text-center shrink-0 text-[16px] md:text-[20px]"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
