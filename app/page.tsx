@@ -362,10 +362,10 @@ export default function Home() {
           email={settings.email}
         />
 
-        {/* ── Right column: flex-1, content max-w-[964px] left-aligned ── */}
+        {/* ── Right column: fixed 964px width on desktop (flushed with expanding sidebar), full width on mobile ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel flex-1 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-start w-full"
+          className="right-panel w-full md:w-[964px] md:min-w-[964px] md:max-w-[964px] md:shrink-0 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-start"
         >
           <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0">
             {/* Section 1: 5 Hero Reels */}
@@ -375,56 +375,91 @@ export default function Home() {
               onVideoSelect={openVideoModal}
             />
 
-            {/* Section 2: Works by Categories */}
-            <WorksSection
-              sections={works}
-              lang={lang}
-              onVideoSelect={openVideoModal}
-            />
+            {/* 150px exact spacing between Hero Reels and Clients Section */}
+            {!(settings.hidden_sections || []).includes('clients') && (
+              <div className="h-[150px] w-full shrink-0" />
+            )}
+
+            {/* Section 2: Clients Grid Section */}
+            {!(settings.hidden_sections || []).includes('clients') && (
+              <ClientsSection
+                lang={lang}
+                clients={clients}
+                onVideoSelect={openVideoModal}
+              />
+            )}
+
+            {/* 150px exact spacing before Works Section */}
+            {!(settings.hidden_sections || []).includes('works') && (
+              <div className="h-[150px] w-full shrink-0" />
+            )}
+
+            {/* Section 3: Works by Categories */}
+            {!(settings.hidden_sections || []).includes('works') && (
+              <WorksSection
+                sections={works}
+                lang={lang}
+                onVideoSelect={openVideoModal}
+              />
+            )}
 
             {/* 150px exact spacing between Works Section and Process/Services Section */}
-            <div className="h-[150px] w-full shrink-0" />
+            {!(settings.hidden_sections || []).includes('services') && (
+              <div className="h-[150px] w-full shrink-0" />
+            )}
 
-            {/* Section 3: Process Section */}
-            <ProcessSection
-              lang={lang}
-              containerRef={rightPanelRef}
-              services={services}
-            />
+            {/* Section 4: Process Section */}
+            {!(settings.hidden_sections || []).includes('services') && (
+              <ProcessSection
+                lang={lang}
+                containerRef={rightPanelRef}
+                services={services}
+              />
+            )}
 
-            {/* 150px exact spacing between Process Section and Clients Section */}
-            <div className="h-[150px] w-full shrink-0" />
+            {/* Section 5: About Vlad Section (hidden by default via hidden_sections) */}
+            {!(settings.hidden_sections || ['about']).includes('about') && (
+              <>
+                <div className="h-[150px] w-full shrink-0" />
+                <AboutSection
+                  lang={lang}
+                  about={about}
+                />
+              </>
+            )}
 
-            {/* Section 4: Clients Grid Section */}
-            <ClientsSection
-              lang={lang}
-              clients={clients}
-              onVideoSelect={openVideoModal}
-            />
-
-            {/* Section 5: About Vlad Section — HIDDEN */}
+            {/* 150px exact spacing between Clients/About Section and FAQ Section */}
+            {!(settings.hidden_sections || []).includes('faq') && (
+              <div className="h-[150px] w-full shrink-0" />
+            )}
 
             {/* Section 6: FAQ Section with single open state */}
-            <FaqSection
-              lang={lang}
-              faqs={faqs}
-            />
+            {!(settings.hidden_sections || []).includes('faq') && (
+              <FaqSection
+                lang={lang}
+                faqs={faqs}
+              />
+            )}
 
             {/* 150px exact spacing between FAQ Section and Contacts Section */}
-            <div className="h-[150px] w-full shrink-0" />
+            {!(settings.hidden_sections || []).includes('contacts') && (
+              <div className="h-[150px] w-full shrink-0" />
+            )}
 
             {/* Section 7: Contacts Section with interactive expanding pills (TG, BE, YT, IN*) */}
-            <ContactSection
-              lang={lang}
-              settings={settings}
-            />
+            {!(settings.hidden_sections || []).includes('contacts') && (
+              <ContactSection
+                lang={lang}
+                settings={settings}
+              />
+            )}
 
             {/* 150px exact spacing at the very end of the site */}
             <div className="h-[150px] w-full shrink-0" />
           </div>
 
-          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button ── */}
-          <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[380px] lg:left-[460px] xl:left-[558px] z-50 flex items-center pointer-events-none">
+          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
+          <div className="fixed bottom-[16px] left-[16px] md:left-[max(360px,calc(100vw-964px)+16px)] z-50 flex items-center pointer-events-none">
             <div
               style={{
                 paddingTop: '0px',
@@ -434,7 +469,7 @@ export default function Home() {
               }}
               className="relative flex items-center gap-0 pointer-events-auto"
             >
-              {/* Menu Popup Container */}
+              {/* Menu Popup Container (Opens on hover and on click, persists until mouse leaves or item clicked) */}
               <div
                 ref={menuContainerRef}
                 onMouseEnter={() => setIsMenuOpen(true)}
@@ -452,15 +487,15 @@ export default function Home() {
                   <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
                 </button>
 
-                {/* MOBILE popup: full white panel with nav + contacts */}
+                {/* MOBILE popup matching Screenshot 1 */}
                 <div
-                  className={`md:hidden absolute left-0 bottom-[75px] w-[240px] bg-white flex flex-col transition-all duration-200 z-50 ${
+                  className={`md:hidden absolute left-0 bottom-[75px] w-[260px] bg-white flex flex-col transition-all duration-200 z-50 shadow-2xl ${
                     isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                   }`}
                   style={{ padding: '24px 20px 20px' }}
                 >
                   {/* Nav links */}
-                  <div className="flex flex-col gap-0 mb-6">
+                  <div className="flex flex-col gap-1 mb-8">
                     {MENU_ITEMS.map((item) => (
                       <button
                         key={item.key}
@@ -473,7 +508,7 @@ export default function Home() {
                           fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                           fontSize: '20px',
                           fontWeight: 700,
-                          lineHeight: '140%',
+                          lineHeight: '135%',
                           letterSpacing: '-0.2px',
                         }}
                         className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
@@ -482,19 +517,20 @@ export default function Home() {
                       </button>
                     ))}
                   </div>
-                  {/* Contact info */}
+
+                  {/* Contact info at bottom of mobile popup */}
                   <div
                     style={{
                       fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                      fontSize: '13px',
+                      fontSize: '12px',
                       fontWeight: 700,
-                      lineHeight: '140%',
-                      letterSpacing: '-0.13px',
+                      lineHeight: '130%',
+                      letterSpacing: '-0.12px',
                     }}
-                    className="flex flex-col gap-0 text-[#8C8E96] uppercase"
+                    className="flex flex-col gap-0.5 uppercase"
                   >
                     <div className="flex items-center gap-2">
-                      <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+                      <span className="text-[#8C8E96]">ЗВОНИ :</span>
                       <a
                         href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
                         className="text-[#0B0B0B] whitespace-nowrap"
@@ -503,10 +539,10 @@ export default function Home() {
                       </a>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+                      <span className="text-[#8C8E96]">ПИШИ :</span>
                       <a
                         href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
-                        className="text-[#0B0B0B] whitespace-nowrap"
+                        className="text-[#0B0B0B] whitespace-nowrap text-[11px]"
                       >
                         {settings.email || 'ELECTICRATE@GMAIL.COM'}
                       </a>
@@ -514,7 +550,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* DESKTOP popup: Badges Stack appearing above the burger */}
+                {/* DESKTOP Badges Stack appearing above the burger (exact 20px gap between bottom item and burger button) */}
                 <div
                   style={{ paddingBottom: '20px' }}
                   className={`hidden md:flex absolute left-0 bottom-[65px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${

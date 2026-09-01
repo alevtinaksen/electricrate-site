@@ -17,8 +17,8 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <>
-      {/* ── RU/EN fixed on mobile, absolute on desktop ── */}
-      <div className="fixed md:absolute top-0 left-0 z-[60] flex items-center overflow-hidden shrink-0">
+      {/* ── RU / EN Language Toggle Pill: Fixed on mobile top-left, absolute on desktop ── */}
+      <div className="fixed md:absolute top-0 left-0 z-50 flex items-center overflow-hidden shrink-0">
         <button
           onClick={() => onLangChange('ru')}
           style={{
@@ -67,11 +67,14 @@ export default function Sidebar({
         style={{
           backgroundColor: '#141416',
         }}
-        className="sticky top-0 h-auto md:h-screen w-full md:w-[360px] md:min-w-[360px] lg:w-[440px] lg:min-w-[440px] xl:w-[538px] xl:min-w-[538px] rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-4 md:pb-0 min-h-[85dvh] md:min-h-0"
+        className="sticky top-0 h-auto md:h-screen w-full md:flex-1 md:min-w-[360px] @container rounded-none shrink-0 z-40 flex flex-col justify-between relative overflow-hidden pb-6 md:pb-0 min-h-[82dvh] md:min-h-0"
       >
-        {/* ── Top section: name + bio (mobile), name + contact + bio (desktop) ── */}
-        <div className="w-full flex flex-col relative z-10 pt-12 md:pt-0">
-          {/* ── Name: «ВЛАД САПУНОВ» ── */}
+        {/* ══════════════════════════════════════════════════════════════════════
+            DESKTOP LAYOUT (hidden on mobile, visible md:flex)
+            Order: Name at top -> Contacts right below name -> Bio text at bottom
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="hidden md:flex w-full flex-col relative z-10 pt-0">
+          {/* ── Name: «ВЛАД САПУНОВ» (stretches to full width of left column via 23.5cqw) ── */}
           <div
             style={{
               paddingTop: '12px',
@@ -85,8 +88,8 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(40px, 14vw, 120px)',
-                lineHeight: '90%',
+                fontSize: 'clamp(44px, 23.5cqw, 280px)',
+                lineHeight: '86%',
                 letterSpacing: '-1.5px',
                 fontWeight: 600,
                 color: '#FFFFFF',
@@ -101,12 +104,12 @@ export default function Sidebar({
             </h1>
           </div>
 
-          {/* ── Desktop only: Contact Info Row (right below name) ── */}
+          {/* ── Desktop Contact Info Row (right below name) ── */}
           <div
             style={{
               paddingLeft: '20px',
               paddingRight: '20px',
-              paddingTop: '4px',
+              paddingTop: '6px',
               paddingBottom: '0px',
               fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
               fontSize: '18px',
@@ -114,7 +117,7 @@ export default function Sidebar({
               lineHeight: '115%',
               letterSpacing: '-0.2px',
             }}
-            className="hidden md:flex w-full items-start justify-between uppercase mt-1"
+            className="w-full flex items-start justify-between uppercase mt-1"
           >
             <div className="flex flex-col text-[#8C8E96] text-left leading-[115%]">
               <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
@@ -149,19 +152,93 @@ export default function Sidebar({
               </a>
             </div>
           </div>
+        </div>
 
-          {/* ── Bio Text ── */}
+        {/* ── Desktop Bio Text at bottom ── */}
+        <div
+          style={{
+            paddingTop: '16px',
+            paddingRight: '20px',
+            paddingBottom: '24px',
+            paddingLeft: '20px',
+          }}
+          className="hidden md:flex w-full flex-col items-start text-left relative z-10"
+        >
+          <p
+            className="font-mono font-bold uppercase text-white max-w-[440px] m-0 text-[14px] lg:text-[16px]"
+            style={{
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              lineHeight: '125%',
+              letterSpacing: '-0.16px',
+            }}
+          >
+            {lang === 'ru' ? (
+              <>
+                ВИДЕОМЕЙКЕР ПОЛНОГО ЦИКЛА.
+                <br />
+                КАРТИНКА УРОВНЯ КИНО — ОТ ИДЕИ
+                <br />
+                ДО МАСТЕРИНГА
+              </>
+            ) : (
+              <>
+                FULL CYCLE FILMMAKER.
+                <br />
+                CINEMA QUALITY VISUALS — FROM CONCEPT
+                <br />
+                TO MASTERING
+              </>
+            )}
+          </p>
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            MOBILE LAYOUT (visible on mobile, hidden md:hidden)
+            Order: Name at top -> Bio text immediately below -> Contacts at bottom
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="flex md:hidden w-full flex-col relative z-10 pt-12">
+          {/* 1. Mobile Name */}
+          <div
+            style={{
+              paddingTop: '8px',
+              paddingRight: '16px',
+              paddingBottom: '0px',
+              paddingLeft: '16px',
+            }}
+            className="w-full flex flex-col items-end text-right"
+          >
+            <h1
+              className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
+              style={{
+                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                fontSize: 'clamp(50px, 16vw, 84px)',
+                lineHeight: '88%',
+                letterSpacing: '-1.5px',
+                fontWeight: 600,
+                color: '#FFFFFF',
+              }}
+            >
+              <span className="text-right block w-full">
+                {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
+              </span>
+              <span className="text-right block w-full whitespace-nowrap">
+                {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
+              </span>
+            </h1>
+          </div>
+
+          {/* 2. Mobile Bio text immediately below name */}
           <div
             style={{
               paddingTop: '16px',
-              paddingRight: '20px',
-              paddingBottom: '24px',
-              paddingLeft: '20px',
+              paddingRight: '16px',
+              paddingBottom: '16px',
+              paddingLeft: '16px',
             }}
-            className="w-full flex flex-col items-start text-left relative z-10"
+            className="w-full flex flex-col items-start text-left"
           >
             <p
-              className="font-mono font-bold uppercase text-white max-w-[426px] m-0 text-[14px] sm:text-[16px]"
+              className="font-mono font-bold uppercase text-white max-w-[360px] m-0 text-[14px] sm:text-[15px]"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 lineHeight: '125%',
@@ -189,26 +266,26 @@ export default function Sidebar({
           </div>
         </div>
 
-        {/* ── Mobile only: Contact Info Row at bottom ── */}
+        {/* 3. Mobile Contacts at bottom of the hero block */}
         <div
           style={{
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            paddingTop: '4px',
-            paddingBottom: '12px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            paddingTop: '8px',
+            paddingBottom: '16px',
             fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-            fontSize: '18px',
+            fontSize: '16px',
             fontWeight: 700,
-            lineHeight: '115%',
-            letterSpacing: '-0.2px',
+            lineHeight: '120%',
+            letterSpacing: '-0.16px',
           }}
-          className="md:hidden w-full flex items-start justify-between uppercase"
+          className="flex md:hidden w-full items-start justify-between uppercase mt-auto"
         >
-          <div className="flex flex-col text-[#8C8E96] text-left leading-[115%]">
-            <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
-            <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+          <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
+            <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
+            <span>{lang === 'ru' ? 'ПИШИ :' : 'WRITE :'}</span>
           </div>
-          <div className="flex flex-col items-end text-right leading-[115%]">
+          <div className="flex flex-col items-end text-right leading-[120%]">
             <a
               href={`tel:${(phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
               onClick={() => {
@@ -218,7 +295,7 @@ export default function Sidebar({
                   body: JSON.stringify({ contactName: 'Телефон (Сайдбар)' }),
                 }).catch(() => {});
               }}
-              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-1.5 py-0.5 inline-block whitespace-nowrap"
+              className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
             >
               {phone || '+7(950)016-17-51'}
             </a>
@@ -231,7 +308,7 @@ export default function Sidebar({
                   body: JSON.stringify({ contactName: 'Email (Сайдбар)' }),
                 }).catch(() => {});
               }}
-              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-1.5 py-0.5 inline-block whitespace-nowrap"
+              className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
             >
               {email || 'ELECTICRATE@GMAIL.COM'}
             </a>

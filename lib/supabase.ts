@@ -229,6 +229,8 @@ export interface SiteSettings {
   contacts_title_en?: string;
   contact_button_url?: string;
   admin_users?: AdminUser[];
+  /** List of section IDs to hide: 'about' | 'faq' | 'clients' | 'services' | 'works' | 'contacts' */
+  hidden_sections?: string[];
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -244,6 +246,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   contacts_title_en: 'GOT AN IDEA? WRITE TO ME\nRIGHT NOW',
   contact_button_url: 'https://t.me/sapunov_vlad',
   admin_users: DEFAULT_ADMIN_USERS,
+  hidden_sections: ['about'],
 };
 
 export function formatExternalUrl(url?: string, defaultFallback: string = ''): string {

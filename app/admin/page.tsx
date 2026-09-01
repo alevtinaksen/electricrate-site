@@ -3614,6 +3614,7 @@ export default function AdminStudio() {
           {/* ════ SECTION 6: PROFILE, SECURITY & SETTINGS ════ */}
           {activeMenu === 'settings' && (
             <div className="flex flex-col gap-[12px] w-full">
+
               {/* 1. Мой профиль и PIN-код (доступно всем авторизованным пользователям) */}
               {(() => {
                 const usersList = settings.admin_users && settings.admin_users.length > 0 ? settings.admin_users : DEFAULT_ADMIN_USERS;
@@ -4162,7 +4163,73 @@ export default function AdminStudio() {
                 </div>
               )}
 
-              {/* 3. Backup & Restore Database (Developer Only) */}
+              {/* 3. Видимость блоков сайта */}
+              <div className="flex flex-col gap-4 w-full">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <h3 style={{ paddingLeft: '24px', paddingTop: '32px' }} className="text-base font-bold uppercase text-white font-mono tracking-wide">
+                    ВИДИМОСТЬ БЛОКОВ САЙТА
+                  </h3>
+                </div>
+
+                <div className="flex flex-col gap-[4px] w-full">
+                  {[
+                    { id: 'clients',  label: 'КЛИЕНТЫ' },
+                    { id: 'works',    label: 'ВСЕ РАБОТЫ (ПРОЕКТЫ)' },
+                    { id: 'services', label: 'УСЛУГИ' },
+                    { id: 'about',    label: 'ОБО МНЕ' },
+                    { id: 'faq',      label: 'FAQ / ВОПРОСЫ' },
+                    { id: 'contacts', label: 'КОНТАКТЫ' },
+                  ].map(({ id, label }) => {
+                    const hiddenList = settings.hidden_sections || [];
+                    const isHidden = hiddenList.includes(id);
+                    return (
+                      <div
+                        key={id}
+                        style={{ padding: '20px' }}
+                        className="bg-[#141416] rounded-[24px] shadow-xl flex items-center justify-between gap-5 w-full border-none"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-3 h-3 rounded-full ${isHidden ? 'bg-[#3A3A3C]' : 'bg-[#1458E6]'}`} />
+                          <span className="font-mono text-[14px] font-bold text-white uppercase tracking-wide">
+                            {label}
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const current = settings.hidden_sections || [];
+                            const next = isHidden
+                              ? current.filter((s) => s !== id)
+                              : [...current, id];
+                            setSettings({ ...settings, hidden_sections: next });
+                            setHasUnsavedChanges(true);
+                          }}
+                          style={{
+                            borderRadius: '56px',
+                            height: '36px',
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
+                            fontFamily: '"Geist Mono", monospace',
+                            fontSize: '13px',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                          }}
+                          className={`transition-colors cursor-pointer flex items-center justify-center shrink-0 border-none outline-none active:scale-95 shadow-none ${
+                            isHidden
+                              ? 'bg-[#1458E6] text-white hover:bg-blue-600'
+                              : 'bg-[#232326] text-[#8C8E96] hover:text-white hover:bg-[#2e2e32]'
+                          }`}
+                        >
+                          {isHidden ? 'ПОКАЗАТЬ' : 'СКРЫТЬ'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 4. Backup & Restore Database (Developer Only) */}
               {userRole === 'dev' && (
                 <div className="flex flex-col gap-4 w-full">
                   <div className="flex items-center justify-between flex-wrap gap-3">

@@ -40,6 +40,10 @@ export default function ContactSection({
     },
   ];
 
+  const instagramMetaTooltip = isRu
+    ? '*Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещенной в РФ'
+    : '*Instagram is owned by Meta, recognized as extremist and prohibited in the Russian Federation';
+
   const trackContactClick = (name: string) => {
     fetch('/api/analytics', {
       method: 'POST',
@@ -53,14 +57,14 @@ export default function ContactSection({
       id="contacts"
       className="w-full max-w-[964px] font-mono text-white flex flex-col items-center pt-0 pb-0"
     >
-      {/* ── Title ── */}
+      {/* ── Title «ЕСТЬ ИДЕЯ? НАПИШИ МНЕ ПРЯМО СЕЙЧАС» ── */}
       <h2
-        className="font-mono font-semibold uppercase text-white text-center w-full leading-[90%]"
+        className="font-mono font-semibold uppercase text-white text-center w-full leading-[90%] px-4"
         style={{
           fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-          fontSize: 'clamp(36px, 6vw, 64px)',
+          fontSize: 'clamp(32px, 6vw, 64px)',
           lineHeight: '95%',
-          letterSpacing: '-2.56px',
+          letterSpacing: '-2px',
           fontWeight: 600,
           color: '#FFFFFF',
           paddingBottom: '40px',
@@ -71,9 +75,14 @@ export default function ContactSection({
             <span className="whitespace-pre-line">{settings.contacts_title_ru}</span>
           ) : (
             <>
-              ЕСТЬ ИДЕЯ? НАПИШИ МНЕ
-              <br />
-              ПРЯМО СЕЙЧАС
+              <span className="hidden md:inline">
+                ЕСТЬ ИДЕЯ? НАПИШИ МНЕ
+                <br />
+                ПРЯМО СЕЙЧАС
+              </span>
+              <span className="inline md:hidden">
+                ЕСТЬ ИДЕЯ? НАПИШИ МНЕ ПРЯМО СЕЙЧАС
+              </span>
             </>
           )
         ) : (
@@ -81,22 +90,27 @@ export default function ContactSection({
             <span className="whitespace-pre-line">{settings.contacts_title_en}</span>
           ) : (
             <>
-              GOT AN IDEA? WRITE TO ME
-              <br />
-              RIGHT NOW
+              <span className="hidden md:inline">
+                GOT AN IDEA? WRITE TO ME
+                <br />
+                RIGHT NOW
+              </span>
+              <span className="inline md:hidden">
+                GOT AN IDEA? WRITE TO ME RIGHT NOW
+              </span>
             </>
           )
         )}
       </h2>
 
       {/* ── Vertical Column of Interactive Contact Circles/Pills ── */}
-      <div className="flex flex-col items-center gap-0 mt-0">
+      <div className="flex flex-col items-center gap-0 mt-0 w-full px-4 sm:px-0">
         {contactItems.map((item, index) => {
           const isHovered = hoveredIdx === index;
 
           return (
-            <div key={item.short} className="relative flex flex-col items-center">
-              {/* Mobile: always expanded pill */}
+            <div key={item.short} className="relative flex flex-col items-center w-full sm:w-auto">
+              {/* Mobile: Always expanded pill */}
               <a
                 href={item.url}
                 target="_blank"
@@ -112,12 +126,12 @@ export default function ContactSection({
                   paddingLeft: '28px',
                   paddingRight: '28px',
                 }}
-                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden mb-2 no-underline"
+                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden mb-2 w-full max-w-[280px] no-underline"
               >
                 <span className="whitespace-nowrap select-none font-bold">{item.full}</span>
               </a>
 
-              {/* Desktop: hover to expand */}
+              {/* Desktop: Interactive expanding circular pill */}
               <motion.a
                 href={item.url}
                 target="_blank"

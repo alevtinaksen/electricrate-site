@@ -49,9 +49,9 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
 
           return (
             <div key={group.id} className="w-full flex flex-col items-center">
-              {/* Category Subheader (20px Geist Mono uppercase) */}
+              {/* Category Subheader (20px Geist Mono uppercase, full width) */}
               <h3
-                className="uppercase text-center shrink-0 w-full"
+                className="uppercase text-center shrink-0 w-full px-2"
                 style={{
                   color: '#FFFFFF',
                   fontFamily: '"Geist Mono", monospace',
@@ -85,9 +85,9 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                         onClick={() => onVideoSelect(itemTitle, item.video_url, item.thumbnail_url)}
                         style={{
                           width: 'calc(25% - 6px)',
-                          minWidth: isVertical ? '135px' : '175px',
+                          minWidth: isVertical ? '135px' : '170px',
                         }}
-                        className={`relative overflow-hidden bg-[#121212] group cursor-pointer border-none outline-none ${
+                        className={`relative overflow-hidden bg-[#121212] group cursor-pointer border-none outline-none flex-1 sm:flex-initial ${
                           isVertical ? 'aspect-[9/16]' : 'aspect-[16/10]'
                         }`}
                       >
