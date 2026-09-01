@@ -636,7 +636,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Blue Contact Pill Button (exact 20px horizontal paddings) */}
+          {/* Blue Contact Pill Button (12px horizontal padding on mobile, 20px on desktop) */}
           <a
             href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
             target="_blank"
@@ -650,15 +650,13 @@ export default function Home() {
             }}
             aria-label="Связаться"
             style={{
-              paddingLeft: '20px',
-              paddingRight: '20px',
               fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
               fontSize: '17px',
               fontWeight: 700,
               letterSpacing: '-0.2px',
               textTransform: 'uppercase',
             }}
-            className="h-[54px] md:h-[58px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
+            className="h-[54px] md:h-[58px] px-[12px] md:px-[20px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
           >
             {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
           </a>
