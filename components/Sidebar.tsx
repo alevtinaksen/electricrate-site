@@ -212,9 +212,9 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(58px, 18.5vw, 92px)',
-                lineHeight: '87%',
-                letterSpacing: '-2px',
+                fontSize: 'clamp(64px, 20.5vw, 100px)',
+                lineHeight: '85%',
+                letterSpacing: '-2.5px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}

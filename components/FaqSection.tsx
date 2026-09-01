@@ -56,11 +56,11 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
               }`}
             >
               {isOpen ? (
-                /* ── Opened Accordion Item: Solid White Box with exact Figma paddings (top 8, bottom 30, left/right 20, col gap 20) ── */
+                /* ── Opened Accordion Item: Solid White Box with exact Figma paddings (top 12, bottom 30, left/right 20, col gap 20) ── */
                 <div
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
-                    paddingTop: '8px',
+                    paddingTop: '12px',
                     paddingLeft: '20px',
                     paddingRight: '20px',
                     paddingBottom: '30px',
@@ -68,12 +68,12 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   }}
                   className="w-full flex flex-col gap-[8px] text-black cursor-pointer rounded-none transition-all"
                 >
-                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ pinned to top right aligned with first line */}
+                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ centered vertically with the first line */}
                   <div className="w-full flex items-start justify-between gap-4 text-left">
-                    <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[125%] whitespace-normal">
+                    <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[20px] whitespace-normal">
                       {questionText}
                     </span>
-                    <span className="shrink-0 text-[10px] sm:text-[12px] text-[#8C8E96] leading-none pt-1">
+                    <span className="shrink-0 h-[20px] flex items-center justify-center text-[10px] sm:text-[11px] text-[#8C8E96] select-none">
                       ▲
                     </span>
                   </div>
@@ -108,22 +108,22 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   </div>
                 </div>
               ) : (
-                /* ── Closed Question Row: Allows 2-line wraps with top-aligned arrow and generous 10px vertical padding ── */
+                /* ── Closed Question Row: Equal 12px top/bottom padding with arrow centered to first line ── */
                 <button
                   type="button"
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
                     paddingLeft: '20px',
                     paddingRight: '20px',
-                    paddingTop: '10px',
-                    paddingBottom: '10px',
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
                   }}
-                  className="w-full min-h-[44px] flex items-start md:items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
+                  className="w-full flex items-start justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
                 >
-                  <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[125%] whitespace-normal">
+                  <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[20px] whitespace-normal">
                     {questionText}
                   </span>
-                  <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none pt-1 md:pt-0">
+                  <span className="shrink-0 h-[20px] flex items-center justify-center text-[10px] sm:text-[11px] opacity-80 select-none">
                     ▼
                   </span>
                 </button>
