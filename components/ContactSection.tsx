@@ -160,10 +160,10 @@ export default function ContactSection({
                 </motion.span>
               </motion.a>
 
-              {/* Mobile: Centered Instagram Meta Notice shown directly below Instagram pill with exact 2px gap */}
+              {/* Mobile: Centered Instagram Meta Notice shown directly below Instagram pill with exact 4px gap */}
               {item.short === 'IN*' && (
                 <div
-                  style={{ marginTop: '2px' }}
+                  style={{ marginTop: '4px' }}
                   className="flex md:hidden flex-col items-center gap-0 select-none text-center pointer-events-none"
                 >
                   {isRu ? (
