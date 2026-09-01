@@ -108,15 +108,17 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   </div>
                 </div>
               ) : (
-                /* ── Closed Question Row: Allows 2-line wraps with top-aligned arrow ── */
+                /* ── Closed Question Row: Allows 2-line wraps with top-aligned arrow and generous 10px vertical padding ── */
                 <button
                   type="button"
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
                     paddingLeft: '20px',
                     paddingRight: '20px',
+                    paddingTop: '10px',
+                    paddingBottom: '10px',
                   }}
-                  className="w-full min-h-[34px] py-1.5 md:py-0 md:h-[34px] flex items-start md:items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
+                  className="w-full min-h-[44px] flex items-start md:items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
                 >
                   <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[125%] whitespace-normal">
                     {questionText}
