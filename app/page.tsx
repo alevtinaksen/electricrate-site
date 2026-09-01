@@ -654,7 +654,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Blue Contact Pill Button (Guaranteed 36px horizontal padding with minWidth: 180px) */}
+            {/* Blue Contact Pill Button (Neat 20px horizontal padding, natural width) */}
             <a
               href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
               target="_blank"
@@ -668,9 +668,8 @@ export default function Home() {
               }}
               aria-label="Связаться"
               style={{
-                paddingLeft: '36px',
-                paddingRight: '36px',
-                minWidth: '180px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 fontSize: '17px',
                 fontWeight: 700,
