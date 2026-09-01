@@ -1,5 +1,5 @@
 {
-  "totalViews": 116,
+  "totalViews": 117,
   "totalContactClicks": 7,
   "videoViews": {
     "CPO-GROUP": {
@@ -19,8 +19,8 @@
     },
     "Гребля": {
       "title": "Гребля",
-      "count": 3,
-      "lastViewedAt": "2026-09-01T17:00:05.632Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:26:08.919Z"
     },
     "КТК": {
       "title": "КТК",
@@ -173,7 +173,7 @@
   "dailyViews": {
     "2026-08-30": 48,
     "2026-08-31": 28,
-    "2026-09-01": 40
+    "2026-09-01": 41
   },
   "dailyClicks": {
     "2026-08-30": 2,

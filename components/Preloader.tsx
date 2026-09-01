@@ -10,14 +10,17 @@ interface PreloaderProps {
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    // If on mobile device (< 768px), disable preloader immediately
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    // If on mobile device (< 768px), disable preloader immediately and completely
+    if (typeof window === 'undefined' || window.innerWidth < 768) {
       setIsFinished(true);
       onComplete?.();
       return;
     }
+
+    setIsMobile(false);
 
     const startTime = performance.now();
     const duration = 1200; // 1.2s smooth energetic countdown up to 99%
@@ -45,6 +48,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     rafId = requestAnimationFrame(update);
     return () => cancelAnimationFrame(rafId);
   }, [onComplete]);
+
+  if (isMobile || isFinished) return null;
 
   return (
     <AnimatePresence>

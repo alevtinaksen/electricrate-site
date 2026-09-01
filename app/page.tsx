@@ -361,8 +361,10 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Minimal Hobro-style Preloader with % counter and cycling dots ── */}
-      <Preloader onComplete={() => setIsLoaded(true)} />
+      {/* ── Minimal Hobro-style Preloader with % counter and cycling dots (Desktop Only) ── */}
+      <div className="hidden md:block">
+        <Preloader onComplete={() => setIsLoaded(true)} />
+      </div>
 
       {/* ── True Geometric Displacement & RGB Chromatic Glitch Filter (Full Website, No Overlay Strips) ── */}
       <TrueGlitchFilter
