@@ -372,8 +372,8 @@ export interface ServicesContent {
 }
 
 export const DEFAULT_SERVICES: ServicesContent = {
-  headline_ru: 'КАРТИНКА\nУРОВНЯ КИНО :\nОТ ИДЕИ ДО\nРЕЛИЗА',
-  headline_en: 'CINEMATIC\nQUALITY :\nFROM IDEA TO\nRELEASE',
+  headline_ru: 'КАРТИНКА УРОВНЯ КИНО:\nОТ ИДЕИ ДО РЕЛИЗА',
+  headline_en: 'CINEMATIC QUALITY:\nFROM IDEA TO RELEASE',
   cards: [
     {
       id: 'card1',

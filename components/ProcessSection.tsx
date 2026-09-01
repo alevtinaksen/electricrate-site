@@ -46,12 +46,12 @@ export default function ProcessSection({
     <div id="services" className="w-full">
       {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
       <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
-        {/* Mobile Header Headline */}
+        {/* Mobile Header Headline — exactly 2 lines matching screenshot */}
         <h2
-          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[95%] whitespace-pre-line m-0"
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1px] px-2 leading-[100%] whitespace-pre-line m-0"
           style={{
             fontFamily: '"Geist Mono", monospace',
-            fontSize: 'clamp(32px, 8.5vw, 44px)',
+            fontSize: 'clamp(22px, 6.4vw, 38px)',
             fontWeight: 600,
             color: '#FFFFFF',
           }}
