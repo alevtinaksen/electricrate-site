@@ -193,15 +193,15 @@ export default function VideoModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none"
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none"
       onClick={onClose}
     >
       <div
         ref={containerRef}
         className={`relative bg-black rounded-none overflow-hidden shadow-2xl flex flex-col items-center justify-center border-none transition-all duration-300 group ${
           isVert
-            ? 'w-auto max-w-[92vw] h-[90vh] max-h-[92vh] aspect-[9/16]'
-            : 'w-[96vw] max-w-[1440px] max-h-[92vh] aspect-video'
+            ? 'w-auto max-w-[94vw] h-[86vh] max-h-[90vh] aspect-[9/16]'
+            : 'w-[96vw] max-w-[1440px] max-h-[90vh] aspect-video'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -290,6 +290,7 @@ export default function VideoModal({
             controls
             autoPlay
             playsInline
+            preload="auto"
             onLoadedMetadata={(e) => {
               const v = e.currentTarget;
               if (v.videoHeight > v.videoWidth) {
