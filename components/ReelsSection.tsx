@@ -167,8 +167,8 @@ function ReelCard({
                   fontWeight: 700,
                   letterSpacing: '-0.14px',
                   textTransform: 'uppercase',
-                  paddingLeft: '24px',
-                  paddingRight: '24px',
+                  paddingLeft: '16px',
+                  paddingRight: '16px',
                   paddingTop: '8px',
                   paddingBottom: '8px',
                 }}
