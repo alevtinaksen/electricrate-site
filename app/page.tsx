@@ -303,13 +303,21 @@ export default function Home() {
         ? 'contacts'
         : 'works';
 
-    const el = document.getElementById(targetId);
-    if (el) {
+    setIsMenuOpen(false);
+
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (!el) return;
+
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
       if (isMobile) {
-        // Mobile viewport scrolls window / document body
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 20;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+        try {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch {
+          const rect = el.getBoundingClientRect();
+          const topPos = rect.top + window.pageYOffset - 20;
+          window.scrollTo({ top: topPos, behavior: 'smooth' });
+        }
       } else if (lenisRef.current) {
         lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
       } else if (rightPanelRef.current) {
@@ -320,7 +328,7 @@ export default function Home() {
       } else {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }
+    }, 50);
   };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
