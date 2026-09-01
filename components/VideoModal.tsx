@@ -239,7 +239,7 @@ export default function VideoModal({
           </div>
         )}
 
-        {/* Floating Square Close Cross Button (4px offset from modal window, matching form bg #141416) */}
+        {/* Floating Square Close Cross Button (top-right on mobile, 4px offset outside on desktop) */}
         <button
           type="button"
           onClick={onClose}
@@ -248,7 +248,7 @@ export default function VideoModal({
             width: '40px',
             height: '40px',
           }}
-          className="absolute top-0 left-[calc(100%+4px)] bg-[#141416] hover:bg-white text-white hover:text-black flex items-center justify-center cursor-pointer transition-colors border-none outline-none shadow-2xl shrink-0 z-40"
+          className="absolute top-2 right-2 md:top-0 md:left-[calc(100%+4px)] md:right-auto bg-[#141416] hover:bg-white text-white hover:text-black flex items-center justify-center cursor-pointer transition-colors border-none outline-none shadow-2xl shrink-0 z-50 rounded-none"
           title="Закрыть"
         >
           <X className="w-5 h-5 stroke-[2.5]" />

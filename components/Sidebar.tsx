@@ -219,7 +219,10 @@ export default function Sidebar({
                 color: '#FFFFFF',
               }}
             >
-              <span className="text-right block w-full mb-1 sm:mb-1.5">
+              <span
+                style={{ marginBottom: '4px' }}
+                className="text-right block w-full"
+              >
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
               </span>
               <span className="text-right block w-full whitespace-nowrap">
