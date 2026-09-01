@@ -198,13 +198,13 @@ export default function Sidebar({
             Exact 450px fixed container height matching specification
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="flex md:hidden w-full flex-col relative z-10 pt-10">
-          {/* 1. Mobile Name — full width edge-to-edge layout matching iPhone 16 mockup */}
+          {/* 1. Mobile Name — full width impactful layout matching iPhone mockup */}
           <div
             style={{
               paddingTop: '0px',
-              paddingRight: '16px',
+              paddingRight: '12px',
               paddingBottom: '0px',
-              paddingLeft: '16px',
+              paddingLeft: '12px',
             }}
             className="w-full flex flex-col items-end text-right"
           >
@@ -212,9 +212,9 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(64px, 20.5vw, 100px)',
-                lineHeight: '85%',
-                letterSpacing: '-2.5px',
+                fontSize: 'clamp(74px, 23.5vw, 115px)',
+                lineHeight: '84%',
+                letterSpacing: '-3px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}
