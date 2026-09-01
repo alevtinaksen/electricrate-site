@@ -285,6 +285,10 @@ export default function Home() {
     setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
   const scrollToSection = (section: string) => {
     const targetId =
       section === 'works' || section === 'all' || section === 'projects' || section === 'проекты'
@@ -305,45 +309,40 @@ export default function Home() {
 
     setIsMenuOpen(false);
 
-    setTimeout(() => {
-      const el = document.getElementById(targetId);
-      if (!el) return;
+    const el = document.getElementById(targetId);
+    if (!el) return;
 
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      if (isMobile) {
-        try {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } catch {
-          const rect = el.getBoundingClientRect();
-          const topPos = rect.top + window.pageYOffset - 20;
-          window.scrollTo({ top: topPos, behavior: 'smooth' });
-        }
-      } else if (lenisRef.current) {
-        lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
-      } else if (rightPanelRef.current) {
-        rightPanelRef.current.scrollTo({
-          top: el.offsetTop - 20,
-          behavior: 'smooth',
-        });
-      } else {
+    if (lenisRef.current && typeof window !== 'undefined' && window.innerWidth >= 768) {
+      lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
+    } else if (typeof window !== 'undefined') {
+      const targetY = el.getBoundingClientRect().top + window.pageYOffset - 20;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+      try {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 50);
+      } catch {}
+    }
   };
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuContainerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuContainerRef.current && !menuContainerRef.current.contains(e.target as Node)) {
-        setIsMenuOpen(false);
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (
+        menuContainerRef.current?.contains(target) ||
+        mobileMenuRef.current?.contains(target)
+      ) {
+        return;
       }
+      setIsMenuOpen(false);
     };
+
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, [isMenuOpen]);
 
   const MENU_ITEMS = [
@@ -526,6 +525,7 @@ export default function Home() {
 
       {/* ── MOBILE Navigation Popup: Truly fixed to full viewport width with 20px padding on left and right ── */}
       <div
+        ref={mobileMenuRef}
         className={`md:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
           isMenuOpen && !modalState.isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
         }`}
@@ -537,10 +537,7 @@ export default function Home() {
             <button
               key={item.key}
               type="button"
-              onClick={() => {
-                scrollToSection(item.key);
-                setIsMenuOpen(false);
-              }}
+              onClick={() => scrollToSection(item.key)}
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 fontSize: '20px',
