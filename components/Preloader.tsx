@@ -12,37 +12,22 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    // If already seen in this session, skip immediately
-    if (
-      typeof window !== 'undefined' &&
-      sessionStorage.getItem('electricrate_preloader_seen')
-    ) {
-      setIsFinished(true);
-      onComplete?.();
-      return;
-    }
-
     const startTime = performance.now();
-    const duration = 1100; // 1.1s fluid cinematic loading count
+    const duration = 1300; // 1.3s smooth energetic countdown
 
     let rafId: number;
     const update = (now: number) => {
       const elapsed = now - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
-      // Fluid ease-in-out power curve: rapid start, smooth finish at 100
-      const eased = rawProgress < 0.5
-        ? 2 * rawProgress * rawProgress
-        : 1 - Math.pow(-2 * rawProgress + 2, 2) / 2;
+      // Smooth cubic ease-out
+      const ease = 1 - Math.pow(1 - rawProgress, 3);
+      const currentNumber = Math.min(100, Math.floor(ease * 100));
 
-      const currentNumber = Math.min(100, Math.floor(eased * 100));
       setProgress(currentNumber);
 
       if (rawProgress < 1) {
         rafId = requestAnimationFrame(update);
       } else {
-        try {
-          sessionStorage.setItem('electricrate_preloader_seen', '1');
-        } catch {}
         setTimeout(() => {
           setIsFinished(true);
           onComplete?.();
@@ -62,9 +47,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           initial={{ y: 0 }}
           exit={{
             y: '-100%',
-            transition: { duration: 0.85, ease: [0.76, 0, 0.24, 1] },
+            transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white hidden md:flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-[#0d0d0d] text-white flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden"
           style={{ fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace' }}
         >
           {/* Top Bar */}
@@ -87,7 +72,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 className="font-semibold uppercase tracking-tight text-white select-none flex items-baseline font-mono"
                 style={{
                   fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: 'clamp(72px, 16vw, 200px)',
+                  fontSize: 'clamp(64px, 20vw, 200px)',
                   lineHeight: 0.85,
                   fontWeight: 600,
                   letterSpacing: '-2px',
@@ -109,10 +94,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
             {/* Edge-to-Edge Progress Bar Line across entire screen width */}
             <div className="fixed bottom-0 left-0 right-0 w-screen h-[4px] bg-white/10 overflow-hidden">
-              <motion.div
-                className="h-full bg-[#1458E6]"
+              <div
+                className="h-full bg-[#1458E6] transition-all duration-75 ease-out"
                 style={{ width: `${progress}%` }}
-                transition={{ ease: 'linear' }}
               />
             </div>
           </div>
