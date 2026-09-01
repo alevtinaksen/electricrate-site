@@ -13,7 +13,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
   useEffect(() => {
     const startTime = performance.now();
-    const duration = 1300; // 1.3s smooth energetic countdown
+    const duration = 1200; // 1.2s smooth energetic countdown up to 99%
 
     let rafId: number;
     const update = (now: number) => {
@@ -21,7 +21,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       const rawProgress = Math.min(elapsed / duration, 1);
       // Smooth cubic ease-out
       const ease = 1 - Math.pow(1 - rawProgress, 3);
-      const currentNumber = Math.min(100, Math.floor(ease * 100));
+      const currentNumber = Math.min(99, Math.floor(ease * 99));
 
       setProgress(currentNumber);
 
@@ -31,7 +31,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         setTimeout(() => {
           setIsFinished(true);
           onComplete?.();
-        }, 120);
+        }, 100);
       }
     };
 
