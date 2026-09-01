@@ -185,11 +185,11 @@ export default function Sidebar({
               </>
             ) : (
               <>
-                FULL CYCLE FILMMAKER.
+                FULL-SERVICE VIDEO MAKER.
                 <br />
-                CINEMA QUALITY VISUALS — FROM CONCEPT
+                CINEMA-QUALITY IMAGES: FROM CONCEPT
                 <br />
-                TO MASTERING
+                TO MASTERING.
               </>
             )}
           </p>
@@ -262,11 +262,11 @@ export default function Sidebar({
                 </>
               ) : (
                 <>
-                  FULL CYCLE FILMMAKER.
+                  FULL-SERVICE VIDEO MAKER.
                   <br />
-                  CINEMA QUALITY VISUALS — FROM CONCEPT
+                  CINEMA-QUALITY IMAGES: FROM CONCEPT
                   <br />
-                  TO MASTERING
+                  TO MASTERING.
                 </>
               )}
             </p>

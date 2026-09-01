@@ -384,6 +384,9 @@
         "pin": "2026",
         "avatar_url": ""
       }
+    ],
+    "hidden_sections": [
+      "about"
     ]
   },
   "faqs": [
@@ -516,5 +519,5 @@
     "bottom_text_ru": "РАБОТАЮ\nВ РАЗНЫХ\nСФЕРАХ:\nПРОМЫШЛЕННОСТЬ,\nЮРИСТЫ,\nНЕДВИЖИМОСТЬ,\nHORECA, СПОРТ.",
     "bottom_text_en": "WORKING\nACROSS\nINDUSTRIES :\nINDUSTRIAL,\nLEGAL,\nREAL ESTATE,\nHORECA, SPORT."
   },
-  "updatedAt": "2026-09-01T13:54:38.490Z"
+  "updatedAt": "2026-09-01T17:12:57.647Z"
 }
