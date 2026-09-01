@@ -47,9 +47,9 @@ export default function Home() {
   const mainWrapperRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize Lenis Smooth Scroll (identical to hobro.digital)
+  // Initialize Lenis Smooth Scroll (desktop only — mobile uses native window scroll)
   useEffect(() => {
-    if (!rightPanelRef.current) return;
+    if (!rightPanelRef.current || typeof window === 'undefined' || window.innerWidth < 768) return;
 
     const lenis = new Lenis({
       wrapper: rightPanelRef.current,
@@ -315,8 +315,15 @@ export default function Home() {
     if (lenisRef.current && typeof window !== 'undefined' && window.innerWidth >= 768) {
       lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
     } else if (typeof window !== 'undefined') {
-      const targetY = el.getBoundingClientRect().top + window.pageYOffset - 20;
-      window.scrollTo({ top: targetY, behavior: 'smooth' });
+      const elRect = el.getBoundingClientRect();
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const targetTop = elRect.top + currentScrollY - 20;
+
+      window.scrollTo({
+        top: targetTop,
+        behavior: 'smooth',
+      });
+
       try {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch {}
@@ -537,7 +544,14 @@ export default function Home() {
             <button
               key={item.key}
               type="button"
-              onClick={() => scrollToSection(item.key)}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.key);
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                scrollToSection(item.key);
+              }}
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                 fontSize: '20px',
