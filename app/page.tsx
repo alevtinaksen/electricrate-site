@@ -302,15 +302,23 @@ export default function Home() {
         : section === 'contacts' || section === 'контакты' || section === 'связаться'
         ? 'contacts'
         : 'works';
+
     const el = document.getElementById(targetId);
     if (el) {
-      if (lenisRef.current) {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      if (isMobile) {
+        // Mobile viewport scrolls window / document body
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 20;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      } else if (lenisRef.current) {
         lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
       } else if (rightPanelRef.current) {
         rightPanelRef.current.scrollTo({
           top: el.offsetTop - 20,
           behavior: 'smooth',
         });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   };

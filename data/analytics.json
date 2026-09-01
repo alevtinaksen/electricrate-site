@@ -1,5 +1,5 @@
 {
-  "totalViews": 84,
+  "totalViews": 109,
   "totalContactClicks": 7,
   "videoViews": {
     "CPO-GROUP": {
@@ -19,23 +19,23 @@
     },
     "Гребля": {
       "title": "Гребля",
-      "count": 2,
-      "lastViewedAt": "2026-09-01T16:54:58.532Z"
+      "count": 3,
+      "lastViewedAt": "2026-09-01T17:00:05.632Z"
     },
     "КТК": {
       "title": "КТК",
-      "count": 3,
-      "lastViewedAt": "2026-08-31T22:18:57.837Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:00:05.103Z"
     },
     "finntrail": {
       "title": "finntrail",
-      "count": 4,
-      "lastViewedAt": "2026-09-01T12:36:44.691Z"
+      "count": 7,
+      "lastViewedAt": "2026-09-01T17:00:06.697Z"
     },
     "Баскетбол": {
       "title": "Баскетбол",
-      "count": 1,
-      "lastViewedAt": "2026-08-30T20:36:49.903Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:05.791Z"
     },
     "FINNTRAIL": {
       "title": "FINNTRAIL",
@@ -54,58 +54,58 @@
     },
     "gaga games": {
       "title": "gaga games",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:09:45.763Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:06.463Z"
     },
     "догма": {
       "title": "догма",
-      "count": 2,
-      "lastViewedAt": "2026-08-31T11:34:23.930Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T17:00:06.579Z"
     },
     "ЖК BEREG": {
       "title": "ЖК BEREG",
-      "count": 2,
-      "lastViewedAt": "2026-08-31T11:10:09.595Z"
+      "count": 3,
+      "lastViewedAt": "2026-09-01T17:00:06.887Z"
     },
     "Lucky Team": {
       "title": "Lucky Team",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:09:56.756Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:07.045Z"
     },
     "Морская вечеринка": {
       "title": "Морская вечеринка",
-      "count": 6,
-      "lastViewedAt": "2026-09-01T16:58:05.103Z"
+      "count": 8,
+      "lastViewedAt": "2026-09-01T17:00:04.942Z"
     },
     "бар разбитых сердец": {
       "title": "бар разбитых сердец",
-      "count": 4,
-      "lastViewedAt": "2026-09-01T16:58:11.233Z"
+      "count": 6,
+      "lastViewedAt": "2026-09-01T17:00:04.823Z"
     },
     "FINNTRAIL HR": {
       "title": "FINNTRAIL HR",
-      "count": 2,
-      "lastViewedAt": "2026-08-31T11:34:17.216Z"
+      "count": 3,
+      "lastViewedAt": "2026-09-01T17:00:03.658Z"
     },
     "ктк group": {
       "title": "ктк group",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:34:27.640Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:04.091Z"
     },
     "Аркаим": {
       "title": "Аркаим",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:34:28.126Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:04.275Z"
     },
     "chez serge": {
       "title": "chez serge",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:34:28.760Z"
+      "count": 3,
+      "lastViewedAt": "2026-09-01T17:00:08.782Z"
     },
     "ПНТ": {
       "title": "ПНТ",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:34:29.236Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:04.820Z"
     },
     "морская вечеринка": {
       "title": "морская вечеринка",
@@ -114,8 +114,8 @@
     },
     "АВТОграф": {
       "title": "АВТОграф",
-      "count": 1,
-      "lastViewedAt": "2026-08-31T11:34:31.584Z"
+      "count": 2,
+      "lastViewedAt": "2026-09-01T17:00:05.525Z"
     },
     "НЕФТЯНОЙ ТЕРМИНАЛ": {
       "title": "НЕФТЯНОЙ ТЕРМИНАЛ",
@@ -131,6 +131,21 @@
       "title": "ПМЭФ",
       "count": 1,
       "lastViewedAt": "2026-09-01T12:38:55.568Z"
+    },
+    "#RUNMORE": {
+      "title": "#RUNMORE",
+      "count": 1,
+      "lastViewedAt": "2026-09-01T17:00:05.952Z"
+    },
+    "WIEDERKRAFT": {
+      "title": "WIEDERKRAFT",
+      "count": 1,
+      "lastViewedAt": "2026-09-01T17:00:06.099Z"
+    },
+    "ФОНТАНКА САП": {
+      "title": "ФОНТАНКА САП",
+      "count": 1,
+      "lastViewedAt": "2026-09-01T17:00:11.319Z"
     }
   },
   "contactClicks": {
@@ -153,7 +168,7 @@
   "dailyViews": {
     "2026-08-30": 48,
     "2026-08-31": 28,
-    "2026-09-01": 8
+    "2026-09-01": 33
   },
   "dailyClicks": {
     "2026-08-30": 2,
