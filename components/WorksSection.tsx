@@ -17,13 +17,13 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
       id="works"
       className="w-full max-w-[964px] font-mono flex flex-col items-center"
     >
-      {/* Main Header "ВСЕ РАБОТЫ" (large, full width on mobile & desktop) */}
+      {/* Main Header "ВСЕ РАБОТЫ" (slightly more compact on mobile) */}
       <h2
         className="font-mono font-semibold uppercase tracking-[-2.56px] text-white text-center w-full px-2"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(72px, 19vw, 128px)',
+          fontSize: 'clamp(52px, 14vw, 128px)',
           fontStyle: 'normal',
           fontWeight: 600,
           lineHeight: '90%',
@@ -38,11 +38,11 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
         {lang === 'ru' ? 'РАБОТЫ' : 'WORKS'}
       </h2>
 
-      {/* Increased 80px gap between main header and first category block */}
-      <div className="h-[80px] w-full shrink-0" />
+      {/* 48px gap on mobile, 80px on desktop */}
+      <div className="h-[48px] md:h-[80px] w-full shrink-0" />
 
-      {/* Categories stack with 80px gap between category blocks */}
-      <div className="w-full flex flex-col gap-[80px]">
+      {/* Categories stack with 48px gap on mobile, 80px on desktop */}
+      <div className="w-full flex flex-col gap-[48px] md:gap-[80px]">
         {sections.map((group) => {
           const categoryTitle = lang === 'ru' ? group.title_ru : group.title_en;
           const isVertical = group.isVertical;
@@ -50,16 +50,15 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
 
           return (
             <div key={group.id} className="w-full flex flex-col items-center">
-              {/* Category Subheader (20px Geist Mono uppercase, full width) */}
+              {/* Category Subheader (16px on mobile, 20px on desktop) */}
               <h3
-                className="uppercase text-center shrink-0 w-full px-2"
+                className="uppercase text-center shrink-0 w-full px-2 text-[16px] md:text-[20px]"
                 style={{
                   color: '#FFFFFF',
                   fontFamily: '"Geist Mono", monospace',
-                  fontSize: '20px',
                   fontStyle: 'normal',
                   fontWeight: 700,
-                  lineHeight: '125%', // 25px
+                  lineHeight: '125%',
                   letterSpacing: '-0.2px',
                   textTransform: 'uppercase',
                   margin: 0,

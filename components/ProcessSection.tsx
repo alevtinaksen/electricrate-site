@@ -46,12 +46,12 @@ export default function ProcessSection({
     <div id="services" className="w-full">
       {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
       <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
-        {/* Mobile Header Headline — exactly 2 lines matching screenshot */}
+        {/* Mobile Header Headline — slightly larger, exactly 2 lines */}
         <h2
-          className="font-mono uppercase font-semibold text-center text-white tracking-[-1px] px-2 leading-[100%] whitespace-pre-line m-0"
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[96%] whitespace-pre-line m-0"
           style={{
             fontFamily: '"Geist Mono", monospace',
-            fontSize: 'clamp(22px, 6.4vw, 38px)',
+            fontSize: 'clamp(26px, 7.6vw, 42px)',
             fontWeight: 600,
             color: '#FFFFFF',
           }}
@@ -79,9 +79,9 @@ export default function ProcessSection({
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
-                {/* 1. Card Title: 32px font size, single line */}
+                {/* 1. Card Title: slightly smaller (24px) for perfect proportion */}
                 <h3
-                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] text-[clamp(24px,7.5vw,32px)] leading-[90%]"
+                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] text-[24px] sm:text-[26px] leading-[90%]"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
                     fontWeight: 600,
