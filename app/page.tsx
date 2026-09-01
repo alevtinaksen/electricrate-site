@@ -472,6 +472,72 @@ export default function Home() {
         />
       </motion.div>
 
+      {/* ── MOBILE Navigation Popup: Truly fixed to full viewport width with 20px padding on left and right ── */}
+      <div
+        className={`md:hidden fixed left-[20px] right-[20px] bottom-[90px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
+          isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+        }`}
+        style={{ padding: '24px 20px 20px' }}
+      >
+        {/* Nav links: 2px gap between items */}
+        <div className="flex flex-col gap-[2px]">
+          {MENU_ITEMS.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => {
+                scrollToSection(item.key);
+                setIsMenuOpen(false);
+              }}
+              style={{
+                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                fontSize: '20px',
+                fontWeight: 700,
+                lineHeight: '130%',
+                letterSpacing: '-0.2px',
+              }}
+              className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
+            >
+              {item.label[lang]}
+            </button>
+          ))}
+        </div>
+
+        {/* Exact 52px gap between menu links and contacts (no border line) */}
+        <div className="h-[52px] w-full shrink-0" />
+
+        {/* Contact info at bottom of mobile popup: exact layout and font size (16px) matching hero screen */}
+        <div
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: '120%',
+            letterSpacing: '-0.16px',
+          }}
+          className="flex w-full items-start justify-between uppercase"
+        >
+          <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
+            <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+            <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+          </div>
+          <div className="flex flex-col items-end text-right leading-[120%]">
+            <a
+              href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+              className="text-[#0B0B0B] whitespace-nowrap"
+            >
+              {settings.phone || '+7(950)016-17-51'}
+            </a>
+            <a
+              href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
+              className="text-[#0B0B0B] whitespace-nowrap"
+            >
+              {settings.email || 'ELECTICRATE@GMAIL.COM'}
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* ── Globally Fixed Floating Bar (Placed outside transform containers for 100% true viewport pinning) ── */}
       <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
         <div className="relative flex items-center gap-0 pointer-events-auto">
@@ -492,72 +558,6 @@ export default function Home() {
               <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
               <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
             </button>
-
-            {/* MOBILE popup: full width with 20px padding from screen edges, exact 52px gap between nav and contacts, no border line */}
-            <div
-              className={`md:hidden fixed left-[20px] right-[20px] bottom-[90px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
-                isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
-              }`}
-              style={{ padding: '24px 20px 20px' }}
-            >
-              {/* Nav links: 2px gap between items */}
-              <div className="flex flex-col gap-[2px]">
-                {MENU_ITEMS.map((item) => (
-                  <button
-                    key={item.key}
-                    type="button"
-                    onClick={() => {
-                      scrollToSection(item.key);
-                      setIsMenuOpen(false);
-                    }}
-                    style={{
-                      fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                      fontSize: '20px',
-                      fontWeight: 700,
-                      lineHeight: '130%',
-                      letterSpacing: '-0.2px',
-                    }}
-                    className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
-                  >
-                    {item.label[lang]}
-                  </button>
-                ))}
-              </div>
-
-              {/* Exact 52px gap between menu links and contacts (no border line) */}
-              <div className="h-[52px] w-full shrink-0" />
-
-              {/* Contact info at bottom of mobile popup: exact layout and font size (16px) matching hero screen */}
-              <div
-                style={{
-                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: '16px',
-                  fontWeight: 700,
-                  lineHeight: '120%',
-                  letterSpacing: '-0.16px',
-                }}
-                className="flex w-full items-start justify-between uppercase"
-              >
-                <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
-                  <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
-                  <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
-                </div>
-                <div className="flex flex-col items-end text-right leading-[120%]">
-                  <a
-                    href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
-                    className="text-[#0B0B0B] whitespace-nowrap"
-                  >
-                    {settings.phone || '+7(950)016-17-51'}
-                  </a>
-                  <a
-                    href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
-                    className="text-[#0B0B0B] whitespace-nowrap"
-                  >
-                    {settings.email || 'ELECTICRATE@GMAIL.COM'}
-                  </a>
-                </div>
-              </div>
-            </div>
 
             {/* DESKTOP Badges Stack appearing above the burger */}
             <div
