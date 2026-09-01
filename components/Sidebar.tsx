@@ -202,9 +202,9 @@ export default function Sidebar({
           <div
             style={{
               paddingTop: '0px',
-              paddingRight: '12px',
+              paddingRight: '14px',
               paddingBottom: '0px',
-              paddingLeft: '12px',
+              paddingLeft: '14px',
             }}
             className="w-full flex flex-col items-end text-right"
           >
