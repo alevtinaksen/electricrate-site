@@ -187,14 +187,42 @@ export default function VideoModal({
     };
   }, [isOpen, onClose, handlePrev, handleNext]);
 
+  const touchStartY = useRef<number>(0);
+  const touchStartX = useRef<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+
+    // 1. Swipe down to dismiss (> 90px downwards)
+    if (deltaY > 90 && Math.abs(deltaY) > Math.abs(deltaX) * 1.4) {
+      onClose();
+    }
+    // 2. Swipe left/right for next/previous video
+    else if (hasMultiple && Math.abs(deltaX) > 70 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+  };
+
   if (!isOpen) return null;
 
   const isVert = detectedVertical || videoUrl.includes('vertical') || videoUrl.includes('reel');
 
   return (
     <div
-      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none overflow-hidden"
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 md:p-6 animate-in fade-in duration-200 select-none overflow-hidden touch-none"
       onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Floating Top Header: Snackbar style flush to top-left corner */}
       {title && (

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { GeistMono } from "geist/font/mono";
 import AmbientGlowOverlay from "@/components/AmbientGlowOverlay";
 import "./globals.css";
@@ -98,7 +99,7 @@ const jsonLd = {
       "name": "Влад Сапунов",
       "alternateName": "Vlad Sapunov",
       "jobTitle": "Режиссер монтажа, Видеооператор",
-      "description": "Профессиональный видеомонтаж, съемка рекламы, рилс и промо-роликов.",
+      "description": "Профессиональный видеомейкер полного цикла. Картинка уровня кино — от идеи до мастеринга.",
       "url": "https://electricrate.ru",
       "sameAs": [
         "https://t.me/sapunov_vlad",
@@ -106,7 +107,7 @@ const jsonLd = {
         "https://youtube.com/@vladsapunov",
         "https://instagram.com/sapunov_vlad"
       ],
-      "knowsAbout": ["Video Editing", "Color Grading", "Cinematography", "Sound Design", "Directing"]
+      "knowsAbout": ["Video Editing", "Color Grading", "Cinematography", "Sound Design", "Directing", "Reels Production"]
     },
     {
       "@type": "ProfessionalService",
@@ -120,7 +121,61 @@ const jsonLd = {
         "addressLocality": "Санкт-Петербург",
         "addressCountry": "RU"
       },
-      "priceRange": "$$"
+      "priceRange": "$$",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Услуги видеопроизводства",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Видеомонтаж полного цикла (Full Cycle Video Editing)",
+              "description": "Монтаж рекламных роликов, YouTube-шоу, музыкальных клипов и корпоративных фильмов."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Съемка рекламных и имиджевых видео",
+              "description": "Кинематографичная видеосъемка на кинокамеры, постановка света, режиссура."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Съемка и монтаж Reels / Shorts",
+              "description": "Создание динамичных вертикальных видеороликов с удержанием внимания для брендов и экспертов."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Цветокоррекция и саунд-дизайн",
+              "description": "Грейдинг в DaVinci Resolve, сведение звука, работа со спецэффектами."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://electricrate.ru/#video-morskaya-party",
+      "name": "MORSKAYA PARTY — Видеоролик",
+      "description": "Имиджевое промо-видео Морская вечеринка. Режиссура и монтаж: Влад Сапунов.",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=85",
+      "uploadDate": "2026-01-01T12:00:00+03:00"
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://electricrate.ru/#video-finntrail-hr",
+      "name": "FINNTRAIL HR — Корпоративное промо",
+      "description": "Корпоративный фильм для бренда Finntrail. Режиссура и монтаж: Влад Сапунов.",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&q=85",
+      "uploadDate": "2026-01-01T12:00:00+03:00"
     }
   ]
 };
@@ -130,6 +185,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const ymId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || '';
+
   return (
     <html lang="ru" className={GeistMono.variable}>
       <head>
@@ -170,6 +227,30 @@ export default function RootLayout({
         <div className="min-h-screen">
           {children}
         </div>
+
+        {/* ── Yandex Metrika Analytics (Asynchronous, no speed impact) ── */}
+        {ymId && (
+          <Script
+            id="yandex-metrika"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+                (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+                ym(${ymId}, "init", {
+                  clickmap:true,
+                  trackLinks:true,
+                  accurateTrackBounce:true,
+                  webvisor:true
+                });
+              `,
+            }}
+          />
+        )}
       </body>
     </html>
   );
