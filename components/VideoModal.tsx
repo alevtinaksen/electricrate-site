@@ -278,7 +278,7 @@ export default function VideoModal({
         )}
 
         {/* Video Player Area */}
-        <div className="relative w-full max-h-[82dvh] sm:max-h-[88dvh] bg-black flex items-center justify-center">
+        <div className="relative w-full h-auto min-h-[240px] max-h-[82dvh] sm:max-h-[88dvh] bg-black flex items-center justify-center overflow-hidden">
           <video
             ref={videoRef}
             key={videoUrl}
@@ -288,13 +288,22 @@ export default function VideoModal({
             autoPlay
             playsInline
             preload="auto"
+            onClick={(e) => {
+              const v = e.currentTarget;
+              if (v.paused) {
+                v.play().catch(() => {});
+              } else {
+                v.pause();
+              }
+            }}
             onLoadedMetadata={(e) => {
               const v = e.currentTarget;
               if (v.videoHeight > v.videoWidth) {
                 setDetectedVertical(true);
               }
+              v.play().catch(() => {});
             }}
-            className="max-w-full max-h-[82dvh] sm:max-h-[88dvh] w-auto h-auto object-contain rounded-none cursor-pointer"
+            className="w-full max-w-full h-auto max-h-[80dvh] sm:max-h-[88dvh] object-contain rounded-none cursor-pointer block"
           />
         </div>
       </div>

@@ -458,70 +458,60 @@ export default function Home() {
             <div className="h-[150px] w-full shrink-0" />
           </div>
         </main>
-
-        {/* ── Video Lightbox Popup Modal ── */}
-        <VideoModal
-          isOpen={modalState.isOpen}
-          onClose={closeVideoModal}
-          title={modalState.title}
-          videoUrl={modalState.videoUrl}
-          posterUrl={modalState.posterUrl}
-          playlist={modalState.playlist}
-          currentIndex={modalState.currentIndex}
-          onNavigate={navigateModalVideo}
-        />
       </motion.div>
 
-      {/* ── MOBILE Globally Fixed RU / EN Language Toggle (Truly pinned to top-left of viewport across all scroll) ── */}
-      <div className="md:hidden fixed top-0 left-0 z-[100] flex items-center overflow-hidden shrink-0 shadow-lg">
-        <button
-          onClick={() => setLang('ru')}
-          style={{
-            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-            fontSize: '16px',
-            fontWeight: 700,
-            lineHeight: '125%',
-            letterSpacing: '-0.16px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            paddingTop: '4px',
-            paddingBottom: '4px',
-          }}
-          className={`transition-colors cursor-pointer uppercase ${
-            lang === 'ru'
-              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
-              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
-          }`}
-        >
-          RU
-        </button>
-        <button
-          onClick={() => setLang('en')}
-          style={{
-            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-            fontSize: '16px',
-            fontWeight: 700,
-            lineHeight: '125%',
-            letterSpacing: '-0.16px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            paddingTop: '4px',
-            paddingBottom: '4px',
-          }}
-          className={`transition-colors cursor-pointer uppercase ${
-            lang === 'en'
-              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
-              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
-          }`}
-        >
-          EN
-        </button>
-      </div>
+      {/* ── MOBILE Globally Fixed RU / EN Language Toggle (Hidden when video modal is open) ── */}
+      {!modalState.isOpen && (
+        <div className="md:hidden fixed top-0 left-0 z-[100] flex items-center overflow-hidden shrink-0 shadow-lg">
+          <button
+            onClick={() => setLang('ru')}
+            style={{
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              fontSize: '16px',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.16px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              paddingTop: '4px',
+              paddingBottom: '4px',
+            }}
+            className={`transition-colors cursor-pointer uppercase ${
+              lang === 'ru'
+                ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+                : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+            }`}
+          >
+            RU
+          </button>
+          <button
+            onClick={() => setLang('en')}
+            style={{
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              fontSize: '16px',
+              fontWeight: 700,
+              lineHeight: '125%',
+              letterSpacing: '-0.16px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              paddingTop: '4px',
+              paddingBottom: '4px',
+            }}
+            className={`transition-colors cursor-pointer uppercase ${
+              lang === 'en'
+                ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+                : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+            }`}
+          >
+            EN
+          </button>
+        </div>
+      )}
 
       {/* ── MOBILE Navigation Popup: Truly fixed to full viewport width with 20px padding on left and right ── */}
       <div
         className={`md:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
-          isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+          isMenuOpen && !modalState.isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
         }`}
         style={{ padding: '24px 20px 20px' }}
       >
@@ -584,84 +574,98 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Globally Fixed Floating Bar (Refined compact dimensions) ── */}
-      <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
-        <div className="relative flex items-center gap-0 pointer-events-auto">
-          {/* Menu Popup Container */}
-          <div
-            ref={menuContainerRef}
-            onMouseEnter={() => setIsMenuOpen(true)}
-            onMouseLeave={() => setIsMenuOpen(false)}
-            className="relative group/menu"
-          >
-            {/* White Burger Button (54px on mobile, 58px on desktop) */}
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              aria-label="Меню навигации"
-              className="w-[54px] h-[54px] md:w-[58px] md:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
-            >
-              <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
-              <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
-            </button>
-
-            {/* DESKTOP Badges Stack appearing above the burger */}
+      {/* ── Globally Fixed Floating Bar (Hidden when video modal is open) ── */}
+      {!modalState.isOpen && (
+        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
+          <div className="relative flex items-center gap-0 pointer-events-auto">
+            {/* Menu Popup Container */}
             <div
-              style={{ paddingBottom: '16px' }}
-              className={`hidden md:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
-                isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
-              }`}
+              ref={menuContainerRef}
+              onMouseEnter={() => setIsMenuOpen(true)}
+              onMouseLeave={() => setIsMenuOpen(false)}
+              className="relative group/menu"
             >
-              {MENU_ITEMS.map((item) => (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={() => {
-                    scrollToSection(item.key);
-                    setIsMenuOpen(false);
-                  }}
-                  style={{
-                    padding: '6px',
-                    fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                    fontSize: '16px',
-                    fontWeight: 700,
-                    lineHeight: '125%',
-                    letterSpacing: '-0.16px',
-                  }}
-                  className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
-                >
-                  {item.label[lang]}
-                </button>
-              ))}
-            </div>
-          </div>
+              {/* White Burger Button (54px on mobile, 58px on desktop) */}
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                aria-label="Меню навигации"
+                className="w-[54px] h-[54px] md:w-[58px] md:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
+              >
+                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
+                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
+              </button>
 
-          {/* Blue Contact Pill Button (24px horizontal padding on mobile, 28px on desktop) */}
-          <a
-            href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              fetch('/api/analytics', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contactName: 'Кнопка СВЯЗАТЬСЯ' }),
-              }).catch(() => {});
-            }}
-            aria-label="Связаться"
-            style={{
-              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-              fontSize: '17px',
-              fontWeight: 700,
-              letterSpacing: '-0.2px',
-              textTransform: 'uppercase',
-            }}
-            className="h-[54px] md:h-[58px] min-w-[150px] md:min-w-[170px] px-[24px] md:px-[28px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
-          >
-            {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
-          </a>
+              {/* DESKTOP Badges Stack appearing above the burger */}
+              <div
+                style={{ paddingBottom: '16px' }}
+                className={`hidden md:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                  isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                }`}
+              >
+                {MENU_ITEMS.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    onClick={() => {
+                      scrollToSection(item.key);
+                      setIsMenuOpen(false);
+                    }}
+                    style={{
+                      padding: '6px',
+                      fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      lineHeight: '125%',
+                      letterSpacing: '-0.16px',
+                    }}
+                    className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
+                  >
+                    {item.label[lang]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Blue Contact Pill Button (24px horizontal padding on mobile, 28px on desktop) */}
+            <a
+              href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                fetch('/api/analytics', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ contactName: 'Кнопка СВЯЗАТЬСЯ' }),
+                }).catch(() => {});
+              }}
+              aria-label="Связаться"
+              style={{
+                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                fontSize: '17px',
+                fontWeight: 700,
+                letterSpacing: '-0.2px',
+                textTransform: 'uppercase',
+              }}
+              className="h-[54px] md:h-[58px] min-w-[150px] md:min-w-[170px] px-[24px] md:px-[28px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
+            >
+              {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
+            </a>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ── Video Lightbox Popup Modal (Placed at true root level) ── */}
+      <VideoModal
+        isOpen={modalState.isOpen}
+        onClose={closeVideoModal}
+        title={modalState.title}
+        videoUrl={modalState.videoUrl}
+        posterUrl={modalState.posterUrl}
+        playlist={modalState.playlist}
+        currentIndex={modalState.currentIndex}
+        onNavigate={navigateModalVideo}
+      />
     </>
   );
 }

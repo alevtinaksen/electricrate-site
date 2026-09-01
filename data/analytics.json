@@ -1,5 +1,5 @@
 {
-  "totalViews": 82,
+  "totalViews": 84,
   "totalContactClicks": 7,
   "videoViews": {
     "CPO-GROUP": {
@@ -74,13 +74,13 @@
     },
     "Морская вечеринка": {
       "title": "Морская вечеринка",
-      "count": 5,
-      "lastViewedAt": "2026-09-01T16:56:39.911Z"
+      "count": 6,
+      "lastViewedAt": "2026-09-01T16:58:05.103Z"
     },
     "бар разбитых сердец": {
       "title": "бар разбитых сердец",
-      "count": 3,
-      "lastViewedAt": "2026-08-31T11:34:29.772Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T16:58:11.233Z"
     },
     "FINNTRAIL HR": {
       "title": "FINNTRAIL HR",
@@ -153,7 +153,7 @@
   "dailyViews": {
     "2026-08-30": 48,
     "2026-08-31": 28,
-    "2026-09-01": 6
+    "2026-09-01": 8
   },
   "dailyClicks": {
     "2026-08-30": 2,
