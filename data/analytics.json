@@ -1,6 +1,6 @@
 {
-  "totalViews": 76,
-  "totalContactClicks": 5,
+  "totalViews": 78,
+  "totalContactClicks": 7,
   "videoViews": {
     "CPO-GROUP": {
       "title": "CPO-GROUP",
@@ -29,8 +29,8 @@
     },
     "finntrail": {
       "title": "finntrail",
-      "count": 3,
-      "lastViewedAt": "2026-08-31T11:10:06.646Z"
+      "count": 4,
+      "lastViewedAt": "2026-09-01T12:36:44.691Z"
     },
     "Баскетбол": {
       "title": "Баскетбол",
@@ -126,6 +126,11 @@
       "title": "СБЕРСТРАХОВАНИЕ",
       "count": 1,
       "lastViewedAt": "2026-08-31T22:18:53.629Z"
+    },
+    "ПМЭФ": {
+      "title": "ПМЭФ",
+      "count": 1,
+      "lastViewedAt": "2026-09-01T12:38:55.568Z"
     }
   },
   "contactClicks": {
@@ -136,8 +141,8 @@
     },
     "Кнопка СВЯЗАТЬСЯ": {
       "title": "Кнопка СВЯЗАТЬСЯ",
-      "count": 3,
-      "lastClickedAt": "2026-08-31T10:53:17.701Z"
+      "count": 5,
+      "lastClickedAt": "2026-09-01T12:38:59.627Z"
     },
     "Email (Сайдбар)": {
       "title": "Email (Сайдбар)",
@@ -147,10 +152,12 @@
   },
   "dailyViews": {
     "2026-08-30": 48,
-    "2026-08-31": 28
+    "2026-08-31": 28,
+    "2026-09-01": 2
   },
   "dailyClicks": {
     "2026-08-30": 2,
-    "2026-08-31": 3
+    "2026-08-31": 3,
+    "2026-09-01": 2
   }
 }

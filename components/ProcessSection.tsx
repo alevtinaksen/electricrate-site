@@ -70,10 +70,10 @@ export default function ProcessSection({
               <div
                 key={card.id || `mob-card-${idx}`}
                 style={{
-                  padding: '28px 20px',
+                  padding: '20px 20px',
                   backgroundColor: card.bg_color || (idx === 0 || idx === 3 ? '#1458E6' : idx === 1 ? '#FFFFFF' : '#1E1E22'),
                   color: card.text_color || (idx === 1 ? '#1458E6' : '#FFFFFF'),
-                  minHeight: '380px',
+                  minHeight: '260px',
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
@@ -84,7 +84,7 @@ export default function ProcessSection({
 
                 {/* Card Title — Identical font size on all cards */}
                 <h3
-                  className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2px] whitespace-pre-line py-8"
+                  className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2px] whitespace-pre-line py-4"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
                     fontSize: 'clamp(38px, 11vw, 54px)',

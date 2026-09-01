@@ -51,7 +51,7 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
             <div key={group.id} className="w-full flex flex-col items-center">
               {/* Category Subheader (20px Geist Mono uppercase) */}
               <h3
-                className="uppercase text-center shrink-0"
+                className="uppercase text-center shrink-0 w-full"
                 style={{
                   color: '#FFFFFF',
                   fontFamily: '"Geist Mono", monospace',
@@ -68,11 +68,11 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                 {categoryTitle}
               </h3>
 
-              {/* Exact 12px gap between category title and grid */}
-              <div className="h-[12px] w-full shrink-0" />
+              {/* Exact 20px gap between category title and grid */}
+              <div className="h-[20px] w-full shrink-0" />
 
-              {/* Grid: 20px padding on left and right, borderless cards, title visible ONLY on hover */}
-              <div className="w-full px-[20px]">
+              {/* Grid: 4px padding on mobile, 20px on desktop, borderless cards */}
+              <div className="w-full px-[4px] md:px-[20px]">
                 <div className="w-full flex flex-wrap justify-center gap-1.5 sm:gap-2">
                   {group.items.map((item) => {
                     const itemTitle = lang === 'ru' ? item.title_ru : item.title_en;

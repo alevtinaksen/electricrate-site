@@ -97,13 +97,9 @@ function ReelCard({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="video-card relative overflow-hidden bg-[#121212] select-none cursor-pointer shrink-0"
+      className="video-card relative overflow-hidden bg-[#121212] select-none cursor-pointer w-full md:w-auto md:shrink-0"
         style={{
-          width: `${reel.width}px`,
-          maxWidth: '100%',
           aspectRatio: `${reel.width} / ${reel.height}`,
-          height: 'auto',
-          maxHeight: `${reel.height}px`,
         }}
       >
         {/* Background Poster: Image if image file, or Video poster frame if video file */}
@@ -183,19 +179,18 @@ function ReelCard({
         </AnimatePresence>
       </div>
 
-      {/* Explicit 20px gap above title */}
-      <div className="h-[20px] w-full shrink-0" />
+      {/* Gap above title: 4px on mobile, 20px on desktop */}
+      <div className="h-[4px] md:h-[20px] w-full shrink-0" />
 
-      {/* Title strictly in 25px height, Geist Mono 20px 700 uppercase */}
+      {/* Title: 14px on mobile, 20px on desktop */}
       <h3
-        className="font-mono text-center uppercase shrink-0"
+        className="font-mono text-center uppercase shrink-0 text-[14px] md:text-[20px]"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
-          fontSize: '20px',
           fontStyle: 'normal',
           fontWeight: 700,
-          lineHeight: '25px', // 125%
+          lineHeight: '125%',
           letterSpacing: '-0.2px',
           textTransform: 'uppercase',
           margin: 0,
@@ -205,8 +200,8 @@ function ReelCard({
         {title}
       </h3>
 
-      {/* Explicit 20px gap below title */}
-      <div className="h-[20px] w-full shrink-0" />
+      {/* Gap below title: 8px on mobile, 20px on desktop */}
+      <div className="h-[8px] md:h-[20px] w-full shrink-0" />
     </div>
   );
 }

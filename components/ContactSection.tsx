@@ -40,10 +40,6 @@ export default function ContactSection({
     },
   ];
 
-  const instagramMetaTooltip = isRu
-    ? '*Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещенной в РФ'
-    : '*Instagram is owned by Meta, recognized as extremist and prohibited in the Russian Federation';
-
   const trackContactClick = (name: string) => {
     fetch('/api/analytics', {
       method: 'POST',
@@ -57,7 +53,7 @@ export default function ContactSection({
       id="contacts"
       className="w-full max-w-[964px] font-mono text-white flex flex-col items-center pt-0 pb-0"
     >
-      {/* ── Title «ЕСТЬ ИДЕЯ? НАПИШИ МНЕ ПРЯМО СЕЙЧАС» (paddingBottom: 40px) ── */}
+      {/* ── Title ── */}
       <h2
         className="font-mono font-semibold uppercase text-white text-center w-full leading-[90%]"
         style={{
@@ -93,13 +89,35 @@ export default function ContactSection({
         )}
       </h2>
 
-      {/* ── Vertical Column of Interactive Contact Circles/Pills (Gap 0, Margin top 0) ── */}
+      {/* ── Vertical Column of Interactive Contact Circles/Pills ── */}
       <div className="flex flex-col items-center gap-0 mt-0">
         {contactItems.map((item, index) => {
           const isHovered = hoveredIdx === index;
 
           return (
             <div key={item.short} className="relative flex flex-col items-center">
+              {/* Mobile: always expanded pill */}
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackContactClick(item.full)}
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  lineHeight: '125%',
+                  letterSpacing: '-0.16px',
+                  height: '54px',
+                  paddingLeft: '28px',
+                  paddingRight: '28px',
+                }}
+                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden mb-2 no-underline"
+              >
+                <span className="whitespace-nowrap select-none font-bold">{item.full}</span>
+              </a>
+
+              {/* Desktop: hover to expand */}
               <motion.a
                 href={item.url}
                 target="_blank"
@@ -122,7 +140,7 @@ export default function ContactSection({
                   paddingLeft: isHovered ? '28px' : '0px',
                   paddingRight: isHovered ? '28px' : '0px',
                 }}
-                className={`flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg hover:shadow-2xl overflow-hidden ${
+                className={`hidden md:flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg hover:shadow-2xl overflow-hidden ${
                   isHovered ? 'w-auto' : 'w-[54px]'
                 }`}
               >

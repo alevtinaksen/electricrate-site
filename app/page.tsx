@@ -402,17 +402,7 @@ export default function Home() {
               onVideoSelect={openVideoModal}
             />
 
-            {/* 150px exact spacing between Clients Section and About Vlad Section */}
-            <div className="h-[150px] w-full shrink-0" />
-
-            {/* Section 5: About Vlad Section */}
-            <AboutSection
-              lang={lang}
-              about={about}
-            />
-
-            {/* 150px exact spacing between About Vlad Section and FAQ Section */}
-            <div className="h-[150px] w-full shrink-0" />
+            {/* Section 5: About Vlad Section — HIDDEN */}
 
             {/* Section 6: FAQ Section with single open state */}
             <FaqSection
@@ -433,7 +423,7 @@ export default function Home() {
             <div className="h-[150px] w-full shrink-0" />
           </div>
 
-          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button (Frame 135BBEFD) ── */}
+          {/* ── Fixed Bottom-Left Floating Bar: Menu Burger Button + Blue «СВЯЗАТЬСЯ» Button ── */}
           <div className="fixed bottom-[16px] left-[16px] sm:left-[24px] md:left-[380px] lg:left-[460px] xl:left-[558px] z-50 flex items-center pointer-events-none">
             <div
               style={{
@@ -444,7 +434,7 @@ export default function Home() {
               }}
               className="relative flex items-center gap-0 pointer-events-auto"
             >
-              {/* Menu Popup Container (Opens on hover and on click, persists until mouse leaves or item clicked) */}
+              {/* Menu Popup Container */}
               <div
                 ref={menuContainerRef}
                 onMouseEnter={() => setIsMenuOpen(true)}
@@ -462,10 +452,72 @@ export default function Home() {
                   <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
                 </button>
 
-                {/* Badges Stack appearing above the burger (exact 20px gap between bottom item and burger button) */}
+                {/* MOBILE popup: full white panel with nav + contacts */}
+                <div
+                  className={`md:hidden absolute left-0 bottom-[75px] w-[240px] bg-white flex flex-col transition-all duration-200 z-50 ${
+                    isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                  }`}
+                  style={{ padding: '24px 20px 20px' }}
+                >
+                  {/* Nav links */}
+                  <div className="flex flex-col gap-0 mb-6">
+                    {MENU_ITEMS.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => {
+                          scrollToSection(item.key);
+                          setIsMenuOpen(false);
+                        }}
+                        style={{
+                          fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                          fontSize: '20px',
+                          fontWeight: 700,
+                          lineHeight: '140%',
+                          letterSpacing: '-0.2px',
+                        }}
+                        className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase rounded-none p-0"
+                      >
+                        {item.label[lang]}
+                      </button>
+                    ))}
+                  </div>
+                  {/* Contact info */}
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      lineHeight: '140%',
+                      letterSpacing: '-0.13px',
+                    }}
+                    className="flex flex-col gap-0 text-[#8C8E96] uppercase"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+                      <a
+                        href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+                        className="text-[#0B0B0B] whitespace-nowrap"
+                      >
+                        {settings.phone || '+7(950)016-17-51'}
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+                      <a
+                        href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
+                        className="text-[#0B0B0B] whitespace-nowrap"
+                      >
+                        {settings.email || 'ELECTICRATE@GMAIL.COM'}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* DESKTOP popup: Badges Stack appearing above the burger */}
                 <div
                   style={{ paddingBottom: '20px' }}
-                  className={`absolute left-0 bottom-[65px] flex flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                  className={`hidden md:flex absolute left-0 bottom-[65px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
                     isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                   }`}
                 >
