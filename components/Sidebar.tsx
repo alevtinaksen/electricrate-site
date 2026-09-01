@@ -212,14 +212,14 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(62px, 19.5vw, 96px)',
-                lineHeight: '82%',
+                fontSize: 'clamp(58px, 18.5vw, 92px)',
+                lineHeight: '87%',
                 letterSpacing: '-2px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}
             >
-              <span className="text-right block w-full">
+              <span className="text-right block w-full mb-1 sm:mb-1.5">
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
               </span>
               <span className="text-right block w-full whitespace-nowrap">

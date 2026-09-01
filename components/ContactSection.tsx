@@ -170,9 +170,9 @@ export default function ContactSection({
                 </motion.span>
               </motion.a>
 
-              {/* Centered Instagram Meta Notice shown directly below Instagram pill with exact 2px gap */}
+              {/* Mobile: Centered Instagram Meta Notice shown directly below Instagram pill */}
               {item.short === 'IN*' && (
-                <div className="flex flex-col items-center gap-0 select-none text-center mt-[2px] pointer-events-none">
+                <div className="flex md:hidden flex-col items-center gap-0 select-none text-center mt-[2px] pointer-events-none">
                   {isRu ? (
                     <>
                       <span
@@ -257,6 +257,102 @@ export default function ContactSection({
                   )}
                 </div>
               )}
+
+              {/* Desktop: Hover Tooltip for Instagram Meta Notice */}
+              <AnimatePresence>
+                {item.short === 'IN*' && isHovered && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    transition={{ duration: 0.15 }}
+                    className="hidden md:flex absolute left-full ml-4 sm:ml-6 top-1/2 -translate-y-1/2 z-40 pointer-events-none flex-col items-start gap-0 select-none text-left"
+                  >
+                    {isRu ? (
+                      <>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            lineHeight: '130%',
+                            letterSpacing: '-0.1px',
+                            backgroundColor: '#3A3A3A',
+                            color: '#E6E6E6',
+                            padding: '1px 6px',
+                          }}
+                          className="inline-block w-fit whitespace-nowrap uppercase rounded-none m-0 block"
+                        >
+                          *INSTAGRAM ПРИНАДЛЕЖИТ КОМПАНИИ META,
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            lineHeight: '130%',
+                            letterSpacing: '-0.1px',
+                            backgroundColor: '#3A3A3A',
+                            color: '#E6E6E6',
+                            padding: '1px 6px',
+                          }}
+                          className="inline-block w-fit whitespace-nowrap uppercase rounded-none -mt-[1px] block"
+                        >
+                          ПРИЗНАННОЙ ЭКСТРЕМИСТСКОЙ ОРГАНИЗАЦИЕЙ
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            lineHeight: '130%',
+                            letterSpacing: '-0.1px',
+                            backgroundColor: '#3A3A3A',
+                            color: '#E6E6E6',
+                            padding: '1px 6px',
+                          }}
+                          className="inline-block w-fit whitespace-nowrap uppercase rounded-none -mt-[1px] block"
+                        >
+                          И ЗАПРЕЩЕННОЙ В РФ
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            lineHeight: '130%',
+                            letterSpacing: '-0.1px',
+                            backgroundColor: '#3A3A3A',
+                            color: '#E6E6E6',
+                            padding: '1px 6px',
+                          }}
+                          className="inline-block w-fit whitespace-nowrap uppercase rounded-none m-0 block"
+                        >
+                          *INSTAGRAM IS OWNED BY META,
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            lineHeight: '130%',
+                            letterSpacing: '-0.1px',
+                            backgroundColor: '#3A3A3A',
+                            color: '#E6E6E6',
+                            padding: '1px 6px',
+                          }}
+                          className="inline-block w-fit whitespace-nowrap uppercase rounded-none -mt-[1px] block"
+                        >
+                          RECOGNIZED AS EXTREMIST IN RF
+                        </span>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}

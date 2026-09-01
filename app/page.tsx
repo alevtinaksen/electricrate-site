@@ -590,7 +590,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Blue Contact Pill Button (54px on mobile, 58px on desktop) */}
+          {/* Blue Contact Pill Button (with generous horizontal padding) */}
           <a
             href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
             target="_blank"
@@ -608,7 +608,7 @@ export default function Home() {
               letterSpacing: '-0.2px',
               textTransform: 'uppercase',
             }}
-            className="h-[54px] md:h-[58px] px-[22px] md:px-[26px] text-[17px] md:text-[18px] font-bold flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline"
+            className="h-[54px] md:h-[58px] px-[28px] md:px-[34px] text-[16px] md:text-[18px] font-bold flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
           >
             {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
           </a>
