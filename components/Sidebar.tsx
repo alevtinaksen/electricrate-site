@@ -17,8 +17,8 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <>
-      {/* ── RU / EN Language Toggle Pill: Fixed on mobile top-left, absolute on desktop ── */}
-      <div className="fixed md:absolute top-0 left-0 z-50 flex items-center overflow-hidden shrink-0">
+      {/* ── RU / EN Language Toggle Pill: Desktop only in sidebar (mobile is rendered globally fixed) ── */}
+      <div className="hidden md:flex absolute top-0 left-0 z-50 items-center overflow-hidden shrink-0">
         <button
           onClick={() => onLangChange('ru')}
           style={{

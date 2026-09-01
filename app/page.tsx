@@ -472,6 +472,52 @@ export default function Home() {
         />
       </motion.div>
 
+      {/* ── MOBILE Globally Fixed RU / EN Language Toggle (Truly pinned to top-left of viewport across all scroll) ── */}
+      <div className="md:hidden fixed top-0 left-0 z-[100] flex items-center overflow-hidden shrink-0 shadow-lg">
+        <button
+          onClick={() => setLang('ru')}
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: '125%',
+            letterSpacing: '-0.16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+          }}
+          className={`transition-colors cursor-pointer uppercase ${
+            lang === 'ru'
+              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+          }`}
+        >
+          RU
+        </button>
+        <button
+          onClick={() => setLang('en')}
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: '125%',
+            letterSpacing: '-0.16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+          }}
+          className={`transition-colors cursor-pointer uppercase ${
+            lang === 'en'
+              ? 'bg-[#1458E6] text-white hover:bg-white hover:text-[#0B0B0B]'
+              : 'bg-white text-[#0B0B0B] hover:bg-[#1458E6] hover:text-white'
+          }`}
+        >
+          EN
+        </button>
+      </div>
+
       {/* ── MOBILE Navigation Popup: Truly fixed to full viewport width with 20px padding on left and right ── */}
       <div
         className={`md:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
