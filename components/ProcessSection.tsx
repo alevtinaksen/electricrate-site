@@ -79,9 +79,9 @@ export default function ProcessSection({
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
-                {/* 1. Card Title: 32px font size */}
+                {/* 1. Card Title: 32px font size, single line */}
                 <h3
-                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] whitespace-pre-line text-[32px] leading-[90%]"
+                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] text-[clamp(24px,7.5vw,32px)] leading-[90%]"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
                     fontWeight: 600,
