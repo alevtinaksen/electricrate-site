@@ -197,11 +197,11 @@ export default function Sidebar({
             Order: Name at top -> Bio text immediately below -> Contacts at bottom
             Exact 450px fixed container height matching specification
         ══════════════════════════════════════════════════════════════════════ */}
-        <div className="flex md:hidden w-full flex-col relative z-10 pt-12">
-          {/* 1. Mobile Name — full width impactful layout matching screenshot 1 */}
+        <div className="flex md:hidden w-full flex-col relative z-10 pt-10">
+          {/* 1. Mobile Name — full width edge-to-edge layout matching iPhone 16 mockup */}
           <div
             style={{
-              paddingTop: '6px',
+              paddingTop: '0px',
               paddingRight: '16px',
               paddingBottom: '0px',
               paddingLeft: '16px',
@@ -212,9 +212,9 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(54px, 17vw, 88px)',
-                lineHeight: '84%',
-                letterSpacing: '-1.5px',
+                fontSize: 'clamp(62px, 19.5vw, 96px)',
+                lineHeight: '82%',
+                letterSpacing: '-2px',
                 fontWeight: 600,
                 color: '#FFFFFF',
               }}
@@ -228,7 +228,7 @@ export default function Sidebar({
             </h1>
           </div>
 
-          {/* 2. Mobile Bio text immediately below name (bold, full-width, clean wraps) */}
+          {/* 2. Mobile Bio text immediately below name */}
           <div
             style={{
               paddingTop: '16px',
@@ -242,7 +242,7 @@ export default function Sidebar({
               className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px]"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                lineHeight: '118%',
+                lineHeight: '122%',
                 letterSpacing: '-0.16px',
               }}
             >

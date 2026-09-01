@@ -204,8 +204,8 @@ export default function ClientsSection({
           </div>
         )}
 
-        {/* Line 4: Client 3 & Client 4 (+ any extra clients) */}
-        <div className="flex flex-wrap items-center justify-center gap-4 w-fit mx-auto">
+        {/* Line 4: Client 3 & Client 4 (+ any extra clients) — exact uniform gap-y-1.5 between all wrapped lines */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 w-fit mx-auto">
           {c3 && (
             <div className="flex items-center justify-center gap-[12px]">
               {renderLogo(c3, 3)}
@@ -228,12 +228,15 @@ export default function ClientsSection({
               >
                 {getClientName(c4)}
               </span>
+              {/* Dot stays with KTK on the line if there are subsequent clients */}
+              {visibleClients.length > 5 && (
+                <span className="text-white font-bold ml-1 select-none">·</span>
+              )}
             </div>
           )}
 
           {visibleClients.slice(5).map((extraClient, i) => (
             <div key={extraClient.id || i} className="flex items-center justify-center gap-[12px]">
-              <span className="text-white font-bold select-none">·</span>
               {renderLogo(extraClient, i + 5)}
               <span
                 onClick={() => handleClientClick(extraClient)}
@@ -241,6 +244,9 @@ export default function ClientsSection({
               >
                 {getClientName(extraClient)}
               </span>
+              {i < visibleClients.slice(5).length - 1 && (
+                <span className="text-white font-bold ml-1 select-none">·</span>
+              )}
             </div>
           ))}
         </div>

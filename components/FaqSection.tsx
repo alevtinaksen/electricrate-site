@@ -68,12 +68,12 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   }}
                   className="w-full flex flex-col gap-[8px] text-black cursor-pointer rounded-none transition-all"
                 >
-                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ pinned to right */}
-                  <div className="w-full flex items-center justify-between gap-4 text-left">
-                    <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[125%]">
+                  {/* Top Question Row in Opened State: gray text #8C8E96, triangle ▲ pinned to top right aligned with first line */}
+                  <div className="w-full flex items-start justify-between gap-4 text-left">
+                    <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] text-[#8C8E96] leading-[125%] whitespace-normal">
                       {questionText}
                     </span>
-                    <span className="shrink-0 text-[10px] sm:text-[12px] text-[#8C8E96] leading-none">
+                    <span className="shrink-0 text-[10px] sm:text-[12px] text-[#8C8E96] leading-none pt-1">
                       ▲
                     </span>
                   </div>
@@ -108,23 +108,20 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
                   </div>
                 </div>
               ) : (
-                /* ── Closed Question Row: Exact height 34px, 20px padding left/right ── */
+                /* ── Closed Question Row: Allows 2-line wraps with top-aligned arrow ── */
                 <button
                   type="button"
                   onClick={() => toggleAccordion(faq.id)}
                   style={{
-                    height: '34px',
                     paddingLeft: '20px',
                     paddingRight: '20px',
-                    paddingTop: '0px',
-                    paddingBottom: '0px',
                   }}
-                  className="w-full h-[34px] flex items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
+                  className="w-full min-h-[34px] py-1.5 md:py-0 md:h-[34px] flex items-start md:items-center justify-between gap-4 text-left transition-colors duration-150 rounded-none cursor-pointer outline-none border-none text-white hover:bg-white hover:text-black"
                 >
-                  <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-none truncate">
+                  <span className="lowercase font-mono text-[14px] sm:text-[16px] font-bold tracking-[-0.2px] transition-colors leading-[125%] whitespace-normal">
                     {questionText}
                   </span>
-                  <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none">
+                  <span className="shrink-0 text-[10px] sm:text-[12px] opacity-80 leading-none pt-1 md:pt-0">
                     ▼
                   </span>
                 </button>

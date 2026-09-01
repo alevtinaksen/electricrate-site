@@ -474,7 +474,7 @@ export default function Home() {
 
       {/* ── MOBILE Navigation Popup: Truly fixed to full viewport width with 20px padding on left and right ── */}
       <div
-        className={`md:hidden fixed left-[20px] right-[20px] bottom-[90px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
+        className={`md:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
           isMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
         }`}
         style={{ padding: '24px 20px 20px' }}
@@ -538,7 +538,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Globally Fixed Floating Bar (Placed outside transform containers for 100% true viewport pinning) ── */}
+      {/* ── Globally Fixed Floating Bar (Refined compact dimensions) ── */}
       <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
         <div className="relative flex items-center gap-0 pointer-events-auto">
           {/* Menu Popup Container */}
@@ -548,21 +548,21 @@ export default function Home() {
             onMouseLeave={() => setIsMenuOpen(false)}
             className="relative group/menu"
           >
-            {/* 65x65 White Burger Button */}
+            {/* White Burger Button (54px on mobile, 58px on desktop) */}
             <button
               type="button"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label="Меню навигации"
-              className="w-[65px] h-[65px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[6px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
+              className="w-[54px] h-[54px] md:w-[58px] md:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
             >
-              <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`} />
-              <span className={`w-6 h-[2.5px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''}`} />
+              <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
+              <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
             </button>
 
             {/* DESKTOP Badges Stack appearing above the burger */}
             <div
-              style={{ paddingBottom: '20px' }}
-              className={`hidden md:flex absolute left-0 bottom-[65px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+              style={{ paddingBottom: '16px' }}
+              className={`hidden md:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
                 isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
               }`}
             >
@@ -590,7 +590,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Blue Contact Pill Button (Opens custom link from Settings -> Contacts) */}
+          {/* Blue Contact Pill Button (54px on mobile, 58px on desktop) */}
           <a
             href={formatExternalUrl(settings.contact_button_url || settings.telegram, 'https://t.me/sapunov_vlad')}
             target="_blank"
@@ -604,16 +604,11 @@ export default function Home() {
             }}
             aria-label="Связаться"
             style={{
-              width: '187px',
-              height: '65px',
               fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-              fontSize: '20px',
-              fontWeight: 700,
-              lineHeight: '125%',
               letterSpacing: '-0.2px',
               textTransform: 'uppercase',
             }}
-            className="flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline"
+            className="h-[54px] md:h-[58px] px-[22px] md:px-[26px] text-[17px] md:text-[18px] font-bold flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline"
           >
             {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
           </a>

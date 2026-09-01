@@ -170,9 +170,9 @@ export default function ContactSection({
                 </motion.span>
               </motion.a>
 
-              {/* Centered Instagram Meta Notice shown directly below Instagram pill */}
+              {/* Centered Instagram Meta Notice shown directly below Instagram pill with exact 2px gap */}
               {item.short === 'IN*' && (
-                <div className="flex flex-col items-center gap-0 select-none text-center mt-2 pointer-events-none">
+                <div className="flex flex-col items-center gap-0 select-none text-center mt-[2px] pointer-events-none">
                   {isRu ? (
                     <>
                       <span
