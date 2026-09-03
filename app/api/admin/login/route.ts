@@ -8,38 +8,38 @@ export async function POST(request: Request) {
     const cleanLogin = String(login).trim().toLowerCase();
     const cleanPin = String(pin).trim().toLowerCase();
 
-    // Environment-based admin credentials
-    const adminDevLogin = (process.env.ADMIN_DEV_LOGIN || 'alevtina').toLowerCase();
-    const adminDevPin = (process.env.ADMIN_DEV_PIN || '7777').toLowerCase();
-    const adminEditorLogin = (process.env.ADMIN_EDITOR_LOGIN || 'vlad').toLowerCase();
-    const adminEditorPin = (process.env.ADMIN_EDITOR_PIN || '2026').toLowerCase();
+    // Environment-based admin credentials (NO hardcoded fallbacks)
+    const adminDevLogin = process.env.ADMIN_DEV_LOGIN?.toLowerCase();
+    const adminDevPin = process.env.ADMIN_DEV_PIN?.toLowerCase();
+    const adminEditorLogin = process.env.ADMIN_EDITOR_LOGIN?.toLowerCase();
+    const adminEditorPin = process.env.ADMIN_EDITOR_PIN?.toLowerCase();
+
+    // Fail-safe: if env vars are not configured, deny all access
+    if (!adminDevLogin || !adminDevPin || !adminEditorLogin || !adminEditorPin) {
+      console.error('Admin credentials environment variables are not configured.');
+      return NextResponse.json(
+        { success: false, error: 'Сервис авторизации не настроен. Обратитесь к администратору.' },
+        { status: 503 }
+      );
+    }
 
     // 1. Developer Role Match
-    if (
-      (cleanLogin === adminDevLogin && cleanPin === adminDevPin) ||
-      (cleanPin === adminDevPin && !cleanLogin) ||
-      (cleanPin === adminDevLogin && !cleanLogin)
-    ) {
+    if (cleanLogin === adminDevLogin && cleanPin === adminDevPin) {
       return NextResponse.json({
         success: true,
         role: 'dev',
         userId: 'dev_1',
-        name: 'Алевтина (Разработчик)',
+        name: 'Разработчик',
       });
     }
 
     // 2. Editor Role Match
-    if (
-      (cleanLogin === adminEditorLogin && cleanPin === adminEditorPin) ||
-      (cleanPin === adminEditorPin && !cleanLogin) ||
-      (cleanPin === 'sapunov' && !cleanLogin) ||
-      (cleanLogin === 'vlad' && cleanPin === '2026')
-    ) {
+    if (cleanLogin === adminEditorLogin && cleanPin === adminEditorPin) {
       return NextResponse.json({
         success: true,
         role: 'editor',
         userId: 'editor_1',
-        name: 'Влад Сапунов',
+        name: 'Редактор',
       });
     }
 

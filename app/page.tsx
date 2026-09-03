@@ -368,6 +368,9 @@ export default function Home() {
         <Preloader onComplete={() => setIsLoaded(true)} />
       </div>
 
+      {/* SEO: Hidden h1 for search engines (main heading is rendered as SVG) */}
+      <h1 className="sr-only">Влад Сапунов — Режиссёр монтажа, видеооператор и видеомейкер в Санкт-Петербурге</h1>
+
       {/* ── True Geometric Displacement & RGB Chromatic Glitch Filter (Full Website, No Overlay Strips) ── */}
       <TrueGlitchFilter
         targetContainerRef={mainWrapperRef}
