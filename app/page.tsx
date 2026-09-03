@@ -691,10 +691,9 @@ export default function Home() {
       {/* ── MOBILE & TABLET Navigation Popup (< 1280px ONLY) ── */}
       <div
         ref={mobileMenuRef}
-        className={`fixed left-[20px] right-[20px] bottom-[84px] bg-white flex-col transition-all duration-200 z-[110] shadow-2xl ${
+        className={`fixed left-[20px] right-[20px] bottom-[84px] bg-white flex-col pt-[24px] px-[20px] pb-[40px] md:pb-[60px] transition-all duration-200 z-[110] shadow-2xl ${
           isMenuOpen && !modalState.isOpen ? 'flex xl:hidden opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'hidden opacity-0 pointer-events-none'
         }`}
-        style={{ padding: '24px 20px 20px' }}
       >
         {/* Nav links: 2px gap between items */}
         <div className="flex flex-col gap-[2px]">
