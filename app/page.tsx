@@ -47,9 +47,9 @@ export default function Home() {
   const mainWrapperRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize Lenis Smooth Scroll (desktop only — mobile uses native window scroll)
+  // Initialize Lenis Smooth Scroll (desktop only >= 1280px — mobile & tablets use native window scroll)
   useEffect(() => {
-    if (!rightPanelRef.current || typeof window === 'undefined' || window.innerWidth < 768) return;
+    if (!rightPanelRef.current || typeof window === 'undefined' || window.innerWidth < 1280) return;
 
     const lenis = new Lenis({
       wrapper: rightPanelRef.current,
@@ -312,7 +312,7 @@ export default function Home() {
     const el = document.getElementById(targetId);
     if (!el) return;
 
-    if (lenisRef.current && typeof window !== 'undefined' && window.innerWidth >= 768) {
+    if (lenisRef.current && typeof window !== 'undefined' && window.innerWidth >= 1280) {
       lenisRef.current.scrollTo(el, { offset: -20, duration: 1.2 });
     } else if (typeof window !== 'undefined') {
       const elRect = el.getBoundingClientRect();
@@ -361,8 +361,8 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Minimal Hobro-style Preloader with % counter and cycling dots (Desktop Only) ── */}
-      <div className="hidden md:block">
+      {/* ── Minimal Hobro-style Preloader with % counter and cycling dots (Desktop Only >= 1280px) ── */}
+      <div className="hidden xl:block">
         <Preloader onComplete={() => setIsLoaded(true)} />
       </div>
 
@@ -376,7 +376,7 @@ export default function Home() {
         ref={mainWrapperRef}
         initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
-        className="flex flex-col md:flex-row min-h-screen md:h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative will-change-transform transform-gpu"
+        className="flex flex-col xl:flex-row min-h-screen xl:h-screen w-full overflow-x-hidden bg-[#0d0d0d] font-mono text-white relative will-change-transform transform-gpu"
       >
         {/* ── Left column: Frame 154 fixed Sidebar ── */}
         <Sidebar
@@ -386,10 +386,10 @@ export default function Home() {
           email={settings.email}
         />
 
-        {/* ── Right column: fixed 964px width on desktop (flushed with expanding sidebar), full width on mobile ── */}
+        {/* ── Right column: fixed 964px width on desktop >=1280px, fluid centered on mobile/tablets ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel w-full md:w-[964px] md:min-w-[964px] md:max-w-[964px] md:shrink-0 min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden relative flex flex-col items-start"
+          className="right-panel w-full xl:w-[964px] xl:min-w-[964px] xl:max-w-[964px] xl:shrink-0 min-h-screen xl:h-screen xl:overflow-y-auto overflow-x-hidden relative flex flex-col items-center xl:items-start"
         >
           <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0">
             {/* Section 1: 5 Hero Reels */}
@@ -605,7 +605,7 @@ export default function Home() {
 
       {/* ── Globally Fixed Floating Bar (Hidden when video modal is open) ── */}
       {!modalState.isOpen && (
-        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
+        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
           <div className="relative flex items-center gap-0 pointer-events-auto">
             {/* Menu Popup Container */}
             <div
@@ -619,7 +619,7 @@ export default function Home() {
                 type="button"
                 onClick={() => setIsMenuOpen((prev) => !prev)}
                 aria-label="Меню навигации"
-                className="w-[54px] h-[54px] md:w-[58px] md:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
+                className="w-[54px] h-[54px] xl:w-[58px] xl:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
               >
                 <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
                 <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
@@ -628,7 +628,7 @@ export default function Home() {
               {/* DESKTOP Badges Stack appearing above the burger */}
               <div
                 style={{ paddingBottom: '16px' }}
-                className={`hidden md:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                className={`hidden xl:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
@@ -678,7 +678,7 @@ export default function Home() {
                 letterSpacing: '-0.2px',
                 textTransform: 'uppercase',
               }}
-              className="h-[54px] md:h-[58px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
+              className="h-[54px] xl:h-[58px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
             >
               {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
             </a>
