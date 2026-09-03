@@ -59,23 +59,18 @@ div[data-nextjs-route-announcer] {
   background-color: #121212;
 }
 
-/* Clients Section Responsive Typography — Fills right panel width with 32px safe margins */
+/* Clients Section Responsive Typography — Dynamically occupies full right panel without clipping */
 .clients-list-container {
-  font-size: clamp(24px, 5.8vw, 38px);
+  font-size: clamp(24px, 5.8vw, 42px);
 }
 @media (min-width: 768px) {
   .clients-list-container {
-    font-size: clamp(36px, 5.2vw, 52px);
+    font-size: clamp(38px, 5.6vw, 64px);
   }
 }
 @media (min-width: 1280px) {
   .clients-list-container {
-    font-size: clamp(36px, 3.1vw, 56px);
-  }
-}
-@media (min-width: 1920px) {
-  .clients-list-container {
-    font-size: clamp(54px, 3.3vw, 78px);
+    font-size: clamp(42px, 3.35vw, 96px);
   }
 }
 
