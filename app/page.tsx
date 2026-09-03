@@ -625,8 +625,9 @@ export default function Home() {
           paddingTop: '24px',
           paddingLeft: '24px',
           paddingRight: '24px',
+          paddingBottom: '24px',
         }}
-        className={`fixed left-[20px] right-[20px] md:left-[30px] md:right-[30px] bottom-[84px] bg-white flex flex-col pb-[40px] md:pb-[60px] transition-all duration-200 z-[110] shadow-2xl ${
+        className={`fixed left-[20px] right-[20px] md:left-[30px] md:right-[30px] bottom-[84px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
           isMenuOpen && !modalState.isOpen ? 'flex xl:hidden opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'hidden opacity-0 pointer-events-none'
         }`}
       >
