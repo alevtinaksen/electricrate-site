@@ -73,11 +73,12 @@ export default function ProcessSection({
               <div
                 key={card.id || `mob-card-${idx}`}
                 style={{
-                  padding: '24px 20px',
+                  paddingTop: '24px',
+                  paddingBottom: '24px',
                   backgroundColor: card.bg_color || '#1458E6',
                   color: card.text_color || '#FFFFFF',
                 }}
-                className="w-full flex flex-col justify-between items-start rounded-none shadow-none"
+                className="w-full px-[20px] md:px-[28px] flex flex-col justify-between items-start rounded-none shadow-none"
               >
                 {/* 1. Card Title */}
                 <h3
@@ -92,8 +93,8 @@ export default function ProcessSection({
                   {cardTitle}
                 </h3>
 
-                {/* 2. Extra 40px spacing between title and bottom texts (exact ~90-100px gap) */}
-                <div className="h-[90px] sm:h-[100px] md:h-[110px] w-full shrink-0" />
+                {/* 2. Exact 40px spacing on mobile and 60px on tablet between title and bottom texts */}
+                <div className="h-[40px] md:h-[60px] w-full shrink-0" />
 
                 {/* 3. Bottom Texts Container */}
                 <div className="w-full flex flex-col gap-[8px]">
