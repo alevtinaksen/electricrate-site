@@ -614,21 +614,22 @@ export default function Home() {
               onMouseLeave={() => setIsMenuOpen(false)}
               className="relative group/menu"
             >
-              {/* White Burger Button (54px on mobile, 58px on desktop) */}
+              {/* White/Blue Burger Button (54px on mobile, 58px on desktop) */}
               <button
                 type="button"
                 onClick={() => setIsMenuOpen((prev) => !prev)}
                 aria-label="Меню навигации"
-                className="w-[54px] h-[54px] xl:w-[58px] xl:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
+                className={`w-[54px] h-[54px] xl:w-[58px] xl:h-[58px] rounded-full ${
+                  isMenuOpen ? 'bg-[#1458E6]' : 'bg-white hover:bg-[#1458E6]'
+                } active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0`}
               >
-                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
-                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
+                <span className={`w-5 h-[2px] ${isMenuOpen ? 'bg-white' : 'bg-[#0B0B0B] group-hover:bg-white'} rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
+                <span className={`w-5 h-[2px] ${isMenuOpen ? 'bg-white' : 'bg-[#0B0B0B] group-hover:bg-white'} rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
               </button>
 
-              {/* DESKTOP Badges Stack appearing above the burger (>= 1280px) */}
+              {/* DESKTOP Segmented Badges Stack appearing above the burger (>= 1280px) exactly matching design */}
               <div
-                style={{ paddingBottom: '12px' }}
-                className={`hidden xl:flex absolute left-0 bottom-[62px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-[150] shadow-2xl ${
+                className={`hidden xl:flex absolute left-0 bottom-[66px] flex-col items-start transition-all duration-200 pointer-events-auto z-[150] bg-white border border-[#0B0B0B] divide-y divide-[#0B0B0B] shadow-2xl ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
@@ -641,17 +642,17 @@ export default function Home() {
                       setIsMenuOpen(false);
                     }}
                     style={{
-                      paddingLeft: '12px',
-                      paddingRight: '16px',
-                      paddingTop: '8px',
-                      paddingBottom: '8px',
+                      paddingLeft: '16px',
+                      paddingRight: '20px',
+                      paddingTop: '10px',
+                      paddingBottom: '10px',
                       fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                      fontSize: '16px',
+                      fontSize: '18px',
                       fontWeight: 700,
-                      lineHeight: '125%',
+                      lineHeight: '120%',
                       letterSpacing: '-0.16px',
                     }}
-                    className="w-full min-w-[130px] inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-md border-none outline-none uppercase rounded-none"
+                    className="w-full min-w-[170px] text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase block"
                   >
                     {item.label[lang]}
                   </button>
