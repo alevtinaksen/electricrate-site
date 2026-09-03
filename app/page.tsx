@@ -689,15 +689,15 @@ export default function Home() {
         </div>
       )}
 
-      {/* ── Mobile & Tablet Full-Width White Menu Card (< 1280px) matching exact design ── */}
+      {/* ── Mobile & Tablet Full-Width White Menu Card (< 1280px) matching exact 100% width design ── */}
       {!modalState.isOpen && (
         <div
-          className={`xl:hidden fixed bottom-[80px] left-3 right-3 sm:left-6 sm:right-6 md:left-8 md:right-8 bg-white text-[#0B0B0B] p-6 sm:p-8 z-[140] shadow-2xl transition-all duration-300 pointer-events-auto rounded-none ${
+          className={`xl:hidden fixed bottom-[74px] sm:bottom-[78px] left-0 right-0 w-full bg-white text-[#0B0B0B] px-5 sm:px-8 md:px-10 pt-6 sm:pt-8 pb-5 z-[140] shadow-2xl transition-all duration-300 pointer-events-auto rounded-none border-t border-[#E5E5E5] ${
             isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
           }`}
         >
-          {/* Navigation Links */}
-          <div className="flex flex-col items-start gap-4">
+          {/* Navigation Links — bold, large, clean */}
+          <div className="flex flex-col items-start gap-2.5 sm:gap-3">
             {MENU_ITEMS.map((item) => (
               <button
                 key={item.key}
@@ -708,12 +708,12 @@ export default function Home() {
                 }}
                 style={{
                   fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: 'clamp(24px, 5vw, 36px)',
+                  fontSize: 'clamp(28px, 6.5vw, 42px)',
                   fontWeight: 700,
                   lineHeight: '110%',
-                  letterSpacing: '-0.5px',
+                  letterSpacing: '-0.8px',
                 }}
-                className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase p-0"
+                className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase p-0 block"
               >
                 {item.label[lang]}
               </button>
@@ -729,7 +729,7 @@ export default function Home() {
               lineHeight: '130%',
               letterSpacing: '-0.16px',
             }}
-            className="flex items-start justify-between w-full uppercase mt-8 pt-6 border-t border-[#E5E5E5]"
+            className="flex items-start justify-between w-full uppercase mt-6 pt-4 border-t border-[#E5E5E5]"
           >
             <div className="flex flex-col text-[#8C8E96] text-left">
               <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
