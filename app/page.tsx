@@ -607,7 +607,7 @@ export default function Home() {
 
       {/* ── Globally Fixed Floating Bar (Hidden when video modal is open) ── */}
       {!modalState.isOpen && (
-        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-[42vw] xl:pl-4 z-[100] flex items-center pointer-events-none">
+        <div className="fixed bottom-[20px] left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-[calc(42vw+20px)] xl:pl-0 z-[100] flex items-center pointer-events-none">
           <div className="relative flex items-center gap-0 pointer-events-auto">
             {/* Menu Popup Container */}
             <div

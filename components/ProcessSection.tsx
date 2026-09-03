@@ -148,124 +148,124 @@ export default function ProcessSection({
             </h1>
           </div>
 
-          {/* ── Cards Interactive Stacking Deck Layer (Evenly distributed across full viewport height) ── */}
-          <div className="relative w-full max-w-[964px] 2xl:max-w-[1150px] h-screen flex items-center justify-center pointer-events-auto overflow-hidden">
-            {/* ── Card 1: Pinned to Left-0, Top-[2vh], z-10 ── */}
+          {/* ── Cards Interactive Stacking Deck Layer (Full viewport visibility without clipping) ── */}
+          <div className="relative w-full max-w-[964px] 2xl:max-w-[1150px] h-screen flex items-center justify-center pointer-events-auto">
+            {/* ── Card 1: Pinned to Left-0, Top-[20px], z-10 ── */}
             <motion.div
               style={{
                 y: card1Y,
                 zIndex: 10,
-                padding: '28px',
+                padding: '24px',
                 backgroundColor: card1.bg_color || '#1458E6',
                 color: card1.text_color || '#FFFFFF',
               }}
-              className="absolute left-0 top-[2vh] w-[520px] 2xl:w-[580px] max-w-[85vw] h-[380px] 2xl:h-[420px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-0 top-[20px] 2xl:top-[30px] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
               </div>
 
               <h2
                 className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
                 style={{
-                  fontSize: 'clamp(52px, 8vw, 110px)',
+                  fontSize: 'clamp(48px, 7.5vw, 100px)',
                   lineHeight: '90%',
                 }}
               >
                 {lang === 'ru' ? card1.title_ru : card1.title_en}
               </h2>
 
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
                 {lang === 'ru' ? card1.bottom_text_ru : card1.bottom_text_en}
               </div>
             </motion.div>
 
-            {/* ── Card 2: Left-aligned, Top-[24vh], z-20 (White Card) ── */}
+            {/* ── Card 2: Left-aligned, Top-[18vh], z-20 (White Card) ── */}
             <motion.div
               style={{
                 y: card2Y,
                 zIndex: 20,
-                padding: '28px',
+                padding: '24px',
                 backgroundColor: card2.bg_color || '#FFFFFF',
                 color: card2.text_color || '#1458E6',
               }}
-              className="absolute left-[50px] 2xl:left-[90px] top-[24vh] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[380px] 2xl:h-[420px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-[40px] 2xl:left-[80px] top-[18vh] 2xl:top-[20vh] w-[480px] 2xl:w-[540px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
               </div>
 
               <h2
                 className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
                 style={{
-                  fontSize: 'clamp(40px, 6vw, 60px)',
+                  fontSize: 'clamp(38px, 5.5vw, 56px)',
                   lineHeight: '90%',
                 }}
               >
                 {lang === 'ru' ? card2.title_ru : card2.title_en}
               </h2>
 
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
                 {lang === 'ru' ? card2.bottom_text_ru : card2.bottom_text_en}
               </div>
             </motion.div>
 
-            {/* ── Card 3: Right-aligned, Top-[46vh], z-30 (Black Card) ── */}
+            {/* ── Card 3: Right-aligned, Top-[36vh], z-30 (Black Card) ── */}
             <motion.div
               style={{
                 y: card3Y,
                 zIndex: 30,
-                padding: '28px',
+                padding: '24px',
                 backgroundColor: card3.bg_color || '#1E1E22',
                 color: card3.text_color || '#FFFFFF',
               }}
-              className="absolute right-[30px] 2xl:right-[60px] top-[46vh] w-[520px] 2xl:w-[580px] max-w-[85vw] h-[380px] 2xl:h-[420px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-[30px] 2xl:right-[60px] top-[36vh] 2xl:top-[40vh] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
               </div>
 
               <h2
                 className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
                 style={{
-                  fontSize: 'clamp(40px, 6vw, 64px)',
+                  fontSize: 'clamp(38px, 5.5vw, 60px)',
                   lineHeight: '90%',
                 }}
               >
                 {lang === 'ru' ? card3.title_ru : card3.title_en}
               </h2>
 
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
                 {lang === 'ru' ? card3.bottom_text_ru : card3.bottom_text_en}
               </div>
             </motion.div>
 
-            {/* ── Card 4: Pinned to Right-0, Top-[68vh], z-40 ── */}
+            {/* ── Card 4: Pinned to Right-0, Bottom-[20px], z-40 — NEVER CLIPPED ── */}
             <motion.div
               style={{
                 y: card4Y,
                 zIndex: 40,
-                padding: '28px',
+                padding: '24px',
                 backgroundColor: card4.bg_color || '#1458E6',
                 color: card4.text_color || '#FFFFFF',
               }}
-              className="absolute right-0 top-[68vh] w-[560px] 2xl:w-[620px] max-w-[92vw] h-[380px] 2xl:h-[420px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-0 bottom-[20px] 2xl:bottom-[30px] w-[540px] 2xl:w-[600px] max-w-[92vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
               </div>
 
               <h2
                 className="font-mono font-semibold uppercase text-center w-full my-auto tracking-[-2.56px] whitespace-pre-line"
                 style={{
-                  fontSize: 'clamp(52px, 8vw, 110px)',
+                  fontSize: 'clamp(48px, 7.5vw, 100px)',
                   lineHeight: '90%',
                 }}
               >
                 {lang === 'ru' ? card4.title_ru : card4.title_en}
               </h2>
 
-              <div className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
+              <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase max-w-[326px] whitespace-pre-line">
                 {lang === 'ru' ? card4.bottom_text_ru : card4.bottom_text_en}
               </div>
             </motion.div>
