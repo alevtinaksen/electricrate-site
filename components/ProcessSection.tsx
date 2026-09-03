@@ -73,12 +73,11 @@ export default function ProcessSection({
               <div
                 key={card.id || `mob-card-${idx}`}
                 style={{
-                  paddingTop: '24px',
-                  paddingBottom: '24px',
+                  padding: '24px',
                   backgroundColor: card.bg_color || '#1458E6',
                   color: card.text_color || '#FFFFFF',
                 }}
-                className="w-full px-[20px] md:px-[28px] flex flex-col justify-between items-start rounded-none shadow-none"
+                className="w-full flex flex-col justify-between items-start rounded-none shadow-none"
               >
                 {/* 1. Card Title */}
                 <h3
