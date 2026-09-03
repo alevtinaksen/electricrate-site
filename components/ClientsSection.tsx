@@ -125,7 +125,7 @@ export default function ClientsSection({
   return (
     <section
       id="clients"
-      className="w-full max-w-[964px] font-mono flex flex-col items-center"
+      className="w-full font-mono flex flex-col items-center px-4 md:px-8"
     >
       {/* Subtitle "КЛИЕНТЫ" (16px on mobile, 20px on desktop) */}
       <h3
