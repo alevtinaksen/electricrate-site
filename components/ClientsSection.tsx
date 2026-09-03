@@ -9,23 +9,23 @@ interface ClientsSectionProps {
   onVideoSelect?: (title: string, videoUrl: string, posterUrl?: string) => void;
 }
 
-// SVG client logos sized with 32px-46px clamp for crisp visibility on mobile/tablets
+// 24x24 on mobile, 54x54 on desktop SVG client logos
 function PntLogo() {
   return (
-    <div className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full bg-white flex flex-col items-center justify-center p-[2px] shadow-sm shrink-0 inline-flex align-middle">
-      <svg width="60%" height="50%" viewBox="0 0 28 20" fill="none">
+    <div className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full bg-white flex flex-col items-center justify-center p-0.5 shadow-sm shrink-0">
+      <svg width="14" height="10" viewBox="0 0 28 20" fill="none" className="md:w-[28px] md:h-[20px]">
         <path d="M4 6C10 3 18 10 24 6" stroke="#0080FF" strokeWidth="2.5" strokeLinecap="round" />
         <path d="M4 11C10 8 18 15 24 11" stroke="#002D62" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
-      <span className="text-[5px] sm:text-[6px] md:text-[8px] font-bold text-black tracking-tight leading-none">ПНТ</span>
+      <span className="text-[4px] md:text-[7px] font-bold text-black tracking-tight leading-none">ПНТ</span>
     </div>
   );
 }
 
 function FinntrailLogo() {
   return (
-    <div className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full bg-white flex items-center justify-center p-[2px] shadow-sm shrink-0 inline-flex align-middle">
-      <svg width="60%" height="50%" viewBox="0 0 30 20" fill="none">
+    <div className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full bg-white flex items-center justify-center p-0.5 shadow-sm shrink-0">
+      <svg width="14" height="10" viewBox="0 0 30 20" fill="none" className="md:w-[30px] md:h-[20px]">
         <path d="M6 5H24L20 9H12L10 12H18L16 15H8L4 5Z" fill="black" />
       </svg>
     </div>
@@ -34,8 +34,8 @@ function FinntrailLogo() {
 
 function SberLogo() {
   return (
-    <div className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full bg-white flex items-center justify-center p-[2px] shadow-sm shrink-0 inline-flex align-middle">
-      <svg width="70%" height="70%" viewBox="0 0 34 34" fill="none">
+    <div className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full bg-white flex items-center justify-center p-0.5 shadow-sm shrink-0">
+      <svg width="16" height="16" viewBox="0 0 34 34" fill="none" className="md:w-[34px] md:h-[34px]">
         <circle cx="17" cy="17" r="14" stroke="url(#sberGrad)" strokeWidth="3" />
         <path d="M12 17L15.5 20.5L22 13.5" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         <defs>
@@ -52,8 +52,8 @@ function SberLogo() {
 
 function SpiefLogo() {
   return (
-    <div className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full bg-[#B89758] flex items-center justify-center p-[2px] shadow-sm shrink-0 inline-flex align-middle">
-      <svg width="60%" height="60%" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <div className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full bg-[#B89758] flex items-center justify-center p-0.5 shadow-sm shrink-0">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="md:w-[28px] md:h-[28px]">
         <path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1" />
         <path d="M4 18L3 12h18l-1 6" />
         <path d="M12 12V3" />
@@ -65,8 +65,8 @@ function SpiefLogo() {
 
 function KtkLogo() {
   return (
-    <div className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full bg-[#001435] flex items-center justify-center p-[2px] shadow-sm shrink-0 border border-[#002868] inline-flex align-middle">
-      <span className="text-[7px] sm:text-[9px] md:text-[11px] font-black italic tracking-tighter text-[#E30613]">
+    <div className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full bg-[#001435] flex items-center justify-center p-0.5 shadow-sm shrink-0 border border-[#002868]">
+      <span className="text-[6px] md:text-[13px] font-black italic tracking-tighter text-[#E30613]">
         <span className="text-white">K</span>TK
       </span>
     </div>
@@ -101,7 +101,7 @@ export default function ClientsSection({
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/placeholder.png';
           }}
-          className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] sm:w-[36px] sm:h-[36px] md:w-[46px] md:h-[46px] md:min-w-[46px] md:min-h-[46px] rounded-full object-contain bg-white shrink-0 p-0.5 inline-flex align-middle"
+          className="w-[24px] h-[24px] min-w-[24px] min-h-[24px] md:w-[54px] md:h-[54px] md:min-w-[54px] md:min-h-[54px] rounded-full object-contain bg-white shrink-0 p-0.5 md:p-1"
         />
       );
     }
@@ -125,7 +125,7 @@ export default function ClientsSection({
   return (
     <section
       id="clients"
-      className="w-full font-mono flex flex-col items-center"
+      className="w-full max-w-[964px] font-mono flex flex-col items-center"
     >
       {/* Subtitle "КЛИЕНТЫ" (16px on mobile, 20px on desktop) */}
       <h3
@@ -154,7 +154,7 @@ export default function ClientsSection({
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(26px, 4.2vw, 56px)',
+          fontSize: 'clamp(20px, 2.6vw, 44px)',
           fontStyle: 'normal',
           fontWeight: 500,
           lineHeight: '100%',
@@ -162,13 +162,13 @@ export default function ClientsSection({
           textTransform: 'uppercase',
         }}
       >
-        {/* Line 1: Client 0 (Directly renders whatever is typed in admin) */}
+        {/* Line 1: Client 0 */}
         {c0 && (
-          <div className="flex items-center justify-center gap-[12px] w-fit max-w-full mx-auto">
+          <div className="flex items-center justify-center gap-[12px] w-fit mx-auto">
             {renderLogo(c0, 0)}
             <span
               onClick={() => handleClientClick(c0)}
-              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 inline-block text-center leading-[1.05] whitespace-pre-line"
+              className="cursor-pointer hover:bg-white text-white hover:text-black transition-colors duration-150 rounded-none px-4 py-1.5 whitespace-nowrap"
             >
               {getClientName(c0)}
             </span>
