@@ -726,7 +726,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Bottom contact info inside mobile & tablet menu */}
+        {/* Bottom contact info inside mobile & tablet menu (64px gap, no line) */}
         <div
           style={{
             fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
@@ -735,7 +735,7 @@ export default function Home() {
             lineHeight: '130%',
             letterSpacing: '-0.12px',
           }}
-          className="flex items-start justify-between w-full uppercase mt-6 pt-4 border-t border-[#E5E5E5]"
+          className="flex items-start justify-between w-full uppercase mt-[64px]"
         >
           <div className="flex flex-col text-[#8C8E96] text-left">
             <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
