@@ -627,11 +627,11 @@ export default function Home() {
                 <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
               </button>
 
-              {/* DESKTOP Badges Stack appearing above the burger (>= 1280px) — exact yesterday design */}
+              {/* DESKTOP Badges Stack appearing above the burger (>= 1280px ONLY) */}
               <div
                 style={{ paddingBottom: '16px' }}
-                className={`hidden xl:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
-                  isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+                className={`absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                  isMenuOpen ? 'hidden xl:flex opacity-100 translate-y-0 scale-100' : 'hidden opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
                 {MENU_ITEMS.map((item) => (
@@ -688,11 +688,11 @@ export default function Home() {
         </div>
       )}
 
-      {/* ── MOBILE & TABLET Navigation Popup (< 1280px) — exact yesterday design ── */}
+      {/* ── MOBILE & TABLET Navigation Popup (< 1280px ONLY) ── */}
       <div
         ref={mobileMenuRef}
-        className={`xl:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
-          isMenuOpen && !modalState.isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+        className={`fixed left-[20px] right-[20px] bottom-[84px] bg-white flex-col transition-all duration-200 z-[110] shadow-2xl ${
+          isMenuOpen && !modalState.isOpen ? 'flex xl:hidden opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'hidden opacity-0 pointer-events-none'
         }`}
         style={{ padding: '24px 20px 20px' }}
       >
