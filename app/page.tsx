@@ -621,7 +621,12 @@ export default function Home() {
       {/* ── MOBILE & TABLET Navigation Popup (< 1280px ONLY) ── */}
       <div
         ref={mobileMenuRef}
-        className={`fixed left-[20px] right-[20px] bottom-[84px] bg-white flex-col pt-[24px] px-[20px] pb-[40px] md:pb-[60px] transition-all duration-200 z-[110] shadow-2xl ${
+        style={{
+          paddingTop: '24px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
+        }}
+        className={`fixed left-[20px] right-[20px] md:left-[30px] md:right-[30px] bottom-[84px] bg-white flex flex-col pb-[40px] md:pb-[60px] transition-all duration-200 z-[110] shadow-2xl ${
           isMenuOpen && !modalState.isOpen ? 'flex xl:hidden opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'hidden opacity-0 pointer-events-none'
         }`}
       >
@@ -655,16 +660,19 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Bottom contact info inside mobile & tablet menu (64px gap, no line) */}
+        {/* Exact 64px gap between menu links and contacts (no line) */}
+        <div className="h-[64px] w-full shrink-0" />
+
+        {/* Bottom contact info inside mobile & tablet menu */}
         <div
           style={{
             fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-            fontSize: '12px',
+            fontSize: '13px',
             fontWeight: 700,
             lineHeight: '130%',
             letterSpacing: '-0.12px',
           }}
-          className="flex items-start justify-between w-full uppercase mt-[64px]"
+          className="flex items-start justify-between w-full uppercase"
         >
           <div className="flex flex-col text-[#8C8E96] text-left">
             <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
