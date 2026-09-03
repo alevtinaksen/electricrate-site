@@ -627,8 +627,8 @@ export default function Home() {
 
               {/* Navigation Badges Stack appearing above the burger for all screens */}
               <div
-                style={{ paddingBottom: '16px' }}
-                className={`flex absolute left-0 bottom-[54px] xl:bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                style={{ paddingBottom: '12px' }}
+                className={`flex absolute left-0 bottom-[56px] xl:bottom-[62px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-[150] shadow-2xl ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
@@ -641,14 +641,17 @@ export default function Home() {
                       setIsMenuOpen(false);
                     }}
                     style={{
-                      padding: '6px',
+                      paddingLeft: '12px',
+                      paddingRight: '16px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
                       fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
                       fontSize: '16px',
                       fontWeight: 700,
                       lineHeight: '125%',
                       letterSpacing: '-0.16px',
                     }}
-                    className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
+                    className="w-full min-w-[130px] inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-md border-none outline-none uppercase rounded-none"
                   >
                     {item.label[lang]}
                   </button>

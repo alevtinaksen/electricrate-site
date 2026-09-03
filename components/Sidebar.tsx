@@ -74,7 +74,7 @@ export default function Sidebar({
             Order: Name at top -> Contacts right below name -> Bio text at bottom
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="hidden xl:flex w-full flex-col relative z-10 pt-10">
-          {/* 1. Name: Container-Query scaled to fill 100% of left column on any resolution */}
+          {/* 1. Name: Vector SVG expanding to fill 100% width of the left column */}
           <div
             style={{
               paddingTop: '0px',
@@ -84,27 +84,41 @@ export default function Sidebar({
             }}
             className="w-full flex flex-col items-end text-right"
           >
-            <h1
-              className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
-              style={{
-                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(44px, 20.5cqw, 240px)',
-                lineHeight: lang === 'ru' ? '88%' : '84%',
-                letterSpacing: '-3px',
-                fontWeight: 600,
-                color: '#FFFFFF',
-              }}
+            <svg
+              viewBox={lang === 'ru' ? "0 0 540 215" : "0 0 540 205"}
+              className="w-full h-auto select-none pointer-events-none block"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <span
-                style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
-                className="text-right block w-full"
+              <text
+                x="540"
+                y="95"
+                textAnchor="end"
+                fill="#FFFFFF"
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontWeight: 600,
+                  fontSize: '115px',
+                  letterSpacing: '-3.5px',
+                }}
               >
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
-              </span>
-              <span className="text-right block w-full whitespace-nowrap">
+              </text>
+              <text
+                x="540"
+                y="200"
+                textAnchor="end"
+                fill="#FFFFFF"
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontWeight: 600,
+                  fontSize: '115px',
+                  letterSpacing: '-3.5px',
+                }}
+              >
                 {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
-              </span>
-            </h1>
+              </text>
+            </svg>
           </div>
 
           {/* ── Desktop Contact Info Row (right below name) ── */}
@@ -202,7 +216,7 @@ export default function Sidebar({
         <div className="flex xl:hidden w-full flex-col h-full justify-between relative z-10 pt-8 sm:pt-10">
           {/* Top section: Name + Bio */}
           <div className="w-full flex flex-col items-start">
-            {/* 1. Mobile & Tablet Name */}
+            {/* 1. Mobile & Tablet Name: Vector SVG expanding to fill 100% width */}
             <div
               style={{
                 paddingTop: '0px',
@@ -212,27 +226,41 @@ export default function Sidebar({
               }}
               className="w-full flex flex-col items-end text-right"
             >
-              <h1
-                className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
-                style={{
-                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: 'clamp(58px, 17vw, 130px)',
-                  lineHeight: lang === 'ru' ? '88%' : '84%',
-                  letterSpacing: '-3px',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                }}
+              <svg
+                viewBox={lang === 'ru' ? "0 0 540 215" : "0 0 540 205"}
+                className="w-full h-auto select-none pointer-events-none block"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <span
-                  style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
-                  className="text-right block w-full"
+                <text
+                  x="540"
+                  y="95"
+                  textAnchor="end"
+                  fill="#FFFFFF"
+                  style={{
+                    fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                    fontWeight: 600,
+                    fontSize: '115px',
+                    letterSpacing: '-3.5px',
+                  }}
                 >
                   {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
-                </span>
-                <span className="text-right block w-full whitespace-nowrap">
+                </text>
+                <text
+                  x="540"
+                  y="200"
+                  textAnchor="end"
+                  fill="#FFFFFF"
+                  style={{
+                    fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                    fontWeight: 600,
+                    fontSize: '115px',
+                    letterSpacing: '-3.5px',
+                  }}
+                >
                   {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
-                </span>
-              </h1>
+                </text>
+              </svg>
             </div>
 
             {/* 2. Mobile & Tablet Bio text immediately below name */}
