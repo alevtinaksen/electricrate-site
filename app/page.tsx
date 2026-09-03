@@ -386,12 +386,12 @@ export default function Home() {
           email={settings.email}
         />
 
-        {/* ── Right column: fixed 964px width on desktop >=1280px, fluid centered on mobile/tablets ── */}
+        {/* ── Right column: dynamic 58vw on desktop >=1280px (stretching on 2K/4K), fluid centered on mobile/tablets ── */}
         <main
           ref={rightPanelRef}
-          className="right-panel w-full xl:w-[964px] xl:min-w-[964px] xl:max-w-[964px] xl:shrink-0 min-h-screen xl:h-screen xl:overflow-y-auto overflow-x-hidden relative flex flex-col items-center xl:items-start"
+          className="right-panel w-full xl:w-[58vw] xl:flex-1 xl:min-w-[640px] min-h-screen xl:h-screen xl:overflow-y-auto overflow-x-hidden relative flex flex-col items-center xl:items-start"
         >
-          <div className="w-full max-w-[964px] flex flex-col items-center py-6 px-4 sm:px-6 pb-0">
+          <div className="w-full max-w-[964px] 2xl:max-w-[1240px] flex flex-col items-center py-6 px-4 sm:px-6 2xl:px-8 pb-0">
             {/* Section 1: 5 Hero Reels */}
             <ReelsSection
               reels={reels.filter((r) => !r.hidden)}
@@ -605,7 +605,7 @@ export default function Home() {
 
       {/* ── Globally Fixed Floating Bar (Hidden when video modal is open) ── */}
       {!modalState.isOpen && (
-        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-[max(360px,calc(100vw-964px)+16px)] z-[100] flex items-center pointer-events-none">
+        <div className="fixed bottom-[16px] left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-[42vw] xl:pl-4 z-[100] flex items-center pointer-events-none">
           <div className="relative flex items-center gap-0 pointer-events-auto">
             {/* Menu Popup Container */}
             <div
