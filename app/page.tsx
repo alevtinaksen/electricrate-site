@@ -625,10 +625,10 @@ export default function Home() {
                 <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
               </button>
 
-              {/* Navigation Badges Stack appearing above the burger for all screens */}
+              {/* DESKTOP Badges Stack appearing above the burger (>= 1280px) */}
               <div
                 style={{ paddingBottom: '12px' }}
-                className={`flex absolute left-0 bottom-[56px] xl:bottom-[62px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-[150] shadow-2xl ${
+                className={`hidden xl:flex absolute left-0 bottom-[62px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-[150] shadow-2xl ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
@@ -685,6 +685,70 @@ export default function Home() {
             >
               {lang === 'ru' ? 'СВЯЗАТЬСЯ' : 'CONTACT'}
             </a>
+          </div>
+        </div>
+      )}
+
+      {/* ── Mobile & Tablet Full-Width White Menu Card (< 1280px) matching exact design ── */}
+      {!modalState.isOpen && (
+        <div
+          className={`xl:hidden fixed bottom-[80px] left-3 right-3 sm:left-6 sm:right-6 md:left-8 md:right-8 bg-white text-[#0B0B0B] p-6 sm:p-8 z-[140] shadow-2xl transition-all duration-300 pointer-events-auto rounded-none ${
+            isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+          }`}
+        >
+          {/* Navigation Links */}
+          <div className="flex flex-col items-start gap-4">
+            {MENU_ITEMS.map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => {
+                  scrollToSection(item.key);
+                  setIsMenuOpen(false);
+                }}
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontSize: 'clamp(24px, 5vw, 36px)',
+                  fontWeight: 700,
+                  lineHeight: '110%',
+                  letterSpacing: '-0.5px',
+                }}
+                className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase p-0"
+              >
+                {item.label[lang]}
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom Contacts in Mobile Menu Card */}
+          <div
+            style={{
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              fontSize: '13px',
+              fontWeight: 700,
+              lineHeight: '130%',
+              letterSpacing: '-0.16px',
+            }}
+            className="flex items-start justify-between w-full uppercase mt-8 pt-6 border-t border-[#E5E5E5]"
+          >
+            <div className="flex flex-col text-[#8C8E96] text-left">
+              <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
+              <span>{lang === 'ru' ? 'ПИШИ :' : 'WRITE :'}</span>
+            </div>
+            <div className="flex flex-col items-end text-right">
+              <a
+                href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+                className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
+              >
+                {settings.phone || '+7(950)016-17-51'}
+              </a>
+              <a
+                href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
+                className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
+              >
+                {settings.email || 'ELECTICRATE@GMAIL.COM'}
+              </a>
+            </div>
           </div>
         </div>
       )}

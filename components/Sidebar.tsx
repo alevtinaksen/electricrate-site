@@ -74,7 +74,7 @@ export default function Sidebar({
             Order: Name at top -> Contacts right below name -> Bio text at bottom
         ══════════════════════════════════════════════════════════════════════ */}
         <div className="hidden xl:flex w-full flex-col relative z-10 pt-10">
-          {/* 1. Name: Vector SVG expanding to fill 100% width of the left column */}
+          {/* 1. Name: Vector SVG expanding to 100% exact width edge-to-edge */}
           <div
             style={{
               paddingTop: '0px',
@@ -85,13 +85,13 @@ export default function Sidebar({
             className="w-full flex flex-col items-end text-right"
           >
             <svg
-              viewBox={lang === 'ru' ? "0 0 540 215" : "0 0 540 205"}
+              viewBox={lang === 'ru' ? "0 0 455 215" : "0 0 455 205"}
               className="w-full h-auto select-none pointer-events-none block"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <text
-                x="540"
+                x="455"
                 y="95"
                 textAnchor="end"
                 fill="#FFFFFF"
@@ -105,9 +105,10 @@ export default function Sidebar({
                 {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
               </text>
               <text
-                x="540"
+                x="0"
                 y="200"
-                textAnchor="end"
+                textLength="455"
+                lengthAdjust="spacingAndGlyphs"
                 fill="#FFFFFF"
                 style={{
                   fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
@@ -213,10 +214,10 @@ export default function Sidebar({
             MOBILE & TABLET LAYOUT (visible on mobile/tablet, hidden xl:hidden)
             Order: 1. Name -> 2. Bio text -> 3. Contacts at bottom (mt-auto)
         ══════════════════════════════════════════════════════════════════════ */}
-        <div className="flex xl:hidden w-full flex-col h-full justify-between relative z-10 pt-8 sm:pt-10">
+        <div className="flex xl:hidden w-full flex-col h-full justify-between relative z-10 pt-6 sm:pt-8">
           {/* Top section: Name + Bio */}
           <div className="w-full flex flex-col items-start">
-            {/* 1. Mobile & Tablet Name: Vector SVG expanding to fill 100% width */}
+            {/* 1. Mobile & Tablet Name: Vector SVG expanding 100% edge-to-edge */}
             <div
               style={{
                 paddingTop: '0px',
@@ -227,13 +228,13 @@ export default function Sidebar({
               className="w-full flex flex-col items-end text-right"
             >
               <svg
-                viewBox={lang === 'ru' ? "0 0 540 215" : "0 0 540 205"}
+                viewBox={lang === 'ru' ? "0 0 455 215" : "0 0 455 205"}
                 className="w-full h-auto select-none pointer-events-none block"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <text
-                  x="540"
+                  x="455"
                   y="95"
                   textAnchor="end"
                   fill="#FFFFFF"
@@ -247,9 +248,10 @@ export default function Sidebar({
                   {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
                 </text>
                 <text
-                  x="540"
+                  x="0"
                   y="200"
-                  textAnchor="end"
+                  textLength="455"
+                  lengthAdjust="spacingAndGlyphs"
                   fill="#FFFFFF"
                   style={{
                     fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
@@ -263,21 +265,21 @@ export default function Sidebar({
               </svg>
             </div>
 
-            {/* 2. Mobile & Tablet Bio text immediately below name */}
+            {/* 2. Mobile & Tablet Bio text immediately below name with compact spacing */}
             <div
               style={{
-                paddingTop: '16px',
+                paddingTop: '8px',
                 paddingRight: '16px',
-                paddingBottom: '16px',
+                paddingBottom: '12px',
                 paddingLeft: '16px',
               }}
               className="w-full flex flex-col items-start text-left"
             >
               <p
-                className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px] md:text-[20px]"
+                className="font-mono font-bold uppercase text-white w-full m-0 text-[15px] sm:text-[17px] md:text-[19px]"
                 style={{
                   fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  lineHeight: '122%',
+                  lineHeight: '120%',
                   letterSpacing: '-0.16px',
                 }}
               >
