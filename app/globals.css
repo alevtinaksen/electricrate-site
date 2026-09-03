@@ -61,11 +61,11 @@ div[data-nextjs-route-announcer] {
 
 /* Clients Section Responsive Typography — Dynamically occupies full right panel without clipping */
 .clients-list-container {
-  font-size: clamp(24px, 5.8vw, 42px);
+  font-size: clamp(27px, 6.7vw, 44px);
 }
 @media (min-width: 768px) {
   .clients-list-container {
-    font-size: clamp(38px, 5.6vw, 64px);
+    font-size: clamp(44px, 6.4vw, 76px);
   }
 }
 @media (min-width: 1280px) {
