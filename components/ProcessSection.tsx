@@ -46,17 +46,21 @@ export default function ProcessSection({
     <div id="services" className="w-full">
       {/* ── MOBILE & TABLET VERSION (< 1280px): Full-width cards stacked vertically with gap-0, no animation ── */}
       <div className="block xl:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
-        {/* Mobile Header Headline — slightly larger, exactly 2 lines */}
+        {/* Mobile Header Headline — strictly 2 lines matching desktop */}
         <h2
-          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[96%] whitespace-pre-line m-0"
+          className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[96%] m-0 flex flex-col items-center"
           style={{
             fontFamily: '"Geist Mono", monospace',
-            fontSize: 'clamp(26px, 7.6vw, 42px)',
+            fontSize: 'clamp(20px, 5.8vw, 44px)',
             fontWeight: 600,
             color: '#FFFFFF',
           }}
         >
-          {headline}
+          {headline.split('\n').map((line, idx) => (
+            <span key={idx} className="whitespace-nowrap block">
+              {line}
+            </span>
+          ))}
         </h2>
 
         {/* Exact 48px gap between headline and first service card */}
