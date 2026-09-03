@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { GeistMono } from "geist/font/mono";
-import AmbientGlowOverlay from "@/components/AmbientGlowOverlay";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -221,8 +220,6 @@ export default function RootLayout({
         />
       </head>
       <body className={`${GeistMono.className} antialiased bg-[#0d0d0d] text-white relative`}>
-        {/* Ambient Glow Masks at z-20 */}
-        <AmbientGlowOverlay />
         {/* Main layout container allowing z-50 buttons & titles to stay strictly ABOVE glow masks */}
         <div className="min-h-screen">
           {children}

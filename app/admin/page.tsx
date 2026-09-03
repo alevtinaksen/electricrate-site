@@ -619,61 +619,34 @@ export default function AdminStudio() {
     showToast('ПАРОЛЬ УСПЕШНО ИЗМЕНЕН');
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanLogin = loginInput.trim().toLowerCase();
-    const cleanPin = pin.trim().toLowerCase();
-
-    const usersList: AdminUser[] = settings.admin_users && settings.admin_users.length > 0
-      ? settings.admin_users
-      : DEFAULT_ADMIN_USERS;
-
-    // 1. Check matching user in dynamic list
-    let matchedUser = usersList.find((u) => {
-      const uLogin = u.login.toLowerCase();
-      const uPin = u.pin.toLowerCase();
-      
-      // Both login and pin provided
-      if (cleanLogin && cleanPin) {
-        return (cleanLogin === uLogin || cleanLogin === u.name.toLowerCase()) && (cleanPin === uPin || cleanPin === '7777' || cleanPin === 'alevtina');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login: loginInput, pin }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAuthenticated(true);
+        setUserRole(data.role);
+        setSelectedUser(data.role === 'dev' ? 'alevtina' : 'vlad');
+        setCurrentUserId(data.userId);
+        setActiveMenu('analytics');
+        loadAnalytics();
+        setPin('');
+        setLoginInput('');
+        setPinError(false);
+        sessionStorage.setItem('admin_auth', 'true');
+        sessionStorage.setItem('admin_user_role', data.role);
+        sessionStorage.setItem('admin_user_id', data.userId);
+        return;
       }
-      // Only login provided
-      if (cleanLogin && !cleanPin) {
-        return cleanLogin === uLogin || cleanLogin === uPin;
-      }
-      // Only pin provided
-      if (!cleanLogin && cleanPin) {
-        return cleanPin === uPin || cleanPin === uLogin;
-      }
-      return false;
-    });
-
-    // Fallbacks for standard developer & editor logins
-    if (!matchedUser) {
-      if (cleanLogin === 'alevtina' || cleanPin === 'alevtina' || cleanPin === '7777') {
-        matchedUser = usersList.find((u) => u.role === 'dev') || DEFAULT_ADMIN_USERS[0];
-      } else if (cleanLogin === 'vlad' || cleanPin === '2026' || cleanPin === 'sapunov' || cleanPin === '1234' || cleanPin === 'admin' || cleanPin === settings.adminPin?.toLowerCase()) {
-        matchedUser = usersList.find((u) => u.role === 'editor') || DEFAULT_ADMIN_USERS[1];
-      }
+      setPinError(true);
+    } catch {
+      setPinError(true);
     }
-
-    if (matchedUser) {
-      setIsAuthenticated(true);
-      setUserRole(matchedUser.role);
-      setSelectedUser(matchedUser.role === 'dev' ? 'alevtina' : 'vlad');
-      setCurrentUserId(matchedUser.id);
-      setActiveMenu('analytics');
-      loadAnalytics();
-      setPin('');
-      setLoginInput('');
-      setPinError(false);
-      sessionStorage.setItem('admin_auth', 'true');
-      sessionStorage.setItem('admin_user_role', matchedUser.role);
-      sessionStorage.setItem('admin_user_id', matchedUser.id);
-      return;
-    }
-
-    setPinError(true);
   };
 
   const handleSave = async () => {

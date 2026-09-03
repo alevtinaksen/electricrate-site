@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Check, Upload, RefreshCw, Film, Image as ImageIcon, ChevronLeft, ChevronRight, X, Crop } from 'lucide-react';
+import { Check, Upload, RefreshCw, Film, Image as ImageIcon, X } from 'lucide-react';
 import DropFileInput from './DropFileInput';
 import ImageCropModal from './ImageCropModal';
 
@@ -46,7 +46,8 @@ export default function VideoCoverSelector({
       const parts = currentCoverUrl.split('#t=');
       const t = parseFloat(parts[1]);
       if (!isNaN(t)) {
-        setScrubTime(t);
+        const timer = setTimeout(() => setScrubTime(t), 0);
+        return () => clearTimeout(timer);
       }
     }
   }, [currentCoverUrl]);

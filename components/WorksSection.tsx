@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { WorkCategoryGroup } from '@/lib/supabase';
 import { isVideoMedia } from '@/lib/media';
 import { Language } from '@/types';
@@ -106,9 +107,11 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"
                             />
                           ) : (
-                            <img
+                            <Image
                               src={coverMedia}
                               alt={itemTitle}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                           )

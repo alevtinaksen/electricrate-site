@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Lenis from 'lenis';
+import dynamic from 'next/dynamic';
 import Sidebar from '@/components/Sidebar';
 import ReelsSection from '@/components/ReelsSection';
 import ClientsSection from '@/components/ClientsSection';
@@ -12,8 +13,9 @@ import AboutSection from '@/components/AboutSection';
 import FaqSection from '@/components/FaqSection';
 import ContactSection from '@/components/ContactSection';
 import Preloader from '@/components/Preloader';
-import VideoModal from '@/components/VideoModal';
 import TrueGlitchFilter from '@/components/TrueGlitchFilter';
+
+const VideoModal = dynamic(() => import('@/components/VideoModal'), { ssr: false });
 import {
   HERO_REELS,
   WORK_SECTIONS,

@@ -57,7 +57,10 @@ export default function VideoModal({
   }, [hasMultiple, onNavigate, activeIdx, playlist.length]);
 
   useEffect(() => {
-    setDetectedVertical(isVertical);
+    const timer = setTimeout(() => {
+      setDetectedVertical(isVertical);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [isVertical, videoUrl]);
 
   // YouTube Keyboard Shortcuts Engine
@@ -214,8 +217,6 @@ export default function VideoModal({
   };
 
   if (!isOpen) return null;
-
-  const isVert = detectedVertical || videoUrl.includes('vertical') || videoUrl.includes('reel');
 
   return (
     <div

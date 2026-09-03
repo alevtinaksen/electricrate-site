@@ -13,11 +13,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    // If on mobile device (< 768px), disable preloader immediately and completely
+    // If on mobile device (< 768px), disable preloader immediately
     if (typeof window === 'undefined' || window.innerWidth < 768) {
-      setIsFinished(true);
-      onComplete?.();
-      return;
+      const timer = setTimeout(() => {
+        setIsFinished(true);
+        onComplete?.();
+      }, 0);
+      return () => clearTimeout(timer);
     }
 
     setIsMobile(false);
