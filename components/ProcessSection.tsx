@@ -149,9 +149,9 @@ export default function ProcessSection({
             </h1>
           </div>
 
-          {/* ── Cards Interactive Stacking Deck Layer (Scales dynamically on large displays) ── */}
+          {/* ── Cards Interactive Stacking Deck Layer (Strictly equal 20.5vh steps between all 4 cards) ── */}
           <div className="relative w-full max-w-[964px] 2xl:max-w-[1300px] min-[1920px]:max-w-[1500px] h-screen flex items-center justify-center pointer-events-auto">
-            {/* ── Card 1: Pinned to Left-0, Top-[20px], z-10 ── */}
+            {/* ── Card 1: Pinned to Left-0, Top-[3vh], z-10 ── */}
             <motion.div
               style={{
                 y: card1Y,
@@ -160,7 +160,7 @@ export default function ProcessSection({
                 backgroundColor: card1.bg_color || '#1458E6',
                 color: card1.text_color || '#FFFFFF',
               }}
-              className="absolute left-0 top-[20px] 2xl:top-[30px] min-[1920px]:top-[40px] w-[500px] 2xl:w-[680px] min-[1920px]:w-[780px] max-w-[85vw] h-[300px] 2xl:h-[390px] min-[1920px]:h-[440px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-0 top-[3vh] w-[500px] 2xl:w-[680px] min-[1920px]:w-[780px] max-w-[85vw] h-[clamp(260px,28vh,400px)] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[16px] min-[1920px]:text-[17px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
@@ -181,7 +181,7 @@ export default function ProcessSection({
               </div>
             </motion.div>
 
-            {/* ── Card 2: Left-aligned, Top-[22vh], z-20 (White Card) ── */}
+            {/* ── Card 2: Left-aligned, Top-[23.5vh], z-20 (White Card) ── */}
             <motion.div
               style={{
                 y: card2Y,
@@ -190,7 +190,7 @@ export default function ProcessSection({
                 backgroundColor: card2.bg_color || '#FFFFFF',
                 color: card2.text_color || '#1458E6',
               }}
-              className="absolute left-[40px] 2xl:left-[100px] min-[1920px]:left-[140px] top-[22vh] 2xl:top-[23vh] w-[480px] 2xl:w-[640px] min-[1920px]:w-[740px] max-w-[85vw] h-[300px] 2xl:h-[390px] min-[1920px]:h-[440px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-[40px] 2xl:left-[100px] min-[1920px]:left-[140px] top-[23.5vh] w-[480px] 2xl:w-[640px] min-[1920px]:w-[740px] max-w-[85vw] h-[clamp(260px,28vh,400px)] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[16px] min-[1920px]:text-[17px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
@@ -220,7 +220,7 @@ export default function ProcessSection({
                 backgroundColor: card3.bg_color || '#1E1E22',
                 color: card3.text_color || '#FFFFFF',
               }}
-              className="absolute right-[30px] 2xl:right-[80px] min-[1920px]:right-[120px] top-[44vh] 2xl:top-[45vh] w-[500px] 2xl:w-[680px] min-[1920px]:w-[780px] max-w-[85vw] h-[300px] 2xl:h-[390px] min-[1920px]:h-[440px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-[30px] 2xl:right-[80px] min-[1920px]:right-[120px] top-[44vh] w-[500px] 2xl:w-[680px] min-[1920px]:w-[780px] max-w-[85vw] h-[clamp(260px,28vh,400px)] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[16px] min-[1920px]:text-[17px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
@@ -241,7 +241,7 @@ export default function ProcessSection({
               </div>
             </motion.div>
 
-            {/* ── Card 4: Right-0, Bottom-[20px], z-40 — Pinned to Bottom Boundary ── */}
+            {/* ── Card 4: Right-0, Top-[64.5vh], z-40 — Strictly Equal Step ── */}
             <motion.div
               style={{
                 y: card4Y,
@@ -250,7 +250,7 @@ export default function ProcessSection({
                 backgroundColor: card4.bg_color || '#1458E6',
                 color: card4.text_color || '#FFFFFF',
               }}
-              className="absolute right-0 bottom-[20px] 2xl:bottom-[30px] min-[1920px]:bottom-[40px] w-[540px] 2xl:w-[740px] min-[1920px]:w-[840px] max-w-[92vw] h-[300px] 2xl:h-[390px] min-[1920px]:h-[440px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-0 top-[64.5vh] w-[540px] 2xl:w-[740px] min-[1920px]:w-[840px] max-w-[92vw] h-[clamp(260px,28vh,400px)] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[16px] min-[1920px]:text-[17px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
