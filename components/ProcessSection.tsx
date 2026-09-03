@@ -25,11 +25,11 @@ export default function ProcessSection({
     offset: ['start start', 'end end'],
   });
 
-  // ─── 4 Solid Cards Pure Slide-in (Completely hidden at progress 0, rises as user scrolls) ───
-  const card1Y = useTransform(scrollYProgress, [0.06, 0.28], [1400, 0]);
-  const card2Y = useTransform(scrollYProgress, [0.28, 0.50], [1400, 0]);
-  const card3Y = useTransform(scrollYProgress, [0.50, 0.72], [1400, 0]);
-  const card4Y = useTransform(scrollYProgress, [0.72, 0.94], [1400, 0]);
+  // ─── 4 Solid Cards Pure Slide-in (Finishes cleanly within viewport before scroll end) ───
+  const card1Y = useTransform(scrollYProgress, [0.04, 0.22], [900, 0]);
+  const card2Y = useTransform(scrollYProgress, [0.22, 0.42], [900, 0]);
+  const card3Y = useTransform(scrollYProgress, [0.42, 0.62], [900, 0]);
+  const card4Y = useTransform(scrollYProgress, [0.62, 0.82], [900, 0]);
 
   const cards = services.cards || DEFAULT_SERVICES.cards;
   const card1 = cards[0] || DEFAULT_SERVICES.cards[0];
@@ -74,10 +74,10 @@ export default function ProcessSection({
                 key={card.id || `mob-card-${idx}`}
                 style={{
                   padding: '24px 20px',
-                  backgroundColor: card.bg_color || (idx === 0 || idx === 3 ? '#1458E6' : idx === 1 ? '#FFFFFF' : '#1E1E22'),
-                  color: card.text_color || (idx === 1 ? '#1458E6' : '#FFFFFF'),
+                  backgroundColor: card.bg_color || '#1458E6',
+                  color: card.text_color || '#FFFFFF',
                 }}
-                className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
+                className="w-full flex flex-col justify-between items-start rounded-none shadow-none"
               >
                 {/* 1. Card Title */}
                 <h3
@@ -148,9 +148,9 @@ export default function ProcessSection({
             </h1>
           </div>
 
-          {/* ── Cards Interactive Stacking Deck Layer (Full viewport visibility without clipping) ── */}
-          <div className="relative w-full max-w-[964px] 2xl:max-w-[1150px] h-screen flex items-center justify-center pointer-events-auto">
-            {/* ── Card 1: Pinned to Left-0, Top-[20px], z-10 ── */}
+          {/* ── Cards Interactive Stacking Deck Layer (Centered in Viewport, never clipped) ── */}
+          <div className="relative w-full max-w-[964px] 2xl:max-w-[1150px] h-[520px] 2xl:h-[580px] flex items-center justify-center pointer-events-auto">
+            {/* ── Card 1: Pinned to Left-0, Top-0, z-10 ── */}
             <motion.div
               style={{
                 y: card1Y,
@@ -159,7 +159,7 @@ export default function ProcessSection({
                 backgroundColor: card1.bg_color || '#1458E6',
                 color: card1.text_color || '#FFFFFF',
               }}
-              className="absolute left-0 top-[20px] 2xl:top-[30px] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-0 top-0 w-[500px] 2xl:w-[560px] max-w-[85vw] h-[360px] 2xl:h-[400px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card1.top_text_ru : card1.top_text_en}
@@ -180,7 +180,7 @@ export default function ProcessSection({
               </div>
             </motion.div>
 
-            {/* ── Card 2: Left-aligned, Top-[18vh], z-20 (White Card) ── */}
+            {/* ── Card 2: Left-aligned, Top-[45px], z-20 (White Card) ── */}
             <motion.div
               style={{
                 y: card2Y,
@@ -189,7 +189,7 @@ export default function ProcessSection({
                 backgroundColor: card2.bg_color || '#FFFFFF',
                 color: card2.text_color || '#1458E6',
               }}
-              className="absolute left-[40px] 2xl:left-[80px] top-[18vh] 2xl:top-[20vh] w-[480px] 2xl:w-[540px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute left-[50px] 2xl:left-[90px] top-[45px] w-[480px] 2xl:w-[540px] max-w-[85vw] h-[360px] 2xl:h-[400px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card2.top_text_ru : card2.top_text_en}
@@ -210,7 +210,7 @@ export default function ProcessSection({
               </div>
             </motion.div>
 
-            {/* ── Card 3: Right-aligned, Top-[36vh], z-30 (Black Card) ── */}
+            {/* ── Card 3: Right-aligned, Top-[90px], z-30 (Black Card) ── */}
             <motion.div
               style={{
                 y: card3Y,
@@ -219,7 +219,7 @@ export default function ProcessSection({
                 backgroundColor: card3.bg_color || '#1E1E22',
                 color: card3.text_color || '#FFFFFF',
               }}
-              className="absolute right-[30px] 2xl:right-[60px] top-[36vh] 2xl:top-[40vh] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-[30px] 2xl:right-[60px] top-[90px] w-[500px] 2xl:w-[560px] max-w-[85vw] h-[360px] 2xl:h-[400px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card3.top_text_ru : card3.top_text_en}
@@ -240,7 +240,7 @@ export default function ProcessSection({
               </div>
             </motion.div>
 
-            {/* ── Card 4: Pinned to Right-0, Bottom-[20px], z-40 — NEVER CLIPPED ── */}
+            {/* ── Card 4: Right-0, Top-[135px], z-40 — Fully Centered & Visible ── */}
             <motion.div
               style={{
                 y: card4Y,
@@ -249,7 +249,7 @@ export default function ProcessSection({
                 backgroundColor: card4.bg_color || '#1458E6',
                 color: card4.text_color || '#FFFFFF',
               }}
-              className="absolute right-0 bottom-[20px] 2xl:bottom-[30px] w-[540px] 2xl:w-[600px] max-w-[92vw] h-[340px] 2xl:h-[380px] flex flex-col justify-between items-start rounded-none shadow-none"
+              className="absolute right-0 top-[135px] w-[540px] 2xl:w-[600px] max-w-[92vw] h-[360px] 2xl:h-[400px] flex flex-col justify-between items-start rounded-none shadow-none"
             >
               <div className="font-mono text-[13px] 2xl:text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase whitespace-pre-line">
                 {lang === 'ru' ? card4.top_text_ru : card4.top_text_en}
