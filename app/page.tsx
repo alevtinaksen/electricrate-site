@@ -614,22 +614,21 @@ export default function Home() {
               onMouseLeave={() => setIsMenuOpen(false)}
               className="relative group/menu"
             >
-              {/* White/Blue Burger Button (54px on mobile, 58px on desktop) */}
+              {/* White Burger Button (54px on mobile, 58px on desktop) */}
               <button
                 type="button"
                 onClick={() => setIsMenuOpen((prev) => !prev)}
                 aria-label="Меню навигации"
-                className={`w-[54px] h-[54px] xl:w-[58px] xl:h-[58px] rounded-full ${
-                  isMenuOpen ? 'bg-[#1458E6]' : 'bg-white hover:bg-[#1458E6]'
-                } active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0`}
+                className="w-[54px] h-[54px] xl:w-[58px] xl:h-[58px] rounded-full bg-white hover:bg-[#1458E6] hover:text-white active:scale-95 transition-all duration-200 flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-2xl border-none outline-none z-50 group shrink-0"
               >
-                <span className={`w-5 h-[2px] ${isMenuOpen ? 'bg-white' : 'bg-[#0B0B0B] group-hover:bg-white'} rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
-                <span className={`w-5 h-[2px] ${isMenuOpen ? 'bg-white' : 'bg-[#0B0B0B] group-hover:bg-white'} rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
+                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
+                <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
               </button>
 
-              {/* DESKTOP Segmented Badges Stack appearing above the burger (>= 1280px) exactly matching design */}
+              {/* DESKTOP Badges Stack appearing above the burger (>= 1280px) — exact yesterday design */}
               <div
-                className={`hidden xl:flex absolute left-0 bottom-[66px] flex-col items-start transition-all duration-200 pointer-events-auto z-[150] bg-white border border-[#0B0B0B] divide-y divide-[#0B0B0B] shadow-2xl ${
+                style={{ paddingBottom: '16px' }}
+                className={`hidden xl:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
@@ -642,17 +641,14 @@ export default function Home() {
                       setIsMenuOpen(false);
                     }}
                     style={{
-                      paddingLeft: '16px',
-                      paddingRight: '20px',
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
+                      padding: '6px',
                       fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                      fontSize: '18px',
+                      fontSize: '16px',
                       fontWeight: 700,
-                      lineHeight: '120%',
+                      lineHeight: '125%',
                       letterSpacing: '-0.16px',
                     }}
-                    className="w-full min-w-[170px] text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase block"
+                    className="w-fit inline-block text-left bg-white hover:bg-[#1458E6] hover:text-white text-[#0B0B0B] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap shadow-none border-none outline-none uppercase rounded-none"
                   >
                     {item.label[lang]}
                   </button>
@@ -690,69 +686,75 @@ export default function Home() {
         </div>
       )}
 
-      {/* ── Mobile & Tablet Full-Width White Menu Card (< 1280px) matching exact 100% width design ── */}
-      {!modalState.isOpen && (
-        <div
-          className={`xl:hidden fixed bottom-[74px] sm:bottom-[78px] left-0 right-0 w-full bg-white text-[#0B0B0B] px-5 sm:px-8 md:px-10 pt-6 sm:pt-8 pb-5 z-[140] shadow-2xl transition-all duration-300 pointer-events-auto rounded-none border-t border-[#E5E5E5] ${
-            isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
-          }`}
-        >
-          {/* Navigation Links — bold, large, clean */}
-          <div className="flex flex-col items-start gap-2.5 sm:gap-3">
-            {MENU_ITEMS.map((item) => (
-              <button
-                key={item.key}
-                type="button"
-                onClick={() => {
-                  scrollToSection(item.key);
-                  setIsMenuOpen(false);
-                }}
-                style={{
-                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                  fontSize: 'clamp(28px, 6.5vw, 42px)',
-                  fontWeight: 700,
-                  lineHeight: '110%',
-                  letterSpacing: '-0.8px',
-                }}
-                className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase p-0 block"
-              >
-                {item.label[lang]}
-              </button>
-            ))}
-          </div>
+      {/* ── MOBILE & TABLET Navigation Popup (< 1280px) — exact yesterday design ── */}
+      <div
+        ref={mobileMenuRef}
+        className={`xl:hidden fixed left-[20px] right-[20px] bottom-[78px] bg-white flex flex-col transition-all duration-200 z-[110] shadow-2xl ${
+          isMenuOpen && !modalState.isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+        }`}
+        style={{ padding: '24px 20px 20px' }}
+      >
+        {/* Nav links: 2px gap between items */}
+        <div className="flex flex-col gap-[2px]">
+          {MENU_ITEMS.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.key);
+                setIsMenuOpen(false);
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                scrollToSection(item.key);
+                setIsMenuOpen(false);
+              }}
+              style={{
+                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                fontSize: '20px',
+                fontWeight: 700,
+                lineHeight: '125%',
+                letterSpacing: '-0.2px',
+              }}
+              className="w-full text-left bg-transparent text-[#0B0B0B] hover:text-[#1458E6] font-mono font-bold transition-colors cursor-pointer whitespace-nowrap border-none outline-none uppercase p-0"
+            >
+              {item.label[lang]}
+            </button>
+          ))}
+        </div>
 
-          {/* Bottom Contacts in Mobile Menu Card */}
-          <div
-            style={{
-              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-              fontSize: '13px',
-              fontWeight: 700,
-              lineHeight: '130%',
-              letterSpacing: '-0.16px',
-            }}
-            className="flex items-start justify-between w-full uppercase mt-6 pt-4 border-t border-[#E5E5E5]"
-          >
-            <div className="flex flex-col text-[#8C8E96] text-left">
-              <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
-              <span>{lang === 'ru' ? 'ПИШИ :' : 'WRITE :'}</span>
-            </div>
-            <div className="flex flex-col items-end text-right">
-              <a
-                href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
-                className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
-              >
-                {settings.phone || '+7(950)016-17-51'}
-              </a>
-              <a
-                href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
-                className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
-              >
-                {settings.email || 'ELECTICRATE@GMAIL.COM'}
-              </a>
-            </div>
+        {/* Bottom contact info inside mobile & tablet menu */}
+        <div
+          style={{
+            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+            fontSize: '12px',
+            fontWeight: 700,
+            lineHeight: '130%',
+            letterSpacing: '-0.12px',
+          }}
+          className="flex items-start justify-between w-full uppercase mt-6 pt-4 border-t border-[#E5E5E5]"
+        >
+          <div className="flex flex-col text-[#8C8E96] text-left">
+            <span>{lang === 'ru' ? 'ЗВОНИ :' : 'CALL :'}</span>
+            <span>{lang === 'ru' ? 'ПИШИ :' : 'WRITE :'}</span>
+          </div>
+          <div className="flex flex-col items-end text-right">
+            <a
+              href={`tel:${(settings.phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+              className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
+            >
+              {settings.phone || '+7(950)016-17-51'}
+            </a>
+            <a
+              href={`mailto:${settings.email || 'ELECTICRATE@GMAIL.COM'}`}
+              className="text-[#0B0B0B] hover:text-[#1458E6] transition-colors"
+            >
+              {settings.email || 'ELECTICRATE@GMAIL.COM'}
+            </a>
           </div>
         </div>
-      )}
+      </div>
 
       {/* ── Video Lightbox Popup Modal (Placed at true root level) ── */}
       <VideoModal
