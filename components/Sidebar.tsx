@@ -197,56 +197,97 @@ export default function Sidebar({
 
         {/* ══════════════════════════════════════════════════════════════════════
             MOBILE & TABLET LAYOUT (visible on mobile/tablet, hidden xl:hidden)
-            Order: Name at top -> Contacts right below name -> Bio text at bottom
+            Order: 1. Name -> 2. Bio text -> 3. Contacts at bottom (mt-auto)
         ══════════════════════════════════════════════════════════════════════ */}
-        <div className="flex xl:hidden w-full flex-col relative z-10 pt-8 sm:pt-10">
-          {/* 1. Mobile & Tablet Name */}
-          <div
-            style={{
-              paddingTop: '0px',
-              paddingRight: '16px',
-              paddingBottom: '0px',
-              paddingLeft: '16px',
-            }}
-            className="w-full flex flex-col items-end text-right"
-          >
-            <h1
-              className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
+        <div className="flex xl:hidden w-full flex-col h-full justify-between relative z-10 pt-8 sm:pt-10">
+          {/* Top section: Name + Bio */}
+          <div className="w-full flex flex-col items-start">
+            {/* 1. Mobile & Tablet Name */}
+            <div
               style={{
-                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(58px, 17vw, 130px)',
-                lineHeight: lang === 'ru' ? '88%' : '84%',
-                letterSpacing: '-3px',
-                fontWeight: 600,
-                color: '#FFFFFF',
+                paddingTop: '0px',
+                paddingRight: '16px',
+                paddingBottom: '0px',
+                paddingLeft: '16px',
               }}
+              className="w-full flex flex-col items-end text-right"
             >
-              <span
-                style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
-                className="text-right block w-full"
+              <h1
+                className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  fontSize: 'clamp(58px, 17vw, 130px)',
+                  lineHeight: lang === 'ru' ? '88%' : '84%',
+                  letterSpacing: '-3px',
+                  fontWeight: 600,
+                  color: '#FFFFFF',
+                }}
               >
-                {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
-              </span>
-              <span className="text-right block w-full whitespace-nowrap">
-                {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
-              </span>
-            </h1>
+                <span
+                  style={{ marginBottom: lang === 'ru' ? '8px' : '0px' }}
+                  className="text-right block w-full"
+                >
+                  {lang === 'ru' ? 'ВЛАД' : 'VLAD'}
+                </span>
+                <span className="text-right block w-full whitespace-nowrap">
+                  {lang === 'ru' ? 'САПУНОВ' : 'SAPUNOV'}
+                </span>
+              </h1>
+            </div>
+
+            {/* 2. Mobile & Tablet Bio text immediately below name */}
+            <div
+              style={{
+                paddingTop: '16px',
+                paddingRight: '16px',
+                paddingBottom: '16px',
+                paddingLeft: '16px',
+              }}
+              className="w-full flex flex-col items-start text-left"
+            >
+              <p
+                className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px] md:text-[20px]"
+                style={{
+                  fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+                  lineHeight: '122%',
+                  letterSpacing: '-0.16px',
+                }}
+              >
+                {lang === 'ru' ? (
+                  <>
+                    ВИДЕОМЕЙКЕР ПОЛНОГО ЦИКЛА.
+                    <br />
+                    КАРТИНКА УРОВНЯ КИНО — ОТ ИДЕИ
+                    <br />
+                    ДО МАСТЕРИНГА
+                  </>
+                ) : (
+                  <>
+                    FULL-SERVICE VIDEO MAKER.
+                    <br />
+                    CINEMA-QUALITY IMAGES: FROM CONCEPT
+                    <br />
+                    TO MASTERING.
+                  </>
+                )}
+              </p>
+            </div>
           </div>
 
-          {/* 2. Mobile & Tablet Contact Info Row (directly below name matching desktop style) */}
+          {/* 3. Mobile & Tablet Contacts at the bottom of the block (mt-auto) */}
           <div
             style={{
               paddingLeft: '16px',
               paddingRight: '16px',
-              paddingTop: '6px',
-              paddingBottom: '0px',
+              paddingTop: '8px',
+              paddingBottom: '16px',
               fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
               fontSize: '15px',
               fontWeight: 700,
               lineHeight: '120%',
               letterSpacing: '-0.16px',
             }}
-            className="w-full flex items-start justify-between uppercase mt-1"
+            className="w-full flex items-start justify-between uppercase mt-auto"
           >
             <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
               <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
@@ -280,44 +321,6 @@ export default function Sidebar({
                 {email || 'ELECTICRATE@GMAIL.COM'}
               </a>
             </div>
-          </div>
-
-          {/* 3. Mobile & Tablet Bio text */}
-          <div
-            style={{
-              paddingTop: '16px',
-              paddingRight: '16px',
-              paddingBottom: '16px',
-              paddingLeft: '16px',
-            }}
-            className="w-full flex flex-col items-start text-left"
-          >
-            <p
-              className="font-mono font-bold uppercase text-white w-full m-0 text-[16px] sm:text-[18px] md:text-[20px]"
-              style={{
-                fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                lineHeight: '122%',
-                letterSpacing: '-0.16px',
-              }}
-            >
-              {lang === 'ru' ? (
-                <>
-                  ВИДЕОМЕЙКЕР ПОЛНОГО ЦИКЛА.
-                  <br />
-                  КАРТИНКА УРОВНЯ КИНО — ОТ ИДЕИ
-                  <br />
-                  ДО МАСТЕРИНГА
-                </>
-              ) : (
-                <>
-                  FULL-SERVICE VIDEO MAKER.
-                  <br />
-                  CINEMA-QUALITY IMAGES: FROM CONCEPT
-                  <br />
-                  TO MASTERING.
-                </>
-              )}
-            </p>
           </div>
         </div>
       </aside>

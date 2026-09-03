@@ -90,16 +90,16 @@ function ReelCard({
 
   return (
     <div ref={containerRef} className="flex flex-col items-center w-full">
-      {/* Video Container — full-width responsive across all screens */}
+      {/* Video Container — unique width per card, responsive on mobile/tablet */}
       <div
         ref={cardRef}
         onClick={onSelect}
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="video-card relative overflow-hidden bg-[#121212] select-none cursor-pointer w-full"
+        className="video-card relative overflow-hidden bg-[#121212] select-none cursor-pointer w-full xl:w-auto"
         style={{
-          width: '100%',
+          width: `${reel.width || 964}px`,
           maxWidth: '100%',
           aspectRatio: `${reel.width} / ${reel.height}`,
         }}

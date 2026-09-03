@@ -1,6 +1,6 @@
 {
   "totalViews": 117,
-  "totalContactClicks": 7,
+  "totalContactClicks": 8,
   "videoViews": {
     "CPO-GROUP": {
       "title": "CPO-GROUP",
@@ -168,6 +168,11 @@
       "title": "Email (Сайдбар)",
       "count": 1,
       "lastClickedAt": "2026-08-31T22:22:47.522Z"
+    },
+    "INSTAGRAM*": {
+      "title": "INSTAGRAM*",
+      "count": 1,
+      "lastClickedAt": "2026-09-03T11:50:46.525Z"
     }
   },
   "dailyViews": {
@@ -178,6 +183,7 @@
   "dailyClicks": {
     "2026-08-30": 2,
     "2026-08-31": 3,
-    "2026-09-01": 2
+    "2026-09-01": 2,
+    "2026-09-03": 1
   }
 }

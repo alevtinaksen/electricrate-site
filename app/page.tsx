@@ -625,10 +625,10 @@ export default function Home() {
                 <span className={`w-5 h-[2px] bg-[#0B0B0B] group-hover:bg-white rounded-full transition-all duration-200 ${isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`} />
               </button>
 
-              {/* DESKTOP Badges Stack appearing above the burger */}
+              {/* Navigation Badges Stack appearing above the burger for all screens */}
               <div
                 style={{ paddingBottom: '16px' }}
-                className={`hidden xl:flex absolute left-0 bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
+                className={`flex absolute left-0 bottom-[54px] xl:bottom-[58px] flex-col items-start gap-[2px] transition-all duration-200 pointer-events-auto z-50 ${
                   isMenuOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
                 }`}
               >
