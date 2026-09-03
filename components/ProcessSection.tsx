@@ -25,11 +25,11 @@ export default function ProcessSection({
     offset: ['start start', 'end end'],
   });
 
-  // ─── 4 Solid Cards Pure Slide-in (Finishes cleanly within viewport before scroll end) ───
-  const card1Y = useTransform(scrollYProgress, [0.04, 0.22], [900, 0]);
-  const card2Y = useTransform(scrollYProgress, [0.22, 0.42], [900, 0]);
-  const card3Y = useTransform(scrollYProgress, [0.42, 0.62], [900, 0]);
-  const card4Y = useTransform(scrollYProgress, [0.62, 0.82], [900, 0]);
+  // ─── 4 Solid Cards Pure Slide-in (Guaranteed offscreen at 0-progress on 2K/4K displays) ───
+  const card1Y = useTransform(scrollYProgress, [0.04, 0.22], [2200, 0]);
+  const card2Y = useTransform(scrollYProgress, [0.22, 0.42], [2200, 0]);
+  const card3Y = useTransform(scrollYProgress, [0.42, 0.62], [2200, 0]);
+  const card4Y = useTransform(scrollYProgress, [0.62, 0.82], [2200, 0]);
 
   const cards = services.cards || DEFAULT_SERVICES.cards;
   const card1 = cards[0] || DEFAULT_SERVICES.cards[0];
