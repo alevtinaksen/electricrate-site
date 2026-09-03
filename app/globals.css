@@ -59,6 +59,21 @@ div[data-nextjs-route-announcer] {
   background-color: #121212;
 }
 
+/* Clients Section Responsive Typography */
+.clients-list-container {
+  font-size: clamp(22px, 3.8vw, 36px);
+}
+@media (min-width: 1280px) {
+  .clients-list-container {
+    font-size: clamp(24px, 2.1vw, 44px);
+  }
+}
+@media (min-width: 1920px) {
+  .clients-list-container {
+    font-size: clamp(34px, 2.5vw, 54px);
+  }
+}
+
 .video-card video,
 .video-card img {
   width: 100%;

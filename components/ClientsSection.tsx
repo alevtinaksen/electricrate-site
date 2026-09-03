@@ -150,7 +150,7 @@ export default function ClientsSection({
 
       {/* Client List with clean white text-only hover fill, black text, and video modal trigger */}
       <div
-        className="w-full flex flex-col items-center text-center gap-1.5 text-[clamp(24px,4.5vw,38px)] xl:text-[clamp(34px,2.6vw,54px)] 2xl:text-[clamp(44px,2.9vw,64px)]"
+        className="clients-list-container w-full flex flex-col items-center text-center gap-1.5"
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
