@@ -154,7 +154,7 @@ export default function ClientsSection({
         style={{
           color: '#FFFFFF',
           fontFamily: '"Geist Mono", monospace',
-          fontSize: 'clamp(28px, 5.2vw, 56px)',
+          fontSize: 'clamp(32px, 6.6vw, 68px)',
           fontStyle: 'normal',
           fontWeight: 500,
           lineHeight: '100%',
