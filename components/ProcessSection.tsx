@@ -99,11 +99,11 @@ export default function ProcessSection({
                 {/* 2. Exact 40px spacing on mobile and 60px on tablet between title and bottom texts */}
                 <div className="h-[40px] md:h-[60px] w-full shrink-0" />
 
-                {/* 3. Bottom Texts Container */}
+                {/* 3. Bottom Texts Container (Lowercase matching desktop style) */}
                 <div className="w-full flex flex-col gap-[8px]">
                   {topText && (
                     <p
-                      className="font-mono uppercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[120%]"
+                      className="font-mono lowercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[125%] tracking-[-0.14px] whitespace-pre-line"
                       style={{
                         fontFamily: '"Geist Mono", monospace',
                       }}
@@ -113,7 +113,7 @@ export default function ProcessSection({
                   )}
                   {bottomText && (
                     <p
-                      className="font-mono uppercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[120%] opacity-40"
+                      className="font-mono lowercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[125%] tracking-[-0.14px] whitespace-pre-line"
                       style={{
                         fontFamily: '"Geist Mono", monospace',
                       }}
