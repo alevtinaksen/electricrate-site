@@ -15,7 +15,7 @@ export default function WorksSection({ sections, lang, onVideoSelect }: WorksSec
   return (
     <section
       id="works"
-      className="w-full max-w-[964px] font-mono flex flex-col items-center"
+      className="w-full font-mono flex flex-col items-center"
     >
       {/* Main Header "ВСЕ РАБОТЫ" (slightly more compact on mobile) */}
       <h2

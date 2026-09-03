@@ -21,7 +21,7 @@ export default function FaqSection({ lang, faqs = DEFAULT_FAQS }: FaqSectionProp
   return (
     <section
       id="faq"
-      className="w-full max-w-[964px] pt-0 pb-24 font-mono text-white flex flex-col items-start"
+      className="w-full pt-0 pb-24 font-mono text-white flex flex-col items-start"
     >
       {/* ── Header "ВОПРОСЫ" (64px, 90% leading, -2.56px, weight 600, paddingLeft 20px, paddingBottom 20px) ── */}
       <h2

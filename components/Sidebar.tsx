@@ -88,7 +88,7 @@ export default function Sidebar({
               className="font-mono uppercase font-semibold text-white text-right flex flex-col items-end w-full"
               style={{
                 fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                fontSize: 'clamp(44px, 17.2cqw, 240px)',
+                fontSize: 'clamp(44px, 20.5cqw, 240px)',
                 lineHeight: lang === 'ru' ? '88%' : '84%',
                 letterSpacing: '-3px',
                 fontWeight: 600,
@@ -197,11 +197,10 @@ export default function Sidebar({
 
         {/* ══════════════════════════════════════════════════════════════════════
             MOBILE & TABLET LAYOUT (visible on mobile/tablet, hidden xl:hidden)
-            Order: Name at top -> Bio text immediately below -> Contacts at bottom
-            Exact fluid container height for phones and iPads
+            Order: Name at top -> Contacts right below name -> Bio text at bottom
         ══════════════════════════════════════════════════════════════════════ */}
-        <div className="flex xl:hidden w-full flex-col relative z-10 pt-10">
-          {/* 1. Mobile & Tablet Name — full width impactful layout */}
+        <div className="flex xl:hidden w-full flex-col relative z-10 pt-8 sm:pt-10">
+          {/* 1. Mobile & Tablet Name */}
           <div
             style={{
               paddingTop: '0px',
@@ -234,7 +233,56 @@ export default function Sidebar({
             </h1>
           </div>
 
-          {/* 2. Mobile & Tablet Bio text immediately below name */}
+          {/* 2. Mobile & Tablet Contact Info Row (directly below name matching desktop style) */}
+          <div
+            style={{
+              paddingLeft: '16px',
+              paddingRight: '16px',
+              paddingTop: '6px',
+              paddingBottom: '0px',
+              fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+              fontSize: '15px',
+              fontWeight: 700,
+              lineHeight: '120%',
+              letterSpacing: '-0.16px',
+            }}
+            className="w-full flex items-start justify-between uppercase mt-1"
+          >
+            <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
+              <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
+              <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
+            </div>
+            <div className="flex flex-col items-end text-right leading-[120%]">
+              <a
+                href={`tel:${(phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
+                onClick={() => {
+                  fetch('/api/analytics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contactName: 'Телефон (Сайдбар)' }),
+                  }).catch(() => {});
+                }}
+                className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
+              >
+                {phone || '+7(950)016-17-51'}
+              </a>
+              <a
+                href={`mailto:${email || 'ELECTICRATE@GMAIL.COM'}`}
+                onClick={() => {
+                  fetch('/api/analytics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contactName: 'Email (Сайдбар)' }),
+                  }).catch(() => {});
+                }}
+                className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
+              >
+                {email || 'ELECTICRATE@GMAIL.COM'}
+              </a>
+            </div>
+          </div>
+
+          {/* 3. Mobile & Tablet Bio text */}
           <div
             style={{
               paddingTop: '16px',
@@ -270,55 +318,6 @@ export default function Sidebar({
                 </>
               )}
             </p>
-          </div>
-        </div>
-
-        {/* 3. Mobile Contacts at bottom of the 450px hero block */}
-        <div
-          style={{
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            paddingTop: '8px',
-            paddingBottom: '20px',
-            fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-            fontSize: '16px',
-            fontWeight: 700,
-            lineHeight: '120%',
-            letterSpacing: '-0.16px',
-          }}
-          className="flex md:hidden w-full items-start justify-between uppercase mt-auto"
-        >
-          <div className="flex flex-col text-[#8C8E96] text-left leading-[120%]">
-            <span>{lang === 'ru' ? 'ЗВОНИ:' : 'CALL:'}</span>
-            <span>{lang === 'ru' ? 'ПИШИ:' : 'WRITE:'}</span>
-          </div>
-          <div className="flex flex-col items-end text-right leading-[120%]">
-            <a
-              href={`tel:${(phone || '+7(950)016-17-51').replace(/[^\d+]/g, '')}`}
-              onClick={() => {
-                fetch('/api/analytics', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ contactName: 'Телефон (Сайдбар)' }),
-                }).catch(() => {});
-              }}
-              className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
-            >
-              {phone || '+7(950)016-17-51'}
-            </a>
-            <a
-              href={`mailto:${email || 'ELECTICRATE@GMAIL.COM'}`}
-              onClick={() => {
-                fetch('/api/analytics', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ contactName: 'Email (Сайдбар)' }),
-                }).catch(() => {});
-              }}
-              className="cursor-pointer text-white transition-colors duration-150 rounded-none px-1 py-0.5 inline-block whitespace-nowrap"
-            >
-              {email || 'ELECTICRATE@GMAIL.COM'}
-            </a>
           </div>
         </div>
       </aside>

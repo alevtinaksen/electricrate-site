@@ -391,7 +391,7 @@ export default function Home() {
           ref={rightPanelRef}
           className="right-panel w-full xl:w-[58vw] xl:flex-1 xl:min-w-[640px] min-h-screen xl:h-screen xl:overflow-y-auto overflow-x-hidden relative flex flex-col items-center xl:items-start"
         >
-          <div className="w-full max-w-[964px] 2xl:max-w-[1240px] flex flex-col items-center py-6 px-4 sm:px-6 2xl:px-8 pb-0">
+          <div className="w-full flex flex-col items-center py-6 px-4 sm:px-6 xl:px-8 2xl:px-12 pb-0">
             {/* Section 1: 5 Hero Reels */}
             <ReelsSection
               reels={reels.filter((r) => !r.hidden)}

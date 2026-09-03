@@ -44,8 +44,8 @@ export default function ProcessSection({
 
   return (
     <div id="services" className="w-full">
-      {/* ── MOBILE VERSION (< 768px): Full-width cards stacked vertically with gap-0, no animation, equal title size ── */}
-      <div className="block md:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
+      {/* ── MOBILE & TABLET VERSION (< 1280px): Full-width cards stacked vertically with gap-0, no animation ── */}
+      <div className="block xl:hidden w-full font-mono flex flex-col gap-0 pt-4 pb-12">
         {/* Mobile Header Headline — slightly larger, exactly 2 lines */}
         <h2
           className="font-mono uppercase font-semibold text-center text-white tracking-[-1.5px] px-2 leading-[96%] whitespace-pre-line m-0"
@@ -73,15 +73,15 @@ export default function ProcessSection({
               <div
                 key={card.id || `mob-card-${idx}`}
                 style={{
-                  padding: '20px 20px',
+                  padding: '24px 20px',
                   backgroundColor: card.bg_color || (idx === 0 || idx === 3 ? '#1458E6' : idx === 1 ? '#FFFFFF' : '#1E1E22'),
                   color: card.text_color || (idx === 1 ? '#1458E6' : '#FFFFFF'),
                 }}
                 className="w-full flex flex-col justify-between items-start rounded-none shrink-0"
               >
-                {/* 1. Card Title: slightly smaller (24px) for perfect proportion */}
+                {/* 1. Card Title */}
                 <h3
-                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] text-[24px] sm:text-[26px] leading-[90%]"
+                  className="font-mono font-semibold uppercase text-left w-full tracking-[-1px] text-[24px] sm:text-[28px] md:text-[32px] leading-[90%]"
                   style={{
                     fontFamily: '"Geist Mono", monospace',
                     fontWeight: 600,
@@ -92,20 +92,31 @@ export default function ProcessSection({
                   {cardTitle}
                 </h3>
 
-                {/* 2. Exact 52px gap between title and bottom texts */}
-                <div className="h-[52px] w-full shrink-0" />
+                {/* 2. Exact 48px gap between title and bottom texts */}
+                <div className="h-[48px] w-full shrink-0" />
 
-                {/* 3. Bottom Texts Container (two texts with 8px gap, stretched full width, bottom text has 40% opacity) */}
+                {/* 3. Bottom Texts Container */}
                 <div className="w-full flex flex-col gap-[8px]">
-                  {/* First text (top text from desktop card) */}
-                  <p className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase w-full m-0 whitespace-pre-line">
-                    {topText}
-                  </p>
-
-                  {/* Second text (bottom text with opacity-40) */}
-                  <p className="font-mono text-[14px] font-bold leading-[125%] tracking-[-0.14px] lowercase w-full m-0 whitespace-pre-line opacity-40">
-                    {bottomText}
-                  </p>
+                  {topText && (
+                    <p
+                      className="font-mono uppercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[120%]"
+                      style={{
+                        fontFamily: '"Geist Mono", monospace',
+                      }}
+                    >
+                      {topText}
+                    </p>
+                  )}
+                  {bottomText && (
+                    <p
+                      className="font-mono uppercase font-bold text-left m-0 text-[13px] sm:text-[15px] leading-[120%] opacity-40"
+                      style={{
+                        fontFamily: '"Geist Mono", monospace',
+                      }}
+                    >
+                      {bottomText}
+                    </p>
+                  )}
                 </div>
               </div>
             );
@@ -113,10 +124,10 @@ export default function ProcessSection({
         </div>
       </div>
 
-      {/* ── DESKTOP VERSION (>= 768px): Preserved exact stacking deck with scroll pinning ── */}
+      {/* ── DESKTOP SCROLL PROGRESSION PINNED CONTAINER (>= 1280px) ── */}
       <div
         ref={sectionRef}
-        className="hidden md:block relative w-full h-[400vh] font-mono bg-transparent isolate"
+        className="hidden xl:block relative w-full h-[400vh] font-mono bg-transparent isolate"
       >
         {/* ── Fixed Fullscreen Stage (Transparent background matching site #0d0d0d) ── */}
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-transparent">

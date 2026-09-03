@@ -55,7 +55,7 @@ export default function ContactSection({
   return (
     <section
       id="contacts"
-      className="w-full max-w-[964px] font-mono text-white flex flex-col items-center pt-0 pb-0"
+      className="w-full font-mono text-white flex flex-col items-center pt-0 pb-0"
     >
       {/* ── Title «ЕСТЬ ИДЕЯ? ПРЕВРАТИМ ЕЕ В СИЛЬНОЕ КИНО» ── */}
       <h2
@@ -100,7 +100,7 @@ export default function ContactSection({
 
           return (
             <div key={item.short} className="relative flex flex-col items-center w-full sm:w-auto">
-              {/* Mobile: Always expanded pill — width hugs content */}
+              {/* Mobile & Tablets (<1280px): Always expanded pill — width hugs content */}
               <a
                 href={item.url}
                 target="_blank"
@@ -116,12 +116,12 @@ export default function ContactSection({
                   paddingLeft: '28px',
                   paddingRight: '28px',
                 }}
-                className="md:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden w-fit no-underline"
+                className="xl:hidden flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg overflow-hidden w-fit no-underline"
               >
                 <span className="whitespace-nowrap select-none font-bold">{item.full}</span>
               </a>
 
-              {/* Desktop: Interactive expanding circular pill */}
+              {/* Desktop (>= 1280px): Interactive expanding circular pill */}
               <motion.a
                 href={item.url}
                 target="_blank"
@@ -144,7 +144,7 @@ export default function ContactSection({
                   paddingLeft: isHovered ? '28px' : '0px',
                   paddingRight: isHovered ? '28px' : '0px',
                 }}
-                className={`hidden md:flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg hover:shadow-2xl overflow-hidden ${
+                className={`hidden xl:flex items-center justify-center bg-white text-[#0B0B0B] rounded-full uppercase cursor-pointer active:scale-95 transition-colors shadow-lg hover:shadow-2xl overflow-hidden ${
                   isHovered ? 'w-auto' : 'w-[54px]'
                 }`}
               >
@@ -160,11 +160,11 @@ export default function ContactSection({
                 </motion.span>
               </motion.a>
 
-              {/* Mobile: Centered Instagram Meta Notice shown directly below Instagram pill with exact 4px gap */}
+              {/* Mobile & Tablets: Centered Instagram Meta Notice shown directly below Instagram pill with exact 4px gap */}
               {item.short === 'IN*' && (
                 <div
                   style={{ marginTop: '4px' }}
-                  className="flex md:hidden flex-col items-center gap-0 select-none text-center pointer-events-none"
+                  className="flex xl:hidden flex-col items-center gap-0 select-none text-center pointer-events-none"
                 >
                   {isRu ? (
                     <>
@@ -196,22 +196,7 @@ export default function ContactSection({
                         }}
                         className="inline-block w-fit whitespace-nowrap uppercase rounded-none -mt-[1px]"
                       >
-                        ПРИЗНАННОЙ ЭКСТРЕМИСТСКОЙ ОРГАНИЗАЦИЕЙ
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
-                          fontSize: '11px',
-                          fontWeight: 700,
-                          lineHeight: '130%',
-                          letterSpacing: '-0.1px',
-                          backgroundColor: '#3A3A3A',
-                          color: '#E6E6E6',
-                          padding: '1px 6px',
-                        }}
-                        className="inline-block w-fit whitespace-nowrap uppercase rounded-none -mt-[1px]"
-                      >
-                        И ЗАПРЕЩЕННОЙ В РФ
+                        ПРИЗНАННОЙ ЭКСТРЕМИСТСКОЙ И ЗАПРЕЩЕННОЙ В РФ
                       </span>
                     </>
                   ) : (
