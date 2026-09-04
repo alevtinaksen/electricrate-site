@@ -5,7 +5,7 @@ import { getTokenFromRequest, verifyToken } from '@/lib/auth';
  * Middleware: Protects POST requests to /api/content, /api/upload, /api/analytics
  * Allows GET requests and /api/admin/* routes (login handles its own auth)
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, } = request.nextUrl;
   const method = request.method;
 
