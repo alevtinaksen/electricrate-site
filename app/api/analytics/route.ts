@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_FILE = path.join(process.cwd(), 'data', 'analytics.json');
 
 interface AnalyticsData {
   totalViews: number;
@@ -19,65 +22,38 @@ const DEFAULT_ANALYTICS: AnalyticsData = {
   dailyClicks: {},
 };
 
-// In-memory cache
-let analyticsCache: AnalyticsData | null = null;
-
-async function readAnalytics(): Promise<AnalyticsData> {
-  if (analyticsCache) return analyticsCache;
-
-  if (supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('site_analytics')
-        .select('data')
-        .eq('id', 'main')
-        .single();
-
-      if (!error && data?.data) {
-        analyticsCache = {
-          ...DEFAULT_ANALYTICS,
-          ...(data.data as AnalyticsData),
-        };
-        return analyticsCache;
-      }
-    } catch (err) {
-      console.error('Supabase analytics read error:', err);
+function readAnalytics(): AnalyticsData {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const raw = fs.readFileSync(DATA_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      return {
+        ...DEFAULT_ANALYTICS,
+        ...parsed,
+        contactClicks: parsed.contactClicks || {},
+        totalContactClicks: parsed.totalContactClicks || 0,
+      };
     }
+  } catch (e) {
+    console.error('Error reading analytics.json:', e);
   }
-
   return DEFAULT_ANALYTICS;
 }
 
-async function writeAnalytics(analytics: AnalyticsData): Promise<boolean> {
-  analyticsCache = analytics;
-
-  if (supabase) {
-    try {
-      const { error } = await supabase
-        .from('site_analytics')
-        .upsert({
-          id: 'main',
-          data: analytics,
-          updated_at: new Date().toISOString(),
-        });
-
-      if (error) {
-        console.error('Supabase analytics write error:', error);
-        return false;
-      }
-      return true;
-    } catch (err) {
-      console.error('Supabase analytics write exception:', err);
-      return false;
+function writeAnalytics(data: AnalyticsData) {
+  try {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
     }
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('Error writing analytics.json:', e);
   }
-
-  console.warn('Supabase not configured — analytics saved only in memory');
-  return true;
 }
 
 export async function GET() {
-  const data = await readAnalytics();
+  const data = readAnalytics();
   return NextResponse.json(data);
 }
 
@@ -86,11 +62,18 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { videoTitle, contactName, action } = body;
 
-    const data = await readAnalytics();
+    const data = readAnalytics();
 
     if (action === 'reset') {
-      const resetData: AnalyticsData = { ...DEFAULT_ANALYTICS };
-      await writeAnalytics(resetData);
+      const resetData: AnalyticsData = {
+        totalViews: 0,
+        totalContactClicks: 0,
+        videoViews: {},
+        contactClicks: {},
+        dailyViews: {},
+        dailyClicks: {},
+      };
+      writeAnalytics(resetData);
       return NextResponse.json({ success: true, data: resetData });
     }
 
@@ -116,7 +99,7 @@ export async function POST(req: Request) {
         data.contactClicks[key].lastClickedAt = now;
       }
 
-      await writeAnalytics(data);
+      writeAnalytics(data);
       return NextResponse.json({ success: true, data });
     }
 
@@ -130,7 +113,7 @@ export async function POST(req: Request) {
       data.dailyViews[today] = (data.dailyViews[today] || 0) + 1;
 
       data.videoViews = data.videoViews || {};
-
+      
       // Find existing entry either by normalized key or existing case
       const existingKey = Object.keys(data.videoViews).find(
         (k) => k.toUpperCase() === normalizedKey
@@ -149,7 +132,7 @@ export async function POST(req: Request) {
         data.videoViews[targetKey].lastViewedAt = now;
       }
 
-      await writeAnalytics(data);
+      writeAnalytics(data);
       return NextResponse.json({ success: true, data });
     }
 
