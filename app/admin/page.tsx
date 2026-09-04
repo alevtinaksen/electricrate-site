@@ -315,18 +315,22 @@ export default function AdminStudio() {
   // Load from /api/content + LocalStorage
   useEffect(() => {
     setMounted(true);
-    const authSession = sessionStorage.getItem('admin_auth');
-    const savedRole = sessionStorage.getItem('admin_user_role') as 'dev' | 'editor' | null;
-    const savedUserId = sessionStorage.getItem('admin_user_id');
-    if (authSession === 'true') {
-      setIsAuthenticated(true);
-      if (savedRole) {
-        setUserRole(savedRole);
-      }
-      if (savedUserId) {
-        setCurrentUserId(savedUserId);
-      }
-    }
+
+    // Check auth via server-side JWT cookie (replaces insecure sessionStorage)
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/admin/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated) {
+            setIsAuthenticated(true);
+            if (data.role) setUserRole(data.role);
+            if (data.userId) setCurrentUserId(data.userId);
+          }
+        }
+      } catch {}
+    };
+    checkAuth();
 
     const loadData = async () => {
       const savedHero = localStorage.getItem('custom_hero_reels');
@@ -629,6 +633,7 @@ export default function AdminStudio() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        // JWT cookie is set automatically by the server response
         setIsAuthenticated(true);
         setUserRole(data.role);
         setSelectedUser(data.role === 'dev' ? 'alevtina' : 'vlad');
@@ -638,9 +643,6 @@ export default function AdminStudio() {
         setPin('');
         setLoginInput('');
         setPinError(false);
-        sessionStorage.setItem('admin_auth', 'true');
-        sessionStorage.setItem('admin_user_role', data.role);
-        sessionStorage.setItem('admin_user_id', data.userId);
         return;
       }
       setPinError(true);
@@ -1571,9 +1573,8 @@ export default function AdminStudio() {
             ОТКРЫТЬ САЙТ
           </Link>
           <button
-            onClick={() => {
-              sessionStorage.removeItem('admin_auth');
-              sessionStorage.removeItem('admin_user_role');
+            onClick={async () => {
+              await fetch('/api/admin/logout', { method: 'POST' });
               setPin('');
               setPinError(false);
               setActiveMenu('analytics');

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { signToken, createTokenCookie } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
@@ -23,30 +24,43 @@ export async function POST(request: Request) {
       );
     }
 
+    let role: 'dev' | 'editor' | null = null;
+    let userId = '';
+    let name = '';
+
     // 1. Developer Role Match
     if (cleanLogin === adminDevLogin && cleanPin === adminDevPin) {
-      return NextResponse.json({
-        success: true,
-        role: 'dev',
-        userId: 'dev_1',
-        name: 'Разработчик',
-      });
+      role = 'dev';
+      userId = 'dev_1';
+      name = 'Разработчик';
     }
 
     // 2. Editor Role Match
-    if (cleanLogin === adminEditorLogin && cleanPin === adminEditorPin) {
-      return NextResponse.json({
-        success: true,
-        role: 'editor',
-        userId: 'editor_1',
-        name: 'Редактор',
-      });
+    if (!role && cleanLogin === adminEditorLogin && cleanPin === adminEditorPin) {
+      role = 'editor';
+      userId = 'editor_1';
+      name = 'Редактор';
     }
 
-    return NextResponse.json(
-      { success: false, error: 'Неверный логин или пароль' },
-      { status: 401 }
-    );
+    if (!role) {
+      return NextResponse.json(
+        { success: false, error: 'Неверный логин или пароль' },
+        { status: 401 }
+      );
+    }
+
+    // Generate JWT token and set as HTTP-Only cookie
+    const token = await signToken({ role, userId, name });
+    const response = NextResponse.json({
+      success: true,
+      role,
+      userId,
+      name,
+    });
+
+    response.headers.set('Set-Cookie', createTokenCookie(token));
+
+    return response;
   } catch {
     return NextResponse.json(
       { success: false, error: 'Ошибка сервера при авторизации' },
