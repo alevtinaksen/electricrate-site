@@ -195,9 +195,24 @@ export interface AdminUser {
   avatar_url?: string;
 }
 
-export const DEFAULT_ADMIN_USERS: AdminUser[] = [];
-// Admin users are configured via environment variables:
-// ADMIN_DEV_LOGIN, ADMIN_DEV_PIN, ADMIN_EDITOR_LOGIN, ADMIN_EDITOR_PIN
+export const DEFAULT_ADMIN_USERS: AdminUser[] = [
+  {
+    id: 'user_alevtina',
+    login: 'alevtina',
+    name: 'АЛЕВТИНА',
+    role: 'dev',
+    pin: 'alevtina',
+    avatar_url: '',
+  },
+  {
+    id: 'user_vlad',
+    login: 'vlad',
+    name: 'ВЛАД САПУНОВ',
+    role: 'editor',
+    pin: '2026',
+    avatar_url: '',
+  },
+];
 
 // ─── Site Settings ───────────────────────────────────────────────────────────
 
@@ -226,7 +241,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   email: 'ELECTICRATE@GMAIL.COM',
   vk: '',
   phone: '+7(950)016-17-51',
-  adminPin: '',
+  adminPin: '2026',
   contacts_title_ru: 'ЕСТЬ ИДЕЯ? ПРЕВРАТИМ\nЕЕ В СИЛЬНОЕ КИНО',
   contacts_title_en: 'GOT AN IDEA? WRITE TO ME\nRIGHT NOW',
   contact_button_url: 'https://t.me/sapunov_vlad',

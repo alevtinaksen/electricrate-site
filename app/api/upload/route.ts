@@ -37,21 +37,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Файл не найден' }, { status: 400 });
     }
 
-    // ── Strict file type validation (whitelist only) ──
-    const ALLOWED_EXTENSIONS = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v', 'jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
-    const ALLOWED_MIME_PREFIXES = ['video/', 'image/'];
-
-    const fileExt = file.name.split('.').pop()?.toLowerCase() || '';
-    const isAllowedExt = ALLOWED_EXTENSIONS.includes(fileExt);
-    const isAllowedMime = ALLOWED_MIME_PREFIXES.some(prefix => file.type.startsWith(prefix));
-
-    if (!isAllowedExt || !isAllowedMime) {
-      return NextResponse.json(
-        { error: `Недопустимый тип файла: .${fileExt} (${file.type}). Разрешены только изображения и видео.` },
-        { status: 400 }
-      );
-    }
-
     const originalSize = file.size;
     const isVideo =
       file.type.startsWith('video/') ||
@@ -163,16 +148,15 @@ export async function POST(req: NextRequest) {
     await fs.writeFile(filePath, buffer);
 
     return NextResponse.json({ url: `/uploads/${fileName}` });
-  } catch (error: unknown) {
+  } catch (error: any) {
     if (rawTempPath) {
       try {
         await fs.unlink(rawTempPath);
       } catch {}
     }
-    const message = error instanceof Error ? error.message : 'Ошибка при загрузке файла';
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: message },
+      { error: error.message || 'Ошибка при загрузке файла' },
       { status: 500 }
     );
   }
