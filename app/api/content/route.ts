@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 import {
   HERO_REELS,
   WORK_SECTIONS,
@@ -15,12 +16,6 @@ import {
   ServicesContent,
   AboutContent,
 } from '@/lib/supabase';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-// File path for persistent content storage
-const dataDir = path.join(process.cwd(), 'data');
-const dataFilePath = path.join(dataDir, 'content.json');
 
 interface StoredContentData {
   heroReels?: HeroReel[];
@@ -33,8 +28,8 @@ interface StoredContentData {
   updatedAt?: string;
 }
 
-// In-memory fallback if filesystem is read-only
-let memoryStore: StoredContentData = {
+// Default content used when database is empty or unavailable
+const DEFAULT_CONTENT: StoredContentData = {
   heroReels: HERO_REELS,
   workSections: WORK_SECTIONS,
   clients: DEFAULT_CLIENTS,
@@ -44,35 +39,62 @@ let memoryStore: StoredContentData = {
   about: DEFAULT_ABOUT,
 };
 
-async function readStoredContent(): Promise<StoredContentData> {
-  try {
-    const data = await fs.readFile(dataFilePath, 'utf8');
-    const parsed: StoredContentData = JSON.parse(data);
-    if (Array.isArray(parsed.heroReels)) memoryStore.heroReels = parsed.heroReels;
-    if (Array.isArray(parsed.workSections)) memoryStore.workSections = parsed.workSections;
-    if (Array.isArray(parsed.clients)) memoryStore.clients = parsed.clients;
-    if (parsed.settings && typeof parsed.settings === 'object') memoryStore.settings = parsed.settings;
-    if (Array.isArray(parsed.faqs)) memoryStore.faqs = parsed.faqs;
-    if (parsed.services && typeof parsed.services === 'object') memoryStore.services = parsed.services;
-    if (parsed.about && typeof parsed.about === 'object') memoryStore.about = parsed.about;
-    return parsed;
-  } catch {
-    return memoryStore;
+// In-memory cache to reduce DB reads (refreshed on each POST)
+let contentCache: StoredContentData | null = null;
+
+async function readContent(): Promise<StoredContentData> {
+  if (contentCache) return contentCache;
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('site_content')
+        .select('data')
+        .eq('id', 'main')
+        .single();
+
+      if (!error && data?.data) {
+        contentCache = data.data as StoredContentData;
+        return contentCache;
+      }
+    } catch (err) {
+      console.error('Supabase read error:', err);
+    }
   }
+
+  return DEFAULT_CONTENT;
 }
 
-async function writeStoredContent(content: StoredContentData): Promise<void> {
-  memoryStore = { ...memoryStore, ...content };
-  try {
-    await fs.mkdir(dataDir, { recursive: true });
-    await fs.writeFile(dataFilePath, JSON.stringify(content, null, 2), 'utf8');
-  } catch (err) {
-    console.warn('Could not write to local filesystem, using in-memory store:', err);
+async function writeContent(content: StoredContentData): Promise<boolean> {
+  contentCache = content;
+
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from('site_content')
+        .upsert({
+          id: 'main',
+          data: content,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (error) {
+        console.error('Supabase write error:', error);
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error('Supabase write exception:', err);
+      return false;
+    }
   }
+
+  console.warn('Supabase not configured — content saved only in memory (will be lost on restart)');
+  return true;
 }
 
 export async function GET() {
-  const content = await readStoredContent();
+  const content = await readContent();
   return NextResponse.json(content, {
     headers: {
       'Cache-Control': 'no-store, max-age=0',
@@ -87,20 +109,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 });
     }
 
+    const current = await readContent();
     const { heroReels, workSections, clients, settings, faqs, services, about } = body;
 
     const toSave: StoredContentData = {
-      heroReels: Array.isArray(heroReels) ? heroReels : memoryStore.heroReels,
-      workSections: Array.isArray(workSections) ? workSections : memoryStore.workSections,
-      clients: Array.isArray(clients) ? clients : memoryStore.clients,
-      settings: settings && typeof settings === 'object' ? settings : memoryStore.settings,
-      faqs: Array.isArray(faqs) ? faqs : memoryStore.faqs,
-      services: services && typeof services === 'object' ? services : memoryStore.services,
-      about: about && typeof about === 'object' ? about : memoryStore.about,
+      heroReels: Array.isArray(heroReels) ? heroReels : current.heroReels,
+      workSections: Array.isArray(workSections) ? workSections : current.workSections,
+      clients: Array.isArray(clients) ? clients : current.clients,
+      settings: settings && typeof settings === 'object' ? settings : current.settings,
+      faqs: Array.isArray(faqs) ? faqs : current.faqs,
+      services: services && typeof services === 'object' ? services : current.services,
+      about: about && typeof about === 'object' ? about : current.about,
       updatedAt: new Date().toISOString(),
     };
 
-    await writeStoredContent(toSave);
+    const success = await writeContent(toSave);
+
+    if (!success) {
+      return NextResponse.json({ success: false, error: 'Failed to save to database' }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, data: toSave });
   } catch (error) {
