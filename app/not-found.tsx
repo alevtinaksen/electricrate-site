@@ -17,10 +17,18 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-10 px-8 py-3 bg-[#1458E6] text-white uppercase text-sm tracking-[0.15em] rounded-full hover:bg-[#1a6aff] transition-colors duration-200"
-        style={{ fontSize: 'clamp(12px, 1.4vw, 16px)' }}
+        style={{
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          fontFamily: 'var(--font-geist-mono), "Geist Mono", monospace',
+          fontSize: '17px',
+          fontWeight: 700,
+          letterSpacing: '-0.2px',
+          textTransform: 'uppercase',
+        }}
+        className="mt-8 h-[54px] xl:h-[58px] flex items-center justify-center bg-[#1458E6] hover:bg-white hover:text-[#0B0B0B] text-white rounded-full active:scale-95 transition-all duration-200 cursor-pointer shadow-2xl border-none outline-none focus:outline-none shrink-0 no-underline whitespace-nowrap"
       >
-        На главную
+        НА ГЛАВНУЮ
       </Link>
     </div>
   );
